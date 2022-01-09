@@ -11,6 +11,10 @@ In details this package contains:
     All ``zope.interface`` based contracts for the Plone core packages.
     In Plone 5 and below this was at ``Products.CMFPlone.interfaces``.
 
+``i18nl10n``
+    Plone specific internationalization and localization helpers.
+    In Plone 5 and below this was at ``Products.CMFPlone.i18nl10n``.
+
 ``batch``
     Plone specific Batch based on ``plone.batching``.
     In Plone 5 and below this was at ``Products.CMFPlone.PloneBatch``.

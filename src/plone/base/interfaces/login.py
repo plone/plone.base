@@ -1,6 +1,6 @@
+from .. import PloneMessageFactory as _
 from plone.schema.email import Email
 from plone.z3cform.interfaces import IWrappedForm
-from .. import PloneMessageFactory as _
 from zope import schema
 from zope.interface import Interface
 
