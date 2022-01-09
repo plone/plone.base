@@ -3,7 +3,7 @@ plone.base
 
 This package is the base package of the `CMS Plone <https://plone.org>`.
 It contains only interface contracts and basic features and utilities.
-It was created to be able to maintain a clean dependency graph.
+It was created to be able to maintain a clean dependency graph (`PLIP 3395 <https://github.com/plone/Products.CMFPlone/issues/3395>`_).
 
 In details this package contains:
 
