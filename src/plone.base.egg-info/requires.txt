@@ -1,7 +1,0 @@
-setuptools
-Zope>=5
-Products.CMFCore
-plone.z3cform
-
-[test]
-plone.testing
