@@ -1,4 +1,4 @@
-from Products.CMFPlone.interfaces.basetool import IPloneBaseTool
+from .basetool import IPloneBaseTool
 from zope.interface import Attribute
 
 

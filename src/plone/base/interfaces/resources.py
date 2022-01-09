@@ -1,4 +1,4 @@
-from Products.CMFPlone import PloneMessageFactory as _
+from .. import PloneMessageFactory as _
 from zope import schema
 from zope.schema.vocabulary import SimpleTerm
 from zope.schema.vocabulary import SimpleVocabulary
