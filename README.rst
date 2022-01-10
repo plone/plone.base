@@ -1,7 +1,7 @@
 plone.base
 ==========
 
-This package is the base package of the `CMS Plone <https://plone.org>`.
+This package is the base package of the `CMS Plone <https://plone.org>`_.
 It contains only interface contracts and basic features and utilities.
 It was created to be able to maintain a clean dependency graph (`PLIP 3395 <https://github.com/plone/Products.CMFPlone/issues/3395>`_).
 
