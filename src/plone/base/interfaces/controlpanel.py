@@ -324,7 +324,7 @@ class IFilterSchema(Interface):
     custom_attributes = schema.List(
         title=_("Custom attributes"),
         description=_("These attributes are additionally allowed."),
-        default=["style"],
+        default=["style", "controls", "poster", "autoplay"],
         value_type=schema.TextLine(),
         missing_value=[],
         required=False,
@@ -425,6 +425,8 @@ class ITinyMCELayoutSchema(Interface):
             "Superscript|superscript|superscript",
             "Subscript|subscript|subscript",
             "Code|code|code",
+            "Text in 2 columns|textcolumns2",
+            "Text in 3 columns|textcolumns3",
         ],
     )
 
@@ -442,10 +444,10 @@ class ITinyMCELayoutSchema(Interface):
         value_type=schema.TextLine(),
         missing_value=[],
         default=[
-            "Left|alignleft|alignleft",
-            "Center|aligncenter|aligncenter",
-            "Right|alignright|alignright",
-            "Justify|alignjustify|alignjustify",
+            "Left|alignleft|align-left",
+            "Center|aligncenter|align-center",
+            "Right|alignright|align-right",
+            "Justify|alignjustify|align-justify",
         ],
     )
 
@@ -470,6 +472,24 @@ class ITinyMCELayoutSchema(Interface):
             {
                 "discreet": {"inline": "span", "classes": "discreet"},
                 "clearfix": {"block": "div", "classes": "clearfix"},
+                "alignleft": {
+                    "selector": "p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table",
+                    "classes": "text-start",
+                },
+                "aligncenter": {
+                    "selector": "p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table",
+                    "classes": "text-center",
+                },
+                "alignright": {
+                    "selector": "p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table",
+                    "classes": "text-end",
+                },
+                "alignjustify": {
+                    "selector": "p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table",
+                    "classes": "text-justify",
+                },
+                "textcolumns2": {"selector": "p", "classes": "text-columns-2"},
+                "textcolumns3": {"selector": "p", "classes": "text-columns-3"},
             }
         ),
         required=True,
@@ -516,6 +536,7 @@ class ITinyMCEPluginSchema(Interface):
                     SimpleTerm("table", "table", "table"),
                     SimpleTerm("textcolor", "textcolor", "textcolor"),
                     SimpleTerm("textpattern", "textpattern", "textpattern"),
+                    SimpleTerm("template", "template", "template"),
                     SimpleTerm("visualblocks", "visualblocks", "visualblocks"),
                     SimpleTerm("visualchars", "visualchars", "visualchars"),
                     SimpleTerm("wordcount", "wordcount", "wordcount"),
@@ -554,7 +575,7 @@ class ITinyMCEPluginSchema(Interface):
         required=True,
         value_type=schema.TextLine(),
         missing_value=[],
-        default=["edit", "table", "format", "tools" "view", "insert"],
+        default=["edit", "table", "format", "tools", "view", "insert"],
     )
 
     menu = schema.Text(
@@ -574,7 +595,7 @@ class ITinyMCEPluginSchema(Interface):
                 "view": {
                     "title": "View",
                     "items": "visualaid visualchars visualblocks preview "
-                    "fullpage fullscreen",
+                    "fullpage fullscreen code",
                 },
                 "format": {
                     "title": "Format",
@@ -587,8 +608,7 @@ class ITinyMCEPluginSchema(Interface):
                 },
                 "tools": {
                     "title": "Tools",
-                    "items": "spellchecker charmap emoticons insertdatetime "
-                    "layer code",
+                    "items": "spellchecker charmap emoticons insertdatetime layer",
                 },
             }
         ),
@@ -768,7 +788,7 @@ class ITinyMCEResourceTypesSchema(Interface):
             "Raw: All characters will be stored in non-entity form "
             "except these XML default entities: amp lt gt quot"
         ),
-        missing_value=set(),
+        # missing_value=set(),
         vocabulary=SimpleVocabulary(
             [
                 SimpleTerm("named", "named", _("Named")),
@@ -1104,6 +1124,21 @@ class ISiteSchema(Interface):
     site_logo = schema.Bytes(
         title=_("Site Logo"),
         description=_("This shows a custom logo on your site."),
+        required=False,
+    )
+
+    site_favicon_mimetype = schema.TextLine(
+        title=_("MIME type of the site favicon"),
+        description=_(
+            "MIME type of the favicon (automatically set when a new favicon is uploaded)"
+        ),
+        required=False,
+        default="image/vnd.microsoft.icon",
+    )
+
+    site_favicon = schema.Bytes(
+        title=_("Site Favicon"),
+        description=_("This shows a custom favicon on your site."),
         required=False,
     )
 
@@ -1584,6 +1619,7 @@ class ISocialMediaSchema(Interface):
             "when shared"
         ),
         default=True,
+        required=False,
     )
 
     twitter_username = schema.ASCIILine(
@@ -1621,9 +1657,13 @@ class IImagingSchema(Interface):
         ),
         value_type=schema.TextLine(),
         default=[
-            "large 768:768",
-            "preview 400:400",
-            "mini 200:200",
+            "huge 1600:65536",
+            "great 1200:65536",
+            "larger 1000:65536",
+            "large 800:65536",
+            "teaser 600:65536",
+            "preview 400:65536",
+            "mini 200:65536",
             "thumb 128:128",
             "tile 64:64",
             "icon 32:32",
