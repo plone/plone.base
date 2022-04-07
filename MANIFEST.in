@@ -1,0 +1,5 @@
+graft src
+include *rst
+global-exclude *.pyc
+recursive-exclude news *
+exclude news
