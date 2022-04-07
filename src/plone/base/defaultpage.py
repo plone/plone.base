@@ -11,6 +11,9 @@ from zope.component import getUtility
 from zope.component import queryAdapter
 from zope.component import queryMultiAdapter
 from zope.component import queryUtility
+from zope.interface import implementer
+from plone.base.interfaces.defaultpage import IDefaultPage
+from Products.Five.browser import BrowserView
 
 
 def get_default_page(context):
@@ -108,6 +111,15 @@ def is_default_page(container, obj):
     )
     return precondition and (parent_default_page == obj.getId())
 
+@implementer(IDefaultPage)
+class DefaultPageView(BrowserView):
+
+    def isDefaultPage(self, obj):
+        return is_default_page(aq_inner(self.context), obj)
+
+    def getDefaultPage(self):
+        return get_default_page(aq_inner(self.context))
+
 
 def _getDefaultPageView(obj, request):
     """This is a nasty hack because the view lookup fails when it occurs too
@@ -117,10 +129,7 @@ def _getDefaultPageView(obj, request):
     """
     view = queryMultiAdapter((obj, request), name="default_page")
     if view is None:
-        # mask circular import
-        from Products.CMFPlone.browser.defaultpage import DefaultPage
-
-        view = DefaultPage(obj, request)
+        view = DefaultPageView(obj, request)
     return view
 
 

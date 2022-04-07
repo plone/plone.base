@@ -143,7 +143,11 @@ class DefaultUtilsTests(unittest.TestCase):
         size *= 1024
         self.assertEqual(human_readable_size(size), "1.5 GB")
         size *= 1024
-        self.assertEqual(human_readable_size(size), "1536.0 GB")
+        self.assertEqual(human_readable_size(size), "1.5 TB")
+        size *= 1024
+        self.assertEqual(human_readable_size(size), "1.5 PB")
+        size *= 1024
+        self.assertEqual(human_readable_size(size), "1536.0 PB")
 
     def test_human_readable_size_float(self):
         from plone.base.utils import human_readable_size
@@ -161,7 +165,11 @@ class DefaultUtilsTests(unittest.TestCase):
         size *= 1024.0
         self.assertEqual(human_readable_size(size), "1.5 GB")
         size *= 1024.0
-        self.assertEqual(human_readable_size(size), "1536.0 GB")
+        self.assertEqual(human_readable_size(size), "1.5 TB")
+        size *= 1024
+        self.assertEqual(human_readable_size(size), "1.5 PB")
+        size *= 1024
+        self.assertEqual(human_readable_size(size), "1536.0 PB")
 
     def test_human_readable_size_special(self):
         from plone.base.utils import human_readable_size
