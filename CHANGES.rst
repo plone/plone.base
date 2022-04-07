@@ -8,5 +8,13 @@ Changelog
 
 .. towncrier release notes start
 
-1.0.0 (unreleased)
-------------------
+1.0.0a1 (2022-04-08)
+--------------------
+
+New features:
+
+
+- Extend search controlpanel with options for results with images.
+  [agitator] (#2)
+- Initial structure and contents.
+  [jensens] (#1)
