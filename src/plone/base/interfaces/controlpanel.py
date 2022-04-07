@@ -1022,6 +1022,19 @@ class ISearchSchema(Interface):
         required=True,
     )
 
+    search_show_images = schema.Bool(
+        title=_("Show images in results"),
+        default=False,
+        required=False,
+    )
+
+    search_image_scale = schema.Choice(
+        title=_("Image scale for results"),
+        default="mini",
+        vocabulary="plone.app.vocabularies.ImagesScales",
+        required=False,
+    )
+
 
 class ISecuritySchema(Interface):
 
