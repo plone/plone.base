@@ -479,7 +479,7 @@ def _check_for_collision(contained_by, cid, **kwargs):
         return _("${name} is reserved.", mapping={"name": cid})
 
 
-def get_user_friendly_types(types_list=[]):
+def get_user_friendly_types(types_list=None):
     """List of types which are considered "user friendly" for search and selection purposes.
 
     This is the list of types available in the portal, minus those defined in the
@@ -492,7 +492,7 @@ def get_user_friendly_types(types_list=[]):
     search_settings = registry.forInterface(ISearchSchema, prefix="plone")
     ttool = getUtility(ITypesTool)
     types = set(ttool.keys())
-    if types_list:
+    if types_list is not None:
         types = {t for t in types_list if t in types}
     friendly_types = types - set(search_settings.types_not_searched)
     return list(friendly_types)
