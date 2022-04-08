@@ -14,6 +14,7 @@ from zope.component import getMultiAdapter
 from zope.component import getUtility
 from zope.component.hooks import getSite
 from zope.component.interfaces import ISite
+from zope.deprecation import deprecate
 from zope.i18n import translate
 from zope.publisher.interfaces.browser import IBrowserRequest
 
@@ -61,7 +62,7 @@ def human_readable_size(size):
     return f"{float(size / float(SIZE_CONST[c])):.1f} {c}"
 
 
-def safe_to_int(value, default=0):
+def safe_int(value, default=0):
     """Convert value to integer or just return 0 if we can't
 
     >>> safe_to_int(45)
@@ -86,6 +87,18 @@ def safe_to_int(value, default=0):
         return int(value)
     except (ValueError, TypeError):
         return default
+
+
+@deprecate("Use plone.base.utils.safe_int instead (will be removed in Plone 7)")
+def safeToInt(value, default=0):
+    return safe_int(value, default)
+
+
+@deprecate(
+    "Do not use plone.base.utils.safe_int instead, came in by accident (will be removed in Plone 6 beta phase)"
+)
+def safe_to_int(value, default=0):
+    return safe_int(value, default)
 
 
 def safe_text(value, encoding="utf-8") -> str:
@@ -492,7 +505,7 @@ def get_user_friendly_types(types_list=None):
     search_settings = registry.forInterface(ISearchSchema, prefix="plone")
     ttool = getUtility(ITypesTool)
     types = set(ttool.keys())
-    if types_list is not None:
+    if types_list:
         types = {t for t in types_list if t in types}
     friendly_types = types - set(search_settings.types_not_searched)
     return list(friendly_types)

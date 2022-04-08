@@ -1,19 +1,19 @@
 from Acquisition import aq_base
 from Acquisition import aq_inner
 from Acquisition import aq_parent
+from plone.base.interfaces.defaultpage import IDefaultPage
 from plone.registry.interfaces import IRegistry
 from Products.BTreeFolder2.BTreeFolder2 import BTreeFolder2Base
 from Products.CMFCore.interfaces import IFolderish
 from Products.CMFCore.interfaces import ISiteRoot
 from Products.CMFDynamicViewFTI.interfaces import IBrowserDefault
 from Products.CMFDynamicViewFTI.interfaces import IDynamicViewTypeInformation
+from Products.Five.browser import BrowserView
 from zope.component import getUtility
 from zope.component import queryAdapter
 from zope.component import queryMultiAdapter
 from zope.component import queryUtility
 from zope.interface import implementer
-from plone.base.interfaces.defaultpage import IDefaultPage
-from Products.Five.browser import BrowserView
 
 
 def get_default_page(context):
@@ -111,9 +111,9 @@ def is_default_page(container, obj):
     )
     return precondition and (parent_default_page == obj.getId())
 
+
 @implementer(IDefaultPage)
 class DefaultPageView(BrowserView):
-
     def isDefaultPage(self, obj):
         return is_default_page(aq_inner(self.context), obj)
 
