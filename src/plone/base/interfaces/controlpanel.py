@@ -59,6 +59,45 @@ Disallow: /*thumbnail_view$
 Disallow: /*view$
 """
 
+IMAGE_SRCSET_SCHEMA = json.dumps(
+    {
+        "title": "Image srcset defintion",
+        "type": "object",
+        "additionalProperties": { "$ref": "#/$defs/srcset" },
+        "$defs": {
+            "srcset": {
+                "type": "object",
+                "properties": {
+                    "title": {
+                        "type": "string",
+                    },
+                    "preview": {
+                        "type": "string",
+                    },
+                    "sourceset": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "scale": {
+                                    "type": "string",
+                                },
+                                "media": {
+                                    "type": "string",
+                                },
+                            },
+                            "additionalProperties": False,
+                            "required": ["scale"],
+                        },
+                    },
+                },
+                "additionalProperties": False,
+                "required": ["title", "sourceset"],
+            },
+        },
+    }
+)
+
 
 def validate_json(value):
     try:
