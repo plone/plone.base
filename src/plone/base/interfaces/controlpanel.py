@@ -1,7 +1,8 @@
 from .basetool import IPloneBaseTool
+from plone import schema
+from plone.autoform import directives
 from plone.base import PloneMessageFactory as _
 from Products.CMFCore.utils import getToolByName
-from zope import schema
 from zope.component.hooks import getSite
 from zope.interface import Attribute
 from zope.interface import implementer
@@ -56,6 +57,45 @@ Disallow: /*summary_view$
 Disallow: /*thumbnail_view$
 Disallow: /*view$
 """
+
+IMAGE_SRCSET_SCHEMA = json.dumps(
+    {
+        "title": "Image srcset defintion",
+        "type": "object",
+        "additionalProperties": { "$ref": "#/$defs/srcset" },
+        "$defs": {
+            "srcset": {
+                "type": "object",
+                "properties": {
+                    "title": {
+                        "type": "string",
+                    },
+                    "preview": {
+                        "type": "string",
+                    },
+                    "sourceset": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "scale": {
+                                    "type": "string",
+                                },
+                                "media": {
+                                    "type": "string",
+                                },
+                            },
+                            "additionalProperties": False,
+                            "required": ["scale"],
+                        },
+                    },
+                },
+                "additionalProperties": False,
+                "required": ["title", "sourceset"],
+            },
+        },
+    }
+)
 
 
 def validate_json(value):
@@ -1743,6 +1783,43 @@ class IImagingSchema(Interface):
         min=0,
         max=95,
         default=51,
+    )
+
+    image_srcsets = schema.JSONField(
+        title=_("Image srcset's"),
+        description=_(
+            "Enter a JSON-formatted image srcset configuration. "
+        ),
+        schema=IMAGE_SRCSET_SCHEMA,
+        default={
+                "large": {
+                    "title": "Large",
+                    "preview": "++theme++barceloneta/static/preview-image-large.png",
+                    "sourceset": [
+                        {"scale": "teaser", "media": "(min-width:768px) and (orientation:portrait)"},
+                        {"scale": "large", "media": "(min-width:768px)"},
+                        {"scale": "larger", "media": "(min-width:992px)"},
+                        {"scale": "great", "media": "(min-width:1200px)"},
+                        {"scale": "huge", "media": "(min-width:1400px)"},
+                        {"scale": "huge"},
+                    ],
+                },
+                "medium": {
+                    "title": "Medium",
+                    "preview": "++theme++barceloneta/static/preview-image-medium.png",
+                    "sourceset": [
+                        {"scale": "larger"},
+                    ],
+                },
+                "small": {
+                    "title": "Small",
+                    "preview": "++theme++barceloneta/static/preview-image-small.png",
+                    "sourceset": [
+                        {"scale": "preview"},
+                    ],
+                },
+        },
+        required=True,
     )
 
     image_captioning = schema.Bool(
