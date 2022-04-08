@@ -670,7 +670,7 @@ class ITinyMCESpellCheckerSchema(Interface):
     libraries_spellchecker_choice = schema.Choice(
         title=_("Spellchecker plugin to use"),
         description=_(
-            "This option allows you to choose the spellchecker for " "TinyMCE."
+            "This option allows you to choose the spellchecker for TinyMCE."
         ),
         missing_value=set(),
         vocabulary=SimpleVocabulary(
@@ -901,7 +901,7 @@ class INavigationSchema(Interface):
     displayed_types = schema.Tuple(
         title=_("Displayed content types"),
         description=_(
-            "The content types that should be shown in the navigation and " "site map."
+            "The content types that should be shown in the navigation and site map."
         ),
         required=False,
         default=("Image", "File", "Link", "News Item", "Folder", "Document", "Event"),
@@ -930,7 +930,7 @@ class INavigationSchema(Interface):
 
     show_excluded_items = schema.Bool(
         title=_(
-            "Show items normally excluded from navigation if viewing their " "children."
+            "Show items normally excluded from navigation if viewing their children."
         ),
         description=_(
             "If an item has been excluded from navigation should it be "
@@ -1126,7 +1126,7 @@ class ISiteSchema(Interface):
     site_title = schema.TextLine(
         title=_("Site title"),
         description=_(
-            "This shows up in the title bar of " "browsers and in syndication feeds."
+            "This shows up in the title bar of browsers and in syndication feeds."
         ),
         default="Plone site",
     )
@@ -1279,7 +1279,7 @@ class ISiteSchema(Interface):
     thumb_scale_listing = schema.Choice(
         title=_("Thumb scale for listings"),
         description=_(
-            "E.g. standard view;" " This default can be overriden individually."
+            "E.g. standard view; This default can be overriden individually."
         ),
         default="thumb",
         vocabulary="plone.app.vocabularies.ImagesScales",
@@ -1308,7 +1308,7 @@ class ISiteSchema(Interface):
     toolbar_position = schema.Choice(
         title=_("Toolbar position"),
         description=_(
-            "It can be on the side (vertical mode) " "or on the top (horizontal mode)"
+            "It can be on the side (vertical mode) or on the top (horizontal mode)"
         ),
         default="side",
         vocabulary=SimpleVocabulary(
@@ -1496,7 +1496,7 @@ class IMailSchema(Interface):
     smtp_pass = schema.Password(
         title=_("label_smtp_pass", default="ESMTP password"),
         description=_(
-            "help_smtp_pass", default="The password for the ESMTP " "user account."
+            "help_smtp_pass", default="The password for the ESMTP user account."
         ),
         default=None,
         required=False,
@@ -1505,7 +1505,7 @@ class IMailSchema(Interface):
     email_from_name = schema.TextLine(
         title=_("Site 'From' name"),
         description=_(
-            "Plone generates e-mail using " "this name as the e-mail " "sender."
+            "Plone generates e-mail using this name as the e-mail sender."
         ),
         default=None,
         required=True,
