@@ -1024,7 +1024,7 @@ class ISearchSchema(Interface):
 
     search_show_images = schema.Bool(
         title=_("Show images in results"),
-        default=False,
+        default=True,
         required=False,
     )
 
