@@ -355,6 +355,16 @@ class ITinyMCELayoutSchema(Interface):
         required=False,
     )
 
+    inline = schema.Bool(
+        title=_("Run TinyMCE in inline mode."),
+        description=_("The inline editing mode is useful when creating user "
+                      "experiences where you want the editing view of the page "
+                      "to be merged with the reading view of the page."
+        ),
+        default=False,
+        required=False,
+    )
+
     # TODO: add validation to assert % and px in the value
     editor_width = schema.TextLine(
         title=_("Editor width"),
