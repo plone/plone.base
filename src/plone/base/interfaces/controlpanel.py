@@ -1,3 +1,4 @@
+from xmlrpc.client import boolean
 from .basetool import IPloneBaseTool
 from plone import schema
 from zope.schema import ValidationError
@@ -73,6 +74,9 @@ IMAGE_SRCSET_SCHEMA = json.dumps(
                     },
                     "preview": {
                         "type": "string",
+                    },
+                    "hideInEditor": {
+                        "type": "boolean",
                     },
                     "sourceset": {
                         "type": "array",
@@ -1798,8 +1802,8 @@ class IImagingSchema(Interface):
                     "title": "Large",
                     "preview": "++theme++barceloneta/static/preview-image-large.png",
                     "sourceset": [
-                        {"scale": "teaser", "media": "(min-width:768px) and (orientation:portrait)"},
-                        {"scale": "large", "media": "(min-width:768px)"},
+                        {"scale": "teaser", "media": "(max-width:768px) and (orientation:portrait)"},
+                        {"scale": "large", "media": "(max-width:768px)"},
                         {"scale": "larger", "media": "(min-width:992px)"},
                         {"scale": "great", "media": "(min-width:1200px)"},
                         {"scale": "huge", "media": "(min-width:1400px)"},
@@ -1810,6 +1814,7 @@ class IImagingSchema(Interface):
                     "title": "Medium",
                     "preview": "++theme++barceloneta/static/preview-image-medium.png",
                     "sourceset": [
+                        {"scale": "large", "media": "(max-width:768px)"},
                         {"scale": "larger"},
                     ],
                 },
