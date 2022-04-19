@@ -1,3 +1,4 @@
+from xmlrpc.client import boolean
 from .basetool import IPloneBaseTool
 from plone import schema
 from zope.schema import ValidationError
@@ -73,6 +74,9 @@ IMAGE_SRCSET_SCHEMA = json.dumps(
                     },
                     "preview": {
                         "type": "string",
+                    },
+                    "hideInEditor": {
+                        "type": "boolean",
                     },
                     "sourceset": {
                         "type": "array",
