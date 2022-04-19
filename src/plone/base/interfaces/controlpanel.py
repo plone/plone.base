@@ -1,5 +1,6 @@
 from .basetool import IPloneBaseTool
 from plone import schema
+from zope.schema import ValidationError
 from plone.autoform import directives
 from plone.base import PloneMessageFactory as _
 from Products.CMFCore.utils import getToolByName
@@ -103,7 +104,7 @@ def validate_json(value):
         json.loads(value)
     except ValueError as exc:
 
-        class JSONError(schema.ValidationError):
+        class JSONError(ValidationError):
             __doc__ = _(
                 "Must be empty or a valid JSON-formatted "
                 "configuration – ${message}.",
@@ -328,6 +329,7 @@ class IFilterSchema(Interface):
             "output",
             "p",
             "pre",
+            "picture",
             "progress",
             "q",
             "rp",
@@ -364,7 +366,7 @@ class IFilterSchema(Interface):
     custom_attributes = schema.List(
         title=_("Custom attributes"),
         description=_("These attributes are additionally allowed."),
-        default=["style", "controls", "poster", "autoplay"],
+        default=["style", "controls", "poster", "autoplay", "loading"],
         value_type=schema.TextLine(),
         missing_value=[],
         required=False,
