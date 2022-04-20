@@ -78,6 +78,9 @@ IMAGE_SRCSET_SCHEMA = json.dumps(
                     "hideInEditor": {
                         "type": "boolean",
                     },
+                    "sizes": {
+                        "type": "string",
+                    },
                     "sourceset": {
                         "type": "array",
                         "items": {
@@ -87,6 +90,9 @@ IMAGE_SRCSET_SCHEMA = json.dumps(
                                     "type": "string",
                                 },
                                 "media": {
+                                    "type": "string",
+                                },
+                                "sizes": {
                                     "type": "string",
                                 },
                             },
@@ -375,6 +381,7 @@ class IFilterSchema(Interface):
             "controls",
             "loading",
             "poster",
+            "sizes",
             "srcset",
             "style",
         ],
