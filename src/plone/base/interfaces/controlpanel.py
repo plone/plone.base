@@ -1,4 +1,3 @@
-from xmlrpc.client import boolean
 from .basetool import IPloneBaseTool
 from plone import schema
 from zope.schema import ValidationError
