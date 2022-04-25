@@ -59,48 +59,6 @@ Disallow: /*thumbnail_view$
 Disallow: /*view$
 """
 
-IMAGE_SRCSET_SCHEMA = json.dumps(
-    {
-        "title": "Image srcset defintion",
-        "type": "object",
-        "additionalProperties": { "$ref": "#/$defs/srcset" },
-        "$defs": {
-            "srcset": {
-                "type": "object",
-                "properties": {
-                    "title": {
-                        "type": "string",
-                    },
-                    "preview": {
-                        "type": "string",
-                    },
-                    "hideInEditor": {
-                        "type": "boolean",
-                    },
-                    "sourceset": {
-                        "type": "array",
-                        "items": {
-                            "type": "object",
-                            "properties": {
-                                "scale": {
-                                    "type": "string",
-                                },
-                                "media": {
-                                    "type": "string",
-                                },
-                            },
-                            "additionalProperties": False,
-                            "required": ["scale"],
-                        },
-                    },
-                },
-                "additionalProperties": False,
-                "required": ["title", "sourceset"],
-            },
-        },
-    }
-)
-
 
 def validate_json(value):
     try:
@@ -369,14 +327,7 @@ class IFilterSchema(Interface):
     custom_attributes = schema.List(
         title=_("Custom attributes"),
         description=_("These attributes are additionally allowed."),
-        default=[
-            "autoplay",
-            "controls",
-            "loading",
-            "poster",
-            "srcset",
-            "style",
-        ],
+        default=["style", "controls", "poster", "autoplay", "loading", "srcset"],
         value_type=schema.TextLine(),
         missing_value=[],
         required=False,
@@ -409,9 +360,10 @@ class ITinyMCELayoutSchema(Interface):
 
     inline = schema.Bool(
         title=_("Run TinyMCE in inline mode."),
-        description=_("The inline editing mode is useful when creating user "
-                      "experiences where you want the editing view of the page "
-                      "to be merged with the reading view of the page."
+        description=_(
+            "The inline editing mode is useful when creating user "
+            "experiences where you want the editing view of the page "
+            "to be merged with the reading view of the page."
         ),
         default=False,
         required=False,
@@ -731,9 +683,7 @@ class ITinyMCESpellCheckerSchema(Interface):
 
     libraries_spellchecker_choice = schema.Choice(
         title=_("Spellchecker plugin to use"),
-        description=_(
-            "This option allows you to choose the spellchecker for TinyMCE."
-        ),
+        description=_("This option allows you to choose the spellchecker for TinyMCE."),
         missing_value=set(),
         vocabulary=SimpleVocabulary(
             [
@@ -1566,9 +1516,7 @@ class IMailSchema(Interface):
 
     email_from_name = schema.TextLine(
         title=_("Site 'From' name"),
-        description=_(
-            "Plone generates e-mail using this name as the e-mail sender."
-        ),
+        description=_("Plone generates e-mail using this name as the e-mail sender."),
         default=None,
         required=True,
     )
@@ -1799,38 +1747,78 @@ class IImagingSchema(Interface):
 
     image_srcsets = schema.JSONField(
         title=_("Image srcset's"),
-        description=_(
-            "Enter a JSON-formatted image srcset configuration. "
+        description=_("Enter a JSON-formatted image srcset configuration. "),
+        schema=json.dumps(
+            {
+                "title": "Image srcset defintion",
+                "type": "object",
+                "properties": {
+                    "excludedScales": {
+                        "type": "array",
+                    },
+                },
+                "additionalProperties": {"$ref": "#/$defs/srcset"},
+                "$defs": {
+                    "srcset": {
+                        "type": "object",
+                        "properties": {
+                            "title": {
+                                "type": "string",
+                            },
+                            "preview": {
+                                "type": "string",
+                            },
+                            "excludedScales": {
+                                "type": "array",
+                            },
+                            "hideInEditor": {
+                                "type": "boolean",
+                            },
+                            "sourceset": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "scale": {
+                                            "type": "string",
+                                        },
+                                        "media": {
+                                            "type": "string",
+                                        },
+                                    },
+                                    "additionalProperties": False,
+                                    "required": ["scale"],
+                                },
+                            },
+                        },
+                        "additionalProperties": False,
+                        "required": ["title", "sourceset"],
+                    },
+                },
+            }
         ),
-        schema=IMAGE_SRCSET_SCHEMA,
         default={
-                "large": {
-                    "title": "Large",
-                    "preview": "++theme++barceloneta/static/preview-image-large.png",
-                    "sourceset": [
-                        {"scale": "teaser", "media": "(max-width:768px) and (orientation:portrait)"},
-                        {"scale": "large", "media": "(max-width:768px)"},
-                        {"scale": "larger", "media": "(min-width:992px)"},
-                        {"scale": "great", "media": "(min-width:1200px)"},
-                        {"scale": "huge", "media": "(min-width:1400px)"},
-                        {"scale": "huge"},
-                    ],
-                },
-                "medium": {
-                    "title": "Medium",
-                    "preview": "++theme++barceloneta/static/preview-image-medium.png",
-                    "sourceset": [
-                        {"scale": "large", "media": "(max-width:768px)"},
-                        {"scale": "larger"},
-                    ],
-                },
-                "small": {
-                    "title": "Small",
-                    "preview": "++theme++barceloneta/static/preview-image-small.png",
-                    "sourceset": [
-                        {"scale": "preview"},
-                    ],
-                },
+            "excludedScales": ["tile", "icon", "listing"],
+            "large": {
+                "title": "Large",
+                "sourceset": [
+                    {
+                        "scale": "larger",
+                    },
+                ],
+            },
+            "medium": {
+                "title": "Medium",
+                "sourceset": [
+                    {"scale": "teaser"},
+                ],
+            },
+            "small": {
+                "title": "Small",
+                "sourceset": [
+                    {"scale": "preview"},
+                ],
+            },
         },
         required=True,
     )
