@@ -509,3 +509,23 @@ def get_user_friendly_types(types_list=None):
         types = {t for t in types_list if t in types}
     friendly_types = types - set(search_settings.types_not_searched)
     return list(friendly_types)
+
+
+def unrestricted_construct_instance(type_name, container, id, *args, **kw):
+    """Create an object without performing security checks
+
+    invokeFactory and fti.constructInstance perform some security checks
+    before creating the object. Use this function instead if you need to
+    skip these checks.
+
+    This method uses
+    CMFCore.TypesTool.FactoryTypeInformation._constructInstance
+    to create the object without security checks.
+    """
+    id = str(id)
+    typesTool = getToolByName(container, 'portal_types')
+    fti = typesTool.getTypeInfo(type_name)
+    if not fti:
+        raise ValueError('Invalid type %s' % type_name)
+
+    return fti._constructInstance(container, id, *args, **kw)
