@@ -914,7 +914,7 @@ class INavigationSchema(Interface):
             "The content types that should be shown in the navigation and site map."
         ),
         required=False,
-        default=("Image", "File", "Link", "News Item", "Folder", "Document", "Event"),
+        default=("Link", "News Item", "Folder", "Document", "Event", "Collection"),
         missing_value=(),
         value_type=schema.Choice(
             source="plone.app.vocabularies.ReallyUserFriendlyTypes"
