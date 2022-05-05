@@ -1768,9 +1768,6 @@ class IImagingSchema(Interface):
                             "preview": {
                                 "type": "string",
                             },
-                            "excludedScales": {
-                                "type": "array",
-                            },
                             "hideInEditor": {
                                 "type": "boolean",
                             },
@@ -1784,6 +1781,9 @@ class IImagingSchema(Interface):
                                         },
                                         "media": {
                                             "type": "string",
+                                        },
+                                        "additionalScales": {
+                                            "type": "array",
                                         },
                                     },
                                     "additionalProperties": False,
