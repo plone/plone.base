@@ -1752,11 +1752,6 @@ class IImagingSchema(Interface):
             {
                 "title": "Image srcset defintion",
                 "type": "object",
-                "properties": {
-                    "excludedScales": {
-                        "type": "array",
-                    },
-                },
                 "additionalProperties": {"$ref": "#/$defs/srcset"},
                 "$defs": {
                     "srcset": {
@@ -1771,7 +1766,7 @@ class IImagingSchema(Interface):
                             "hideInEditor": {
                                 "type": "boolean",
                             },
-                            "sourceset": {
+                            "source": {
                                 "type": "array",
                                 "items": {
                                     "type": "object",
@@ -1792,16 +1787,15 @@ class IImagingSchema(Interface):
                             },
                         },
                         "additionalProperties": False,
-                        "required": ["title", "sourceset"],
+                        "required": ["title", "source"],
                     },
                 },
             }
         ),
         default={
-            "excludedScales": ["tile", "icon", "listing"],
             "large": {
                 "title": "Large",
-                "sourceset": [
+                "source": [
                     {
                         "scale": "larger",
                     },
@@ -1809,13 +1803,13 @@ class IImagingSchema(Interface):
             },
             "medium": {
                 "title": "Medium",
-                "sourceset": [
+                "source": [
                     {"scale": "teaser"},
                 ],
             },
             "small": {
                 "title": "Small",
-                "sourceset": [
+                "source": [
                     {"scale": "preview"},
                 ],
             },
