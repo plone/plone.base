@@ -1766,7 +1766,7 @@ class IImagingSchema(Interface):
                             "hideInEditor": {
                                 "type": "boolean",
                             },
-                            "source": {
+                            "sourceset": {
                                 "type": "array",
                                 "items": {
                                     "type": "object",
@@ -1787,7 +1787,7 @@ class IImagingSchema(Interface):
                             },
                         },
                         "additionalProperties": False,
-                        "required": ["title", "source"],
+                        "required": ["title", "sourceset"],
                     },
                 },
             }
@@ -1795,7 +1795,7 @@ class IImagingSchema(Interface):
         default={
             "large": {
                 "title": "Large",
-                "source": [
+                "sourceset": [
                     {
                         "scale": "larger",
                     },
@@ -1803,13 +1803,13 @@ class IImagingSchema(Interface):
             },
             "medium": {
                 "title": "Medium",
-                "source": [
+                "sourceset": [
                     {"scale": "teaser"},
                 ],
             },
             "small": {
                 "title": "Small",
-                "source": [
+                "sourceset": [
                     {"scale": "preview"},
                 ],
             },
