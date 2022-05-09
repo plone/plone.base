@@ -1,6 +1,5 @@
 from .basetool import IPloneBaseTool
 from plone import schema
-from zope.schema import ValidationError
 from plone.autoform import directives
 from plone.base import PloneMessageFactory as _
 from Products.CMFCore.utils import getToolByName
@@ -10,6 +9,7 @@ from zope.interface import implementer
 from zope.interface import Interface
 from zope.interface import Invalid
 from zope.interface import invariant
+from zope.schema import ValidationError
 from zope.schema.vocabulary import SimpleTerm
 from zope.schema.vocabulary import SimpleVocabulary
 
