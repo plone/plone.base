@@ -1798,19 +1798,26 @@ class IImagingSchema(Interface):
                 "sourceset": [
                     {
                         "scale": "larger",
+                        "additionalScales": ["preview", "teaser", "large", "great", "huge"],
                     },
                 ],
             },
             "medium": {
                 "title": "Medium",
                 "sourceset": [
-                    {"scale": "teaser"},
+                    {
+                        "scale": "teaser",
+                        "additionalScales": ["preview", "large", "larger", "great"],
+                    },
                 ],
             },
             "small": {
                 "title": "Small",
                 "sourceset": [
-                    {"scale": "preview"},
+                    {
+                        "scale": "preview",
+                        "additionalScales": ["preview", "large", "larger"],
+                    },
                 ],
             },
         },
