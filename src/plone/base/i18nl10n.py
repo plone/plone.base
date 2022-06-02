@@ -217,9 +217,14 @@ def ulocalized_time(
     if request is None:
         request = aq_acquire(context, "REQUEST")
 
-    # 1. if our Enabled flag in the configuration registry is set,
-    # the format string there should override the translation machinery
-    formatstring = get_formatstring_from_registry(msgid)
+    if long_format and isinstance(long_format, str):
+        # 0. If a format is explicitly passed in the long_format argument, this wins.
+        #    Hopefully something like this: "${a} ${d} ${b} ${Y}""
+        formatstring = long_format
+    else:
+        # 1. if our Enabled flag in the configuration registry is set,
+        # the format string there should override the translation machinery
+        formatstring = get_formatstring_from_registry(msgid)
 
     if formatstring is not None:
         if _dt_format_string_regexp.findall(formatstring):

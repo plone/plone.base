@@ -408,6 +408,45 @@ class BasicI18nl10nTests(unittest.TestCase):
                     "zondag maart 09 1997",
                 )
 
+    def test_ulocalized_time_explicit_long_format_dollar(self):
+        # We took over a change from experimental.ulocalized_time:
+        # allow passing an explicit long_format.
+        from plone.base.i18nl10n import ulocalized_time
+
+        context = DummyContext()
+        with patch_formatstring():
+            with patch_translate():
+                self.assertEqual(
+                    ulocalized_time(
+                        "Mar 9, 1997 1:45pm",
+                        long_format="NL: ${A} go ${d} crazy ${B} ${Y}!",
+                        context=context,
+                        target_language="nl",
+                    ),
+                    "NL: zondag go 09 crazy maart 1997!",
+                )
+
+    def test_ulocalized_time_explicit_long_format_classic(self):
+        from plone.base.i18nl10n import ulocalized_time
+
+        context = DummyContext()
+        with patch_formatstring():
+            with patch_translate():
+                # You should not use %, but it can work.
+                with use_locale("nl_NL") as available:
+                    if not available:
+                        self.skipTest("Dutch (nl_NL) locale not available")
+                    self.assertEqual(
+                        ulocalized_time(
+                            "Mar 9, 1997 1:45pm",
+                            long_format="NL: %A go %d crazy %B %Y!",
+                            context=context,
+                            # this is ignored:
+                            target_language="de",
+                        ),
+                        "NL: zondag go 09 crazy maart 1997!",
+                    )
+
     def test_ulocalized_time_no_context(self):
         # Without context, we fall back to ISO8601.
         from plone.base.i18nl10n import ulocalized_time
