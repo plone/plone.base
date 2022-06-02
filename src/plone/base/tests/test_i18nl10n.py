@@ -1,5 +1,6 @@
 """ Unit tests for plone.base.i18nl10n module. """
 from contextlib import contextmanager
+from unittest.mock import MagicMock
 from unittest.mock import patch
 from zope.publisher.browser import TestRequest
 
@@ -29,6 +30,56 @@ def patch_formatstring(value=None):
     with patch.object(
         plone.base.i18nl10n, "get_formatstring_from_registry", return_value=value
     ):
+        yield
+
+
+# Mock translations
+TRANSLATIONS = {
+    "de": {
+        "date_format_short": "DE: ${d}.${m}.${Y}",
+    },
+    "nl": {
+        "date_format_short": "NL: ${a} ${d} ${b} ${Y}",
+        "date_format_long": "NL: ${A} ${d} ${B} ${Y}",
+        "weekday_sun": "zondag",
+        "weekday_sun_abbr": "zo",
+        "month_mar": "maart",
+        "month_mar_abbr": "mrt",
+    },
+}
+
+
+def mock_translate(msgid, *args, **kwargs):
+    from zope.i18n import translate
+
+    target_language = kwargs.get("target_language")
+    default = kwargs.get("default")
+    override = False
+    if target_language:
+        try:
+            override = TRANSLATIONS[target_language][msgid]
+        except Exception:
+            pass
+        # Even if the TRANSLATIONS lookup worked, we may still need to call the
+        # original translate function.  This depends on the keyword arguments having
+        # a mapping and/or a default.
+        if override:
+            orig_msgid = msgid
+            msgid = override
+    standard = translate(msgid, *args, **kwargs)
+    if standard == default and override:
+        # Example: original msgid is "weekday_sun", just like the default,
+        # and this is the standard answer.  But override is "zondag".
+        # The override should win then.
+        return override
+    return standard
+
+
+@contextmanager
+def patch_translate():
+    import plone.base.i18nl10n
+
+    with patch.object(plone.base.i18nl10n, "translate", wraps=mock_translate):
         yield
 
 
@@ -175,6 +226,98 @@ class BasicI18nl10nTests(unittest.TestCase):
                 ),
                 "German: 1997.03.09",
             )
+        # Use week days and month names.
+        with patch_formatstring("%A %B %d %Y"):
+            self.assertEqual(
+                ulocalized_time(
+                    "Mar 9, 1997 1:45pm",
+                    context=context,
+                ),
+                "Sunday March 09 1997",
+            )
+        with patch_formatstring("%a %b %d %Y"):
+            self.assertEqual(
+                ulocalized_time(
+                    "Mar 9, 1997 1:45pm",
+                    context=context,
+                ),
+                "Sun Mar 09 1997",
+            )
+
+    def test_ulocalized_time_translate_no_language_format(self):
+        """Test translations in the ulocalized_time method.
+
+        This is mostly about translating week days and month names.
+        But also about using a different format for a language.
+
+        For this test, nothing was changed.
+        A few other tests follow, where we did overrides.
+        """
+        from plone.base.i18nl10n import ulocalized_time
+
+        context = DummyContext()
+        with patch_formatstring():
+            with patch_translate():
+                # French gets the default.
+                self.assertEqual(
+                    ulocalized_time(
+                        "Mar 9, 1997 1:45pm",
+                        context=context,
+                        target_language="fr",
+                    ),
+                    "1997-03-09",
+                )
+
+    def test_ulocalized_time_translate_language_format(self):
+        from plone.base.i18nl10n import ulocalized_time
+
+        context = DummyContext()
+        with patch_formatstring():
+            with patch_translate():
+                # For German we have mocked a different date_format_short.
+                self.assertEqual(
+                    ulocalized_time(
+                        "Mar 9, 1997 1:45pm",
+                        context=context,
+                        target_language="de",
+                    ),
+                    "DE: 09.03.1997",
+                )
+
+    def test_ulocalized_time_translate_weekdays_month_names_short(self):
+        from plone.base.i18nl10n import ulocalized_time
+
+        context = DummyContext()
+        with patch_formatstring():
+            with patch_translate():
+                # For Dutch we have mocked a different date_format_short,
+                # using abbreviations for week days and month names.
+                self.assertEqual(
+                    ulocalized_time(
+                        "Mar 9, 1997 1:45pm",
+                        context=context,
+                        target_language="nl",
+                    ),
+                    "NL: zo 09 mrt 1997",
+                )
+
+    def test_ulocalized_time_translate_weekdays_month_names_long(self):
+        from plone.base.i18nl10n import ulocalized_time
+
+        context = DummyContext()
+        with patch_formatstring():
+            with patch_translate():
+                # For Dutch we have mocked a different date_format_long,
+                # using week days and month names.
+                self.assertEqual(
+                    ulocalized_time(
+                        "Mar 9, 1997 1:45pm",
+                        long_format=True,
+                        context=context,
+                        target_language="nl",
+                    ),
+                    "NL: zondag 09 maart 1997",
+                )
 
     def test_ulocalized_time_no_context(self):
         # Without context, we fall back to ISO8601.
