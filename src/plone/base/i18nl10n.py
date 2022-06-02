@@ -25,7 +25,7 @@ _interp_regex = re.compile(
     r"(?<!\$)(\$(?:[%(n)s]|{[%(n)s]}))" % ({"n": _all_regexp_set})
 )
 # regexp to detect if this is a strftime format string
-_dt_format_string_regexp = re.compile(fr"\%([{_all_regexp_set}])")
+_dt_format_string_regexp = re.compile(rf"\%([{_all_regexp_set}])")
 
 # those are from DateTime.DateTime, but we must not rely on its internal
 # structures, so here a copy:
@@ -223,7 +223,10 @@ def ulocalized_time(
 
     if formatstring is not None:
         if _dt_format_string_regexp.findall(formatstring):
-            # classic strftime formatting, no i18n/l10n
+            # This is classic strftime formatting with percentages instead of dollars,
+            # e.g. %Y instead of ${Y} for the year.  This means we cannot do further
+            # i18n/l10n for translating week days or month names.  Python will do
+            # translation using the current locale.
             return time.strftime(formatstring)
     else:
         # 2. the normal case: translation machinery,
@@ -278,7 +281,9 @@ def ulocalized_time(
         )
 
     # translate the time string
-    return translate(msgid, domain, mapping, request, target_language=target_language)
+    return translate(
+        formatstring, domain, mapping, request, target_language=target_language
+    )
 
 
 def _numbertoenglishname(number, format=None, attr="_days"):

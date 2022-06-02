@@ -1,0 +1,3 @@
+Support dollar signs in registry override for date formats.
+Then it uses the correct language in multilingual sites.
+[maurits]
