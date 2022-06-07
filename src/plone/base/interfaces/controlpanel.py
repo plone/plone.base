@@ -1745,9 +1745,9 @@ class IImagingSchema(Interface):
         default=51,
     )
 
-    image_srcsets = schema.JSONField(
-        title=_("Image srcset's"),
-        description=_("Enter a JSON-formatted image srcset configuration. "),
+    picture_variants = schema.JSONField(
+        title=_("Picture variants"),
+        description=_("Enter a JSON-formatted picture variants configuration."),
         schema=json.dumps(
             {
                 "title": "Image srcset defintion",
