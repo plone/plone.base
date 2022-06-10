@@ -65,22 +65,22 @@ def human_readable_size(size):
 def safe_int(value, default=0):
     """Convert value to integer or just return 0 if we can't
 
-    >>> safe_to_int(45)
+    >>> safe_int(45)
     45
 
-    >>> safe_to_int("42")
+    >>> safe_int("42")
     42
 
-    >>> safe_to_int("spam")
+    >>> safe_int("spam")
     0
 
-    >>> safe_to_int([])
+    >>> safe_int([])
     0
 
-    >>> safe_to_int(None)
+    >>> safe_int(None)
     0
 
-    >>> safe_to_int(None, default=-1)
+    >>> safe_int(None, default=-1)
     -1
     """
     try:
