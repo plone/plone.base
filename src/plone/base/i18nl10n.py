@@ -25,7 +25,7 @@ _interp_regex = re.compile(
     r"(?<!\$)(\$(?:[%(n)s]|{[%(n)s]}))" % ({"n": _all_regexp_set})
 )
 # regexp to detect if this is a strftime format string
-_dt_format_string_regexp = re.compile(fr"\%([{_all_regexp_set}])")
+_dt_format_string_regexp = re.compile(rf"\%([{_all_regexp_set}])")
 
 # those are from DateTime.DateTime, but we must not rely on its internal
 # structures, so here a copy:
@@ -217,13 +217,21 @@ def ulocalized_time(
     if request is None:
         request = aq_acquire(context, "REQUEST")
 
-    # 1. if our Enabled flag in the configuration registry is set,
-    # the format string there should override the translation machinery
-    formatstring = get_formatstring_from_registry(msgid)
+    if long_format and isinstance(long_format, str):
+        # 0. If a format is explicitly passed in the long_format argument, this wins.
+        #    Hopefully something like this: "${a} ${d} ${b} ${Y}""
+        formatstring = long_format
+    else:
+        # 1. if our Enabled flag in the configuration registry is set,
+        # the format string there should override the translation machinery
+        formatstring = get_formatstring_from_registry(msgid)
 
     if formatstring is not None:
         if _dt_format_string_regexp.findall(formatstring):
-            # classic strftime formatting, no i18n/l10n
+            # This is classic strftime formatting with percentages instead of dollars,
+            # e.g. %Y instead of ${Y} for the year.  This means we cannot do further
+            # i18n/l10n for translating week days or month names.  Python will do
+            # translation using the current locale.
             return time.strftime(formatstring)
     else:
         # 2. the normal case: translation machinery,
@@ -278,7 +286,9 @@ def ulocalized_time(
         )
 
     # translate the time string
-    return translate(msgid, domain, mapping, request, target_language=target_language)
+    return translate(
+        formatstring, domain, mapping, request, target_language=target_language
+    )
 
 
 def _numbertoenglishname(number, format=None, attr="_days"):
