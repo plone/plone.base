@@ -95,7 +95,7 @@ def safeToInt(value, default=0):
 
 
 @deprecate(
-    "Do not use plone.base.utils.safe_int instead, came in by accident (will be removed in Plone 6 beta phase)"
+    "Use plone.base.utils.safe_int instead, came in by accident (will be removed in Plone 6 beta phase)"
 )
 def safe_to_int(value, default=0):
     return safe_int(value, default)
