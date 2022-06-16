@@ -1816,7 +1816,7 @@ class IImagingSchema(Interface):
                 "sourceset": [
                     {
                         "scale": "preview",
-                        "additionalScales": ["preview", "large", "larger"],
+                        "additionalScales": ["large", "larger"],
                     },
                 ],
             },
