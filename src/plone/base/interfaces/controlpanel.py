@@ -1,13 +1,15 @@
 from .basetool import IPloneBaseTool
+from plone import schema
+from plone.autoform import directives
 from plone.base import PloneMessageFactory as _
 from Products.CMFCore.utils import getToolByName
-from zope import schema
 from zope.component.hooks import getSite
 from zope.interface import Attribute
 from zope.interface import implementer
 from zope.interface import Interface
 from zope.interface import Invalid
 from zope.interface import invariant
+from zope.schema import ValidationError
 from zope.schema.vocabulary import SimpleTerm
 from zope.schema.vocabulary import SimpleVocabulary
 
@@ -63,7 +65,7 @@ def validate_json(value):
         json.loads(value)
     except ValueError as exc:
 
-        class JSONError(schema.ValidationError):
+        class JSONError(ValidationError):
             __doc__ = _(
                 "Must be empty or a valid JSON-formatted "
                 "configuration – ${message}.",
@@ -288,6 +290,7 @@ class IFilterSchema(Interface):
             "output",
             "p",
             "pre",
+            "picture",
             "progress",
             "q",
             "rp",
@@ -324,7 +327,7 @@ class IFilterSchema(Interface):
     custom_attributes = schema.List(
         title=_("Custom attributes"),
         description=_("These attributes are additionally allowed."),
-        default=["style", "controls", "poster", "autoplay"],
+        default=["style", "controls", "poster", "autoplay", "loading", "srcset", "sizes"],
         value_type=schema.TextLine(),
         missing_value=[],
         required=False,
@@ -357,9 +360,10 @@ class ITinyMCELayoutSchema(Interface):
 
     inline = schema.Bool(
         title=_("Run TinyMCE in inline mode."),
-        description=_("The inline editing mode is useful when creating user "
-                      "experiences where you want the editing view of the page "
-                      "to be merged with the reading view of the page."
+        description=_(
+            "The inline editing mode is useful when creating user "
+            "experiences where you want the editing view of the page "
+            "to be merged with the reading view of the page."
         ),
         default=False,
         required=False,
@@ -679,9 +683,7 @@ class ITinyMCESpellCheckerSchema(Interface):
 
     libraries_spellchecker_choice = schema.Choice(
         title=_("Spellchecker plugin to use"),
-        description=_(
-            "This option allows you to choose the spellchecker for TinyMCE."
-        ),
+        description=_("This option allows you to choose the spellchecker for TinyMCE."),
         missing_value=set(),
         vocabulary=SimpleVocabulary(
             [
@@ -1514,9 +1516,7 @@ class IMailSchema(Interface):
 
     email_from_name = schema.TextLine(
         title=_("Site 'From' name"),
-        description=_(
-            "Plone generates e-mail using this name as the e-mail sender."
-        ),
+        description=_("Plone generates e-mail using this name as the e-mail sender."),
         default=None,
         required=True,
     )
@@ -1743,6 +1743,85 @@ class IImagingSchema(Interface):
         min=0,
         max=95,
         default=51,
+    )
+
+    picture_variants = schema.JSONField(
+        title=_("Picture variants"),
+        description=_("Enter a JSON-formatted picture variants configuration."),
+        schema=json.dumps(
+            {
+                "title": "Image srcset defintion",
+                "type": "object",
+                "additionalProperties": {"$ref": "#/$defs/srcset"},
+                "$defs": {
+                    "srcset": {
+                        "type": "object",
+                        "properties": {
+                            "title": {
+                                "type": "string",
+                            },
+                            "preview": {
+                                "type": "string",
+                            },
+                            "hideInEditor": {
+                                "type": "boolean",
+                            },
+                            "sourceset": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "scale": {
+                                            "type": "string",
+                                        },
+                                        "media": {
+                                            "type": "string",
+                                        },
+                                        "additionalScales": {
+                                            "type": "array",
+                                        },
+                                    },
+                                    "additionalProperties": False,
+                                    "required": ["scale"],
+                                },
+                            },
+                        },
+                        "additionalProperties": False,
+                        "required": ["title", "sourceset"],
+                    },
+                },
+            }
+        ),
+        default={
+            "large": {
+                "title": "Large",
+                "sourceset": [
+                    {
+                        "scale": "larger",
+                        "additionalScales": ["preview", "teaser", "large", "great", "huge"],
+                    },
+                ],
+            },
+            "medium": {
+                "title": "Medium",
+                "sourceset": [
+                    {
+                        "scale": "teaser",
+                        "additionalScales": ["preview", "large", "larger", "great"],
+                    },
+                ],
+            },
+            "small": {
+                "title": "Small",
+                "sourceset": [
+                    {
+                        "scale": "preview",
+                        "additionalScales": ["large", "larger"],
+                    },
+                ],
+            },
+        },
+        required=True,
     )
 
     image_captioning = schema.Bool(
