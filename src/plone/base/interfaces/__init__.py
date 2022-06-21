@@ -33,6 +33,8 @@ from .controlpanel import IUserGroupsSettingsSchema
 from .events import IConfigurationChangedEvent
 from .events import IReorderedEvent
 from .events import ISiteManagerCreatedEvent
+from .images import IImageScalesAdapter
+from .images import IImageScalesFieldAdapter
 from .installable import INonInstallable
 from .interface import IInterfaceTool
 from .language import ILanguage
