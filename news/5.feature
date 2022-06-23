@@ -1,1 +1,0 @@
-Add Add image srcset's configuration including JSON schema definition to imaging-controlpanel [MrTango]
