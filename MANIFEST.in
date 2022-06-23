@@ -1,5 +1,6 @@
 graft src
 include *rst
+include pyproject.toml
 global-exclude *.pyc
 recursive-exclude news *
 exclude news
