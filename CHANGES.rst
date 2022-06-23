@@ -19,7 +19,7 @@ New features:
   [agitator] (#6)
 - Add inline mode to tinymce config.
   [pbauer] (#7)
-- Move `Products.CMFPlone.utils._createObjectByType to here as `utils.unrestricted_construct_instance`.
+- Move ``Products.CMFPlone.utils._createObjectByType`` to here as ``utils.unrestricted_construct_instance``.
   [jensens] (#8)
 - Add ``images`` interface with ``IImageScalesAdapter`` and ``IImageScalesFieldAdapter``.
   See https://github.com/plone/Products.CMFPlone/pull/3521
