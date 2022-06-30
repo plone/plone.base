@@ -134,6 +134,7 @@ class ISiteSyndicationSettings(Interface):
         title=_("Allowed"),
         description=_("Allow syndication for collections and folders " "on site."),
         default=True,
+        required=False
     )
 
     default_enabled = schema.Bool(
@@ -143,18 +144,21 @@ class ISiteSyndicationSettings(Interface):
             "folders and collections."
         ),
         default=False,
+        required=False
     )
 
     search_rss_enabled = schema.Bool(
         title=_("Search RSS enabled"),
         description=_("Allows users to subscribe to feeds of search results"),
         default=True,
+        required=False
     )
 
     show_author_info = schema.Bool(
         title=_("Show author info"),
         description=_("Should feeds include author information"),
         default=True,
+        required=False
     )
 
     render_body = schema.Bool(
@@ -165,6 +169,7 @@ class ISiteSyndicationSettings(Interface):
             "render it, otherwise use description.",
         ),
         default=False,
+        required=False
     )
 
     max_items = schema.Int(
@@ -209,6 +214,8 @@ class ISiteSyndicationSettings(Interface):
             "Makes it possible to customize syndication settings "
             "for particular folders and collections "
         ),
+        default=False,
+        required=False
     )
 
     show_syndication_link = schema.Bool(
@@ -216,6 +223,8 @@ class ISiteSyndicationSettings(Interface):
         description=_(
             "Enable RSS link document action on the syndication " "content item."
         ),
+        default=False,
+        required=False
     )
 
 
@@ -241,6 +250,7 @@ class IFeedSettings(Interface):
             "render it, otherwise use description.",
         ),
         default=False,
+        required=False
     )
 
     max_items = schema.Int(
