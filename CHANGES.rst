@@ -8,6 +8,16 @@ Changelog
 
 .. towncrier release notes start
 
+1.0.0b2 (2022-07-21)
+--------------------
+
+Bug fixes:
+
+
+- Fix Boolean Fields in ISiteSyndicationSettings, IFeedSettings, selection of true/false now possible
+  [1letter] (#14)
+
+
 1.0.0b1 (2022-06-23)
 --------------------
 
