@@ -185,6 +185,8 @@ def pretty_title_or_id(context, obj, empty_value=_marker):
     item_id = getattr(obj, "getId", None)
     if safe_callable(item_id):
         item_id = item_id()
+    if item_id is not None:
+        return item_id
     if empty_value is _marker:
         empty_value = get_empty_title(context)
     return empty_value
