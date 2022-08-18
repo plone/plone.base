@@ -94,13 +94,6 @@ def safeToInt(value, default=0):
     return safe_int(value, default)
 
 
-@deprecate(
-    "Use plone.base.utils.safe_int instead, came in by accident (will be removed in Plone 6 beta phase)"
-)
-def safe_to_int(value, default=0):
-    return safe_int(value, default)
-
-
 def safe_text(value, encoding="utf-8") -> str:
     """Converts a value to text, even it is already a text string.
 
@@ -182,9 +175,6 @@ def pretty_title_or_id(context, obj, empty_value=_marker):
     of whether obj is a catalog brain or an object, but returning an
     empty title marker if the id is not set (i.e. it's auto-generated).
     """
-    # if safe_hasattr(obj, 'aq_explicit'):
-    #    obj = obj.aq_explicit
-    # title = getattr(obj, 'Title', None)
     title = None
     if base_hasattr(obj, "Title"):
         title = getattr(obj, "Title", None)
@@ -195,6 +185,8 @@ def pretty_title_or_id(context, obj, empty_value=_marker):
     item_id = getattr(obj, "getId", None)
     if safe_callable(item_id):
         item_id = item_id()
+    if item_id is not None:
+        return item_id
     if empty_value is _marker:
         empty_value = get_empty_title(context)
     return empty_value

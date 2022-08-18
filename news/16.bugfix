@@ -1,0 +1,3 @@
+Fix returning of item_id if given in `pretty_title_or_id`.
+Remove unused code and outdated comment.
+[jensens]
