@@ -8,6 +8,17 @@ Changelog
 
 .. towncrier release notes start
 
+1.0.0b3 (2022-08-31)
+--------------------
+
+Bug fixes:
+
+
+- Fix returning of item_id if given in `pretty_title_or_id`.
+  Remove unused code and outdated comment.
+  [jensens] (#16)
+
+
 1.0.0b2 (2022-07-21)
 --------------------
 
