@@ -399,8 +399,10 @@ class ITinyMCELayoutSchema(Interface):
             "This option enables you to specify CSS files "
             "that will be used within the the editable area of the editor "
             "(e.g. ++plone++mystyles/tinymce.css). "
+            "These styles will also appear in the Format list of TinyMCE."
             "In addition to what is listed here, "
-            "the barceloneta bundle CSS is also added."
+            "the CSS file defined under 'tinymce-content-css'"
+            " in a theme manifest.cfg is also added."
         ),
         value_type=schema.TextLine(),
         missing_value=[],
