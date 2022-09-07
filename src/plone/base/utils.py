@@ -266,27 +266,37 @@ def get_top_site_from_url(context, request):
     plone.app.multilingual.
     """
     site = getSite()
-    # This variable collects all sites found during the traversal that
-    # takes place below, starting with the site root.
-    subsites = [site]
     try:
+        # This variable collects all sites found during the traversal that
+        # takes place below, which only includes objects visible via VHM.
+        subsites = []
+        # This variable collect the topmost objects found during the
+        # traversal below, as fallback in case there are no sites found
+        # during the traversal.
+        topmosts = []
         url_path = urlparse(context.absolute_url()).path.split("/")
         for idx in range(len(url_path)):
             _path = "/".join(url_path[: idx + 1]) or "/"
             site_path = "/".join(request.physicalPathFromURL(_path)) or "/"
             _site = context.restrictedTraverse(site_path)
-            if ISite.providedBy(_site) or idx == 0:
-                # idx == 0 -> topmost accessible object from VHM.
-                subsites.append(_site)
-                break
+            if ISite.providedBy(_site):
+                subsites.append(idx)
+            else:
+                topmosts.append(idx)
         # Pick the subsite to return.
         # If no subsite was found, return the top site.
-        # If at some point a subsite was found, return that.
+        # If at some point a subsite was found, return the
+        # rootmost of all subsites.
         # With VHM, sometimes the topmost site is not actually
         # in the client URL, so in that case we fall back to
         # the topmost accessible object within the client URL.
-        # https://github.com/plone/plone.app.content/issues/159
-        site = subsites[-1]
+        try:
+            _path_idx = subsites[0]
+        except IndexError:
+            _path_idx = topmosts[0]
+        _path = "/".join(url_path[: _path_idx + 1]) or "/"
+        site_path = "/".join(request.physicalPathFromURL(_path)) or "/"
+        site = context.restrictedTraverse(site_path)
     except (ValueError, AttributeError) as exc:
         # On error, just return getSite.
         # Refs: https://github.com/plone/plone.app.content/issues/103
