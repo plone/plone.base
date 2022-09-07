@@ -127,6 +127,13 @@ class DefaultUtilsTests(unittest.TestCase):
         ctx.vh_root = "/approot/PloneSite/folder/SubSite"
         self.assertEqual(get_top_site_from_url(ctx, req).id, "SubSite")
 
+        # Case 6 (VHM points to child of subsite, this bug existed 4 years):
+        req = MockRequest()
+        req.vh_root = "/approot/PloneSite/folder/SubSite/en"
+        ctx = MockContext("/approot/PloneSite/folder/SubSite/en/archives")
+        ctx.vh_root = "/approot/PloneSite/folder/SubSite/en"
+        self.assertEqual(get_top_site_from_url(ctx, req).id, "en")
+
     def test_human_readable_size_int(self):
         from plone.base.utils import human_readable_size
 
