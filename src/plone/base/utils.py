@@ -260,6 +260,10 @@ def get_top_site_from_url(context, request):
     - No virtual hosting, URL path: /Plone, Returns: Plone Site
     - No virtual hosting, URL path: /Plone/Subsite, Returns: Plone
     - Virtual hosting roots to Subsite, URL path: /, Returns: Subsite
+    - Virtual hosting roots to Subsite, URL path: /x, Returns: Subsite
+
+    In this context, Subsite also refers to Language Root Folders from
+    plone.app.multilingual.
     """
     """Find the top-most site, which is still in the url path.
 
