@@ -244,6 +244,12 @@ def get_top_request(request):
 
 def get_top_site_from_url(context, request):
     """Find the top-most site, which is still in the url path.
+    
+    Use this method if you need a "root object" reference to generate URLs
+    that will be used by, and will work correctly from the standpoint of,
+    *browser* code (JavaScript / XML HTTP requests) after virtual hosting has
+    been applied.  *Never* use this to get to a site root in Plone server code
+    -- it is not appropriate for that use.
 
     If the current context is within a subsite within a PloneSiteRoot and no
     virtual hosting is in place, the PloneSiteRoot is returned.
