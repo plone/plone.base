@@ -243,7 +243,9 @@ def get_top_request(request):
 
 
 def get_top_site_from_url(context, request):
-    """Find the top-most site, which is still in the url path.
+    """
+    Find the first ISite object that appears in the pre-virtual-hosting URL
+    path, falling back to the object pointed by the virtual hosting root.
     
     Use this method if you need a "root object" reference to generate URLs
     that will be used by, and will work correctly from the standpoint of,
