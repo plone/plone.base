@@ -262,6 +262,9 @@ def get_top_site_from_url(context, request):
     - Virtual hosting roots to Subsite, URL path: /, Returns: Subsite
     """
     site = getSite()
+    # This variable collects all sites found during the traversal that
+    # takes place below, starting with the site root.
+    subsites = [site]
     try:
         url_path = urlparse(context.absolute_url()).path.split("/")
         for idx in range(len(url_path)):
@@ -269,10 +272,18 @@ def get_top_site_from_url(context, request):
             site_path = "/".join(request.physicalPathFromURL(_path)) or "/"
             _site = context.restrictedTraverse(site_path)
             if ISite.providedBy(_site):
+                subsites.append(_site)
                 break
-        if _site:
-            site = _site
-    except (ValueError, AttributeError):
+        # Pick the subsite to return.
+        # If no subsite was found, return the top site.
+        # If at some point a subsite was found, return that
+        # (in effect, the shallowest subsite inside the site).
+        # With VHM, sometimes the topmost site is not actually
+        # in the client URL, so in that case we fall back to
+        # the actual top site, even if it is not within the
+        # client URL.
+        site = subsites[-1]
+    except (ValueError, AttributeError) as exc:
         # On error, just return getSite.
         # Refs: https://github.com/plone/plone.app.content/issues/103
         # Also, TestRequest doesn't have physicalPathFromURL
