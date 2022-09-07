@@ -261,6 +261,24 @@ def get_top_site_from_url(context, request):
     - No virtual hosting, URL path: /Plone/Subsite, Returns: Plone
     - Virtual hosting roots to Subsite, URL path: /, Returns: Subsite
     """
+    """Find the top-most site, which is still in the url path.
+
+    If the current context is within a subsite within a PloneSiteRoot and no
+    virtual hosting is in place, the PloneSiteRoot is returned.
+    When at the same context but in a virtual hosting environment with the
+    virtual host root pointing to the subsite, it returns the subsite instead
+    the PloneSiteRoot.
+
+    For this given content structure:
+
+    /Plone/Subsite
+
+    It should return the following in these cases:
+
+    - No virtual hosting, URL path: /Plone, Returns: Plone Site
+    - No virtual hosting, URL path: /Plone/Subsite, Returns: Plone
+    - Virtual hosting roots to Subsite, URL path: /, Returns: Subsite
+    """
     site = getSite()
     # This variable collects all sites found during the traversal that
     # takes place below, starting with the site root.
@@ -271,17 +289,17 @@ def get_top_site_from_url(context, request):
             _path = "/".join(url_path[: idx + 1]) or "/"
             site_path = "/".join(request.physicalPathFromURL(_path)) or "/"
             _site = context.restrictedTraverse(site_path)
-            if ISite.providedBy(_site):
+            if ISite.providedBy(_site) or idx == 0:
+                # idx == 0 -> topmost accessible object from VHM.
                 subsites.append(_site)
                 break
         # Pick the subsite to return.
         # If no subsite was found, return the top site.
-        # If at some point a subsite was found, return that
-        # (in effect, the shallowest subsite inside the site).
+        # If at some point a subsite was found, return that.
         # With VHM, sometimes the topmost site is not actually
         # in the client URL, so in that case we fall back to
-        # the actual top site, even if it is not within the
-        # client URL.
+        # the topmost accessible object within the client URL.
+        # https://github.com/plone/plone.app.content/issues/159
         site = subsites[-1]
     except (ValueError, AttributeError) as exc:
         # On error, just return getSite.
