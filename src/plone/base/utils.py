@@ -265,24 +265,6 @@ def get_top_site_from_url(context, request):
     In this context, Subsite also refers to Language Root Folders from
     plone.app.multilingual.
     """
-    """Find the top-most site, which is still in the url path.
-
-    If the current context is within a subsite within a PloneSiteRoot and no
-    virtual hosting is in place, the PloneSiteRoot is returned.
-    When at the same context but in a virtual hosting environment with the
-    virtual host root pointing to the subsite, it returns the subsite instead
-    the PloneSiteRoot.
-
-    For this given content structure:
-
-    /Plone/Subsite
-
-    It should return the following in these cases:
-
-    - No virtual hosting, URL path: /Plone, Returns: Plone Site
-    - No virtual hosting, URL path: /Plone/Subsite, Returns: Plone
-    - Virtual hosting roots to Subsite, URL path: /, Returns: Subsite
-    """
     site = getSite()
     # This variable collects all sites found during the traversal that
     # takes place below, starting with the site root.
