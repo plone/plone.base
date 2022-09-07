@@ -249,21 +249,47 @@ def get_top_site_from_url(context, request):
     virtual hosting is in place, the PloneSiteRoot is returned.
     When at the same context but in a virtual hosting environment with the
     virtual host root pointing to the subsite, it returns the subsite instead
-    the PloneSiteRoot.
+    the PloneSiteRoot.  Finally, if the virtual hosting environment points to
+    a *child* of a site/subsite, that child returns instead of the site/subsite.
 
     For this given content structure:
 
-    /Plone/Subsite
+    /Plone/Subsite:
+      /file
+      /en-US
+        /folder
+          /image
 
     It should return the following in these cases:
 
-    - No virtual hosting, URL path: /Plone, Returns: Plone Site
-    - No virtual hosting, URL path: /Plone/Subsite, Returns: Plone
-    - Virtual hosting roots to Subsite, URL path: /, Returns: Subsite
-    - Virtual hosting roots to Subsite, URL path: /x, Returns: Subsite
+    - No virtual hosting
+      URL path:              /Plone
+      Object accessed:       /Plone
+      Returns:               Plone
 
-    In this context, Subsite also refers to Language Root Folders from
-    plone.app.multilingual.
+    - No virtual hosting
+      URL path:              /Plone/Subsite
+      Object accessed:       /Plone/Subsite
+      Returns:               Plone
+
+    - Virtual hosting root:  /Plone/Subsite
+      URL path:              /
+      Object accessed:       /Plone/Subsite
+      Returns:               Subsite
+
+    - Virtual hosting root:  /Plone/Subsite
+      URL path:              /file
+      Object accessd:        /Plone/Subsite/file
+      Returns:               Subsite
+
+    - Virtual hosting root:  /Plone/Subsite/en-US
+      URL path:              /folder/image
+      Object accessed:       /Plone/Subsite/en-US/folder/image
+      Returns:               Subsite/en-US
+      (in this last case -- common with p.a.multilingual and usually described
+       as subdomain hosting for languages -- no Site object is visible TTW,
+       so it must return the topmost visible container, since the callees
+       need an object with a valid, TTW-visible URL to do their work.)
     """
     site = getSite()
     try:
