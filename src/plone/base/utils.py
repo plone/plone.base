@@ -243,36 +243,95 @@ def get_top_request(request):
 
 
 def get_top_site_from_url(context, request):
-    """Find the top-most site, which is still in the url path.
+    """
+    Find the first ISite object that appears in the pre-virtual-hosting URL
+    path, falling back to the object pointed by the virtual hosting root.
+    
+    Use this method if you need a "root object" reference to generate URLs
+    that will be used by, and will work correctly from the standpoint of,
+    *browser* code (JavaScript / XML HTTP requests) after virtual hosting has
+    been applied.  *Never* use this to get to a site root in Plone server code
+    -- it is not appropriate for that use.
 
     If the current context is within a subsite within a PloneSiteRoot and no
     virtual hosting is in place, the PloneSiteRoot is returned.
     When at the same context but in a virtual hosting environment with the
     virtual host root pointing to the subsite, it returns the subsite instead
-    the PloneSiteRoot.
+    the PloneSiteRoot.  Finally, if the virtual hosting environment points to
+    a *child* of a site/subsite, that child returns instead of the site/subsite.
 
     For this given content structure:
 
-    /Plone/Subsite
+    /Plone/Subsite:
+      /file
+      /en-US
+        /folder
+          /image
 
     It should return the following in these cases:
 
-    - No virtual hosting, URL path: /Plone, Returns: Plone Site
-    - No virtual hosting, URL path: /Plone/Subsite, Returns: Plone
-    - Virtual hosting roots to Subsite, URL path: /, Returns: Subsite
+    - No virtual hosting
+      URL path:              /Plone
+      Object accessed:       /Plone
+      Returns:               Plone
+
+    - No virtual hosting
+      URL path:              /Plone/Subsite
+      Object accessed:       /Plone/Subsite
+      Returns:               Plone
+
+    - Virtual hosting root:  /Plone/Subsite
+      URL path:              /
+      Object accessed:       /Plone/Subsite
+      Returns:               Subsite
+
+    - Virtual hosting root:  /Plone/Subsite
+      URL path:              /file
+      Object accessd:        /Plone/Subsite/file
+      Returns:               Subsite
+
+    - Virtual hosting root:  /Plone/Subsite/en-US
+      URL path:              /folder/image
+      Object accessed:       /Plone/Subsite/en-US/folder/image
+      Returns:               Subsite/en-US
+      (in this last case -- common with p.a.multilingual and usually described
+       as subdomain hosting for languages -- no Site object is visible TTW,
+       so it must return the topmost visible container, since the callees
+       need an object with a valid, TTW-visible URL to do their work.)
     """
     site = getSite()
     try:
+        # This variable collects all sites found during the traversal that
+        # takes place below, which only includes objects visible via VHM.
+        subsites = []
+        # This variable collect the topmost objects found during the
+        # traversal below, as fallback in case there are no sites found
+        # during the traversal.
+        topmosts = []
         url_path = urlparse(context.absolute_url()).path.split("/")
         for idx in range(len(url_path)):
             _path = "/".join(url_path[: idx + 1]) or "/"
             site_path = "/".join(request.physicalPathFromURL(_path)) or "/"
             _site = context.restrictedTraverse(site_path)
             if ISite.providedBy(_site):
-                break
-        if _site:
-            site = _site
-    except (ValueError, AttributeError):
+                subsites.append(idx)
+            else:
+                topmosts.append(idx)
+        # Pick the subsite to return.
+        # If no subsite was found, return the top site.
+        # If at some point a subsite was found, return the
+        # rootmost of all subsites.
+        # With VHM, sometimes the topmost site is not actually
+        # in the client URL, so in that case we fall back to
+        # the topmost accessible object within the client URL.
+        try:
+            _path_idx = subsites[0]
+        except IndexError:
+            _path_idx = topmosts[0]
+        _path = "/".join(url_path[: _path_idx + 1]) or "/"
+        site_path = "/".join(request.physicalPathFromURL(_path)) or "/"
+        site = context.restrictedTraverse(site_path)
+    except (ValueError, AttributeError) as exc:
         # On error, just return getSite.
         # Refs: https://github.com/plone/plone.app.content/issues/103
         # Also, TestRequest doesn't have physicalPathFromURL
