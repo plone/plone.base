@@ -1,0 +1,1 @@
+* Fix issue with traversal introduced by [Rudd-O] in `get_top_site_from_url()` [Rudd-O]

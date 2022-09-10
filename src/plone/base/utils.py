@@ -246,7 +246,7 @@ def get_top_site_from_url(context, request):
     """
     Find the first ISite object that appears in the pre-virtual-hosting URL
     path, falling back to the object pointed by the virtual hosting root.
-    
+
     Use this method if you need a "root object" reference to generate URLs
     that will be used by, and will work correctly from the standpoint of,
     *browser* code (JavaScript / XML HTTP requests) after virtual hosting has
@@ -312,7 +312,11 @@ def get_top_site_from_url(context, request):
         for idx in range(len(url_path)):
             _path = "/".join(url_path[: idx + 1]) or "/"
             site_path = "/".join(request.physicalPathFromURL(_path)) or "/"
-            _site = context.restrictedTraverse(site_path)
+            # The following line is fine.  We do a restrictedTraverse
+            # below to resolve the actual object, so the user (technically,
+            # the browser) cannot ever get a reference to an object it does
+            # not have permission to.
+            _site = context.unrestrictedTraverse(site_path)
             if ISite.providedBy(_site):
                 subsites.append(idx)
             else:
