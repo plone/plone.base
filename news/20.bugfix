@@ -1,0 +1,1 @@
+* Fix `get_top_site_from_url()` when the path contains nonexistent objects (e.g. when creating a new Dexterity type or adding a new content instance). [Rudd-O]

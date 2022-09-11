@@ -9,6 +9,7 @@ from plone.registry.interfaces import IRegistry
 from Products.CMFCore.interfaces import ITypesTool
 from Products.CMFCore.utils import getToolByName
 from urllib.parse import urlparse
+from zExceptions import NotFound
 from ZODB.POSException import ConflictError
 from zope.component import getMultiAdapter
 from zope.component import getUtility
@@ -316,7 +317,12 @@ def get_top_site_from_url(context, request):
             # below to resolve the actual object, so the user (technically,
             # the browser) cannot ever get a reference to an object it does
             # not have permission to.
-            _site = context.unrestrictedTraverse(site_path)
+            try:
+                _site = context.unrestrictedTraverse(site_path)
+            except NotFound:
+                # Oh.  This path is not findable.  So we will not consider
+                # it below as a thing we can return to stand in for ISite.
+                continue
             if ISite.providedBy(_site):
                 subsites.append(idx)
             else:
