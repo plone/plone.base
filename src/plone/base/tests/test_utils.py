@@ -82,6 +82,9 @@ class DefaultUtilsTests(unittest.TestCase):
             def restrictedTraverse(self, path):
                 return MockContext(self.vh_root + path)
 
+            def unrestrictedTraverse(self, path):
+                return self.restrictedTraverse(path)
+
         class MockRequest:
             vh_url = "http://nohost"
             vh_root = ""
