@@ -8,6 +8,18 @@ Changelog
 
 .. towncrier release notes start
 
+1.0.0b4 (2022-10-02)
+--------------------
+
+Bug fixes:
+
+
+- Fix content_css control-panel description.  [MrTango] (#17)
+- Fix ``@@qsOptions`` view (essentially, listing of ``folder_contents``) when VHM roots the site on a ``plone.app.multilingual`` language folder as noted in `issue 159 <https://github.com/plone/plone.app.content/issues/159>`_.
+  [Rudd-O] (#18)
+- Fix ``get_top_site_from_url()`` when the path contains nonexistent objects (e.g. when creating a new Dexterity type or adding a new content instance). [Rudd-O] (#20)
+
+
 1.0.0b3 (2022-08-31)
 --------------------
 
