@@ -1,1 +1,2 @@
-fix `@@qsOptions` view (essentially, listing of `folder_contents`) when VHM roots the site on a plone.app.multilingual language folder as noted in https://github.com/plone/plone.app.content/issues/159 [Rudd-O]
+Fix ``@@qsOptions`` view (essentially, listing of ``folder_contents``) when VHM roots the site on a ``plone.app.multilingual`` language folder as noted in `issue 159 <https://github.com/plone/plone.app.content/issues/159>`_.
+[Rudd-O]
