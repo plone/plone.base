@@ -650,7 +650,7 @@ class ITinyMCEPluginSchema(Interface):
         default="ltr rtl | undo redo | styleselect | bold italic | "
         "alignleft aligncenter alignright alignjustify | "
         "bullist numlist outdent indent | "
-        "unlink plonelink ploneimage",
+        "inserttable | unlink plonelink ploneimage",
     )
 
     custom_plugins = schema.List(
