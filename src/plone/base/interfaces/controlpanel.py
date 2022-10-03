@@ -557,7 +557,6 @@ class ITinyMCEPluginSchema(Interface):
             )
         ),
         default=[
-            "advlist",
             "fullscreen",
             "hr",
             "lists",
