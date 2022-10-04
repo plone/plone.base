@@ -1,1 +1,0 @@
-disable TinyMCE advlist plugin, it produces unclean inline styles [MrTango]

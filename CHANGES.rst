@@ -8,6 +8,17 @@ Changelog
 
 .. towncrier release notes start
 
+1.0.0b5 (2022-10-04)
+--------------------
+
+New features:
+
+
+- disable TinyMCE advlist plugin, it produces unclean inline styles [MrTango] (#21)
+- Add inserttable to tinymce toolbar [MrTango] (#22)
+- Add more tinyMCE table styles [MrTango] (#23)
+
+
 1.0.0b4 (2022-10-02)
 --------------------
 
