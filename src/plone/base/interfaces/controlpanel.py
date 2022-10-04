@@ -469,7 +469,7 @@ class ITinyMCELayoutSchema(Interface):
         description=_("Name|class"),
         value_type=schema.TextLine(),
         missing_value=[],
-        default=["Listing|listing", "Invisible Grid|invisible-grid"],
+        default=["Listing|listing", "Listing compact|listing-compact", "Subdued grid|plain", "Invisible Grid|invisible-grid"],
     )
 
     formats = schema.Text(
