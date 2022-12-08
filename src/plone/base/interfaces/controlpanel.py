@@ -996,7 +996,7 @@ class ISearchSchema(Interface):
     types_not_searched = schema.Tuple(
         title=_("Select content types which should be excluded from search results"),
         description=_(
-            "Select the content types that should be excluded from search results."
+            "Select the content types that should be excluded from search results. "
             "Note that if new content types are installed, they "
             "will be enabled by default unless explicitly turned "
             "off here or by the relevant installer."
