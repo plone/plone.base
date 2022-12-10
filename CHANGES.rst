@@ -8,6 +8,15 @@ Changelog
 
 .. towncrier release notes start
 
+1.0.1 (2022-12-10)
+------------------
+
+Bug fixes:
+
+
+- Fix title and description for types_not_searched in ISearchSchema [danalvrz] (#24)
+
+
 1.0.0 (2022-12-02)
 ------------------
 
