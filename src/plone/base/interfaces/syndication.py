@@ -230,7 +230,11 @@ class ISiteSyndicationSettings(Interface):
 
 class IFeedSettings(Interface):
 
-    enabled = schema.Bool(title=_("Enabled"), default=False)
+    enabled = schema.Bool(
+        title=_("Enabled"),
+        default=False,
+        required=False
+    )
 
     feed_types = schema.Tuple(
         title=_("Feed Types"),
