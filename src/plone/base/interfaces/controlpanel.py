@@ -522,6 +522,7 @@ class ITinyMCEPluginSchema(Interface):
                 [
                     SimpleTerm("advlist", "advlist", "advlist"),
                     SimpleTerm("anchor", "anchor", "anchor"),
+                    SimpleTerm("autolink", "autolink", "autolink"),
                     SimpleTerm("autosave", "autosave", "autosave"),
                     SimpleTerm("charmap", "charmap", "charmap"),
                     SimpleTerm("code", "code", "code"),
