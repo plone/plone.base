@@ -8,6 +8,18 @@ Changelog
 
 .. towncrier release notes start
 
+1.0.2 (2023-01-26)
+------------------
+
+Bug fixes:
+
+
+- Add ``required=False`` to missing boolean field from syndication config.
+  [frapell] (#14)
+- Add missing TinyMCE plugin ``autolink`` to selectable plugins.
+  [petschki] (#25)
+
+
 1.0.1 (2022-12-10)
 ------------------
 
