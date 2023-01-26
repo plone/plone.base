@@ -1,2 +1,2 @@
-Add `required=False` to missing boolean field from syndication config 
+Add ``required=False`` to missing boolean field from syndication config.
 [frapell]
