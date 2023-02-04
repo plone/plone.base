@@ -1954,6 +1954,13 @@ class IActionSchema(Interface):
         required=True,
     )
 
+    modal = schema.Text(
+        title=_("action_modal_settings", default="Settings for pat-plone-modal"),
+        required=False,
+        constraint=validate_json,
+        default=dump_json_to_text({}),
+    )
+
 
 class INewActionSchema(Interface):
 
