@@ -8,6 +8,16 @@ Changelog
 
 .. towncrier release notes start
 
+1.0.3 (2023-02-08)
+------------------
+
+Bug fixes:
+
+
+- Add `modal` property to `IActionSchema`.
+  [petschki] (#27)
+
+
 1.0.2 (2023-01-26)
 ------------------
 
