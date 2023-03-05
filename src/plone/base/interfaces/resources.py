@@ -11,7 +11,6 @@ OVERRIDE_RESOURCE_DIRECTORY_NAME = "resource_overrides"
 
 
 class IResourceRegistry(zope.interface.Interface):
-
     # DEPRECATED
 
     url = schema.ASCIILine(title=_("Resources base URL"), required=False)
@@ -43,7 +42,6 @@ class IResourceRegistry(zope.interface.Interface):
 
 
 class IBundleRegistry(zope.interface.Interface):
-
     jscompilation = schema.ASCIILine(
         title=_("URL of the last js compilation"), required=False
     )

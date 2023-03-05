@@ -113,7 +113,6 @@ class IControlPanel(IPloneBaseTool):
 
 
 class IEditingSchema(Interface):
-
     available_editors = schema.List(
         title=_("Available editors"),
         description=_("Available editors in the portal."),
@@ -327,7 +326,15 @@ class IFilterSchema(Interface):
     custom_attributes = schema.List(
         title=_("Custom attributes"),
         description=_("These attributes are additionally allowed."),
-        default=["style", "controls", "poster", "autoplay", "loading", "srcset", "sizes"],
+        default=[
+            "style",
+            "controls",
+            "poster",
+            "autoplay",
+            "loading",
+            "srcset",
+            "sizes",
+        ],
         value_type=schema.TextLine(),
         missing_value=[],
         required=False,
@@ -469,7 +476,12 @@ class ITinyMCELayoutSchema(Interface):
         description=_("Name|class"),
         value_type=schema.TextLine(),
         missing_value=[],
-        default=["Listing|listing", "Listing compact|listing-compact", "Subdued grid|plain", "Invisible Grid|invisible-grid"],
+        default=[
+            "Listing|listing",
+            "Listing compact|listing-compact",
+            "Subdued grid|plain",
+            "Invisible Grid|invisible-grid",
+        ],
     )
 
     formats = schema.Text(
@@ -838,7 +850,6 @@ class ITinyMCESchema(
 
 
 class IMaintenanceSchema(Interface):
-
     days = schema.Int(
         title=_("Days of object history to keep after packing"),
         description=_(
@@ -855,7 +866,6 @@ class IMaintenanceSchema(Interface):
 
 
 class INavigationSchema(Interface):
-
     navigation_depth = schema.Int(
         title=_("Navigation depth"),
         description=_("Number of folder levels to show in the navigation."),
@@ -983,7 +993,6 @@ class INavigationSchema(Interface):
 
 
 class ISearchSchema(Interface):
-
     enable_livesearch = schema.Bool(
         title=_("Enable LiveSearch"),
         description=_(
@@ -1050,7 +1059,6 @@ class ISearchSchema(Interface):
 
 
 class ISecuritySchema(Interface):
-
     enable_self_reg = schema.Bool(
         title=_("Enable self-registration"),
         description=_(
@@ -1135,7 +1143,6 @@ class ISecuritySchema(Interface):
 
 
 class ISiteSchema(Interface):
-
     site_title = schema.TextLine(
         title=_("Site title"),
         description=_(
@@ -1469,7 +1476,6 @@ class ITypesSchema(Interface):
 
 
 class IMailSchema(Interface):
-
     smtp_host = schema.TextLine(
         title=_("label_smtp_server", default="SMTP server"),
         description=_(
@@ -1546,7 +1552,6 @@ class IMailSchema(Interface):
 
 
 class IMarkupSchema(Interface):
-
     default_type = schema.Choice(
         title=_("Default format"),
         description=_(
@@ -1592,7 +1597,6 @@ class IMarkupSchema(Interface):
 
 
 class IUserGroupsSettingsSchema(Interface):
-
     many_groups = schema.Bool(
         title=_("Many groups?"),
         description=_(
@@ -1631,7 +1635,6 @@ def validate_twitter_username(value):
 
 
 class ISocialMediaSchema(Interface):
-
     share_social_data = schema.Bool(
         title=_("Share social data"),
         description=_(
@@ -1799,7 +1802,13 @@ class IImagingSchema(Interface):
                 "sourceset": [
                     {
                         "scale": "larger",
-                        "additionalScales": ["preview", "teaser", "large", "great", "huge"],
+                        "additionalScales": [
+                            "preview",
+                            "teaser",
+                            "large",
+                            "great",
+                            "huge",
+                        ],
                     },
                 ],
             },
@@ -1837,7 +1846,6 @@ class IImagingSchema(Interface):
 
 
 class ILoginSchema(Interface):
-
     auth_cookie_length = schema.Int(
         title=_("Auth cookie length"), default=0, required=False
     )
@@ -1867,7 +1875,6 @@ class ILoginSchema(Interface):
 
 
 class ILinkSchema(Interface):
-
     external_links_open_new_window = schema.Bool(
         title=_("Open external links in new a window"),
         description=_(""),
@@ -1899,7 +1906,6 @@ def _check_tales_expression(value):
 
 
 class IActionSchema(Interface):
-
     category = schema.Choice(
         title=_("Category"),
         vocabulary="plone.app.vocabularies.PortalActionCategories",
@@ -1963,7 +1969,6 @@ class IActionSchema(Interface):
 
 
 class INewActionSchema(Interface):
-
     category = schema.Choice(
         title=_("Category"),
         vocabulary="plone.app.vocabularies.PortalActionCategories",

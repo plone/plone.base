@@ -27,10 +27,10 @@ logger = logging.getLogger("Plone")
 
 SIZE_CONST = {
     "KB": 1024,
-    "MB": 1024 ** 2,
-    "GB": 1024 ** 3,
-    "TB": 1024 ** 4,
-    "PB": 1024 ** 5,
+    "MB": 1024**2,
+    "GB": 1024**3,
+    "TB": 1024**4,
+    "PB": 1024**5,
 }
 SIZE_ORDER = ("PB", "TB", "GB", "MB", "KB")
 
@@ -122,7 +122,7 @@ def safe_text(value, encoding="utf-8") -> str:
     if isinstance(value, bytes):
         try:
             value = str(value, encoding)
-        except (UnicodeDecodeError):
+        except UnicodeDecodeError:
             value = value.decode("utf-8", "replace")
     return value
 
@@ -584,9 +584,9 @@ def unrestricted_construct_instance(type_name, container, id, *args, **kw):
     to create the object without security checks.
     """
     id = str(id)
-    typesTool = getToolByName(container, 'portal_types')
+    typesTool = getToolByName(container, "portal_types")
     fti = typesTool.getTypeInfo(type_name)
     if not fti:
-        raise ValueError('Invalid type %s' % type_name)
+        raise ValueError("Invalid type %s" % type_name)
 
     return fti._constructInstance(container, id, *args, **kw)

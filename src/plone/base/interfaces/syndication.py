@@ -129,12 +129,11 @@ class IFeedItem(IFeedData):
 
 
 class ISiteSyndicationSettings(Interface):
-
     allowed = schema.Bool(
         title=_("Allowed"),
         description=_("Allow syndication for collections and folders " "on site."),
         default=True,
-        required=False
+        required=False,
     )
 
     default_enabled = schema.Bool(
@@ -144,21 +143,21 @@ class ISiteSyndicationSettings(Interface):
             "folders and collections."
         ),
         default=False,
-        required=False
+        required=False,
     )
 
     search_rss_enabled = schema.Bool(
         title=_("Search RSS enabled"),
         description=_("Allows users to subscribe to feeds of search results"),
         default=True,
-        required=False
+        required=False,
     )
 
     show_author_info = schema.Bool(
         title=_("Show author info"),
         description=_("Should feeds include author information"),
         default=True,
-        required=False
+        required=False,
     )
 
     render_body = schema.Bool(
@@ -169,7 +168,7 @@ class ISiteSyndicationSettings(Interface):
             "render it, otherwise use description.",
         ),
         default=False,
-        required=False
+        required=False,
     )
 
     max_items = schema.Int(
@@ -215,7 +214,7 @@ class ISiteSyndicationSettings(Interface):
             "for particular folders and collections "
         ),
         default=False,
-        required=False
+        required=False,
     )
 
     show_syndication_link = schema.Bool(
@@ -224,17 +223,12 @@ class ISiteSyndicationSettings(Interface):
             "Enable RSS link document action on the syndication " "content item."
         ),
         default=False,
-        required=False
+        required=False,
     )
 
 
 class IFeedSettings(Interface):
-
-    enabled = schema.Bool(
-        title=_("Enabled"),
-        default=False,
-        required=False
-    )
+    enabled = schema.Bool(title=_("Enabled"), default=False, required=False)
 
     feed_types = schema.Tuple(
         title=_("Feed Types"),
@@ -254,7 +248,7 @@ class IFeedSettings(Interface):
             "render it, otherwise use description.",
         ),
         default=False,
-        required=False
+        required=False,
     )
 
     max_items = schema.Int(
