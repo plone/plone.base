@@ -161,7 +161,7 @@ def safe_callable(obj):
 
 def get_empty_title(context, translated=True):
     """Returns string to be used for objects with no title or id"""
-    # The default is an extra fancy unicode elipsis
+    # The default is an extra fancy unicode ellipsis,
     empty = b"\x5b\xc2\xb7\xc2\xb7\xc2\xb7\x5d".decode("utf8")
     if translated:
         if context is not None:

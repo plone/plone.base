@@ -554,7 +554,7 @@ class ITinyMCEPluginSchema(Interface):
                     SimpleTerm("paste", "paste", "paste"),
                     SimpleTerm("preview", "preview", "preview"),
                     SimpleTerm("print", "print", "print"),
-                    # XXX disable save button since it is not implemeneted
+                    # XXX disable save button since it is not implemented
                     # SimpleTerm('save', 'save', u'save'),
                     SimpleTerm("searchreplace", "searchreplace", "searchreplace"),
                     SimpleTerm("tabfocus", "tabfocus", "tabfocus"),
@@ -1261,7 +1261,7 @@ class ISiteSchema(Interface):
         title=_("No thumbs in list views"),
         description=_(
             "Suppress thumbs in all list views; "
-            "this default can be overriden individually"
+            "this default can be overridden individually"
         ),
         default=False,
         required=False,
@@ -1271,7 +1271,7 @@ class ISiteSchema(Interface):
         title=_("No thumbs in summary views"),
         description=_(
             "Suppress thumbs in all summary views; "
-            "this default can be overriden individually"
+            "this default can be overridden individually"
         ),
         default=False,
         required=False,
@@ -1281,7 +1281,7 @@ class ISiteSchema(Interface):
         title=_("No thumbs in table views"),
         description=_(
             "Suppress thumbs in all tableviews and in folder contents view; "
-            "this default can be overriden individually"
+            "this default can be overridden individually"
         ),
         default=False,
         required=False,
@@ -1289,7 +1289,7 @@ class ISiteSchema(Interface):
 
     thumb_scale_portlet = schema.Choice(
         title=_("Thumb scale for portlets"),
-        description=_("This default can be overriden individually."),
+        description=_("This default can be overridden individually."),
         default="icon",
         vocabulary="plone.app.vocabularies.ImagesScales",
         required=True,
@@ -1298,7 +1298,7 @@ class ISiteSchema(Interface):
     thumb_scale_listing = schema.Choice(
         title=_("Thumb scale for listings"),
         description=_(
-            "E.g. standard view; This default can be overriden individually."
+            "E.g. standard view; This default can be overridden individually."
         ),
         default="thumb",
         vocabulary="plone.app.vocabularies.ImagesScales",
@@ -1309,7 +1309,7 @@ class ISiteSchema(Interface):
         title=_("Thumb scale for tables"),
         description=_(
             "E.g., tabular view, folder content listing;"
-            " This default can be overriden individually."
+            " This default can be overridden individually."
         ),
         default="tile",
         vocabulary="plone.app.vocabularies.ImagesScales",
@@ -1318,7 +1318,7 @@ class ISiteSchema(Interface):
 
     thumb_scale_summary = schema.Choice(
         title=_("Thumb scale for summary view"),
-        description=_("This default can be overriden individually."),
+        description=_("This default can be overridden individually."),
         default="mini",
         vocabulary="plone.app.vocabularies.ImagesScales",
         required=True,
@@ -1753,7 +1753,7 @@ class IImagingSchema(Interface):
         description=_("Enter a JSON-formatted picture variants configuration."),
         schema=json.dumps(
             {
-                "title": "Image srcset defintion",
+                "title": "Image srcset definition",
                 "type": "object",
                 "additionalProperties": {"$ref": "#/$defs/srcset"},
                 "$defs": {
@@ -2008,7 +2008,7 @@ class IPloneControlPanelForm(IPloneControlPanelView):
     """Forms using plone.app.controlpanel"""
 
     def _on_save():
-        """Callback mehod which can be implemented by control panels to
+        """Callback method which can be implemented by control panels to
         react when the form is successfully saved. This avoids the need
         to re-define actions only to do some additional notification or
         configuration which cannot be handled by the normal schema adapter.

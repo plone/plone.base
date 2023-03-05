@@ -25,7 +25,7 @@ You can also define a default text:
   >>> msg.default
   'This is the text.'
 
-And at last there is the possibility of variable substition:
+And at last there is the possibility of variable substitution:
 
   >>> project = 'Plone'
   >>> msg = _('id', default='Hello ${name}', mapping={'name' : project})
@@ -117,7 +117,7 @@ Inform the engine of our variables.
   >>> engine.setLocal('msg', msg)
   >>> engine.setLocal('note', note)
 
-We also need a HTMLParser and TALInterpreter and add a simple convience function
+We also need a HTMLParser and TALInterpreter and add a simple convenience function
 to get the parsed and interpreted text.
 
   >>> from zope.tal.htmltalparser import HTMLTALParser

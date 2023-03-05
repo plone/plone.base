@@ -109,7 +109,7 @@ class DefaultUtilsTests(unittest.TestCase):
         ctx = MockContext("/approot/PloneSite/folder/SubSite/folder")
         self.assertEqual(get_top_site_from_url(ctx, req).id, "PloneSite")
 
-        # Case 4, using unicode paths accidentially:
+        # Case 4, using unicode paths accidentally:
         ctx = MockContext("/approot/PloneSite/folder/SubSite/folder")
         self.assertEqual(get_top_site_from_url(ctx, req).id, "PloneSite")
 
