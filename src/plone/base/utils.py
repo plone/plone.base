@@ -98,7 +98,6 @@ def safeToInt(value, default=0):
 def safe_text(value, encoding="utf-8") -> str:
     """Converts a value to text, even it is already a text string.
 
-    >>> from Products.CMFPlone.utils import safe_text
     >>> test_bytes = u'\u01b5'.encode('utf-8')
     >>> safe_text('spam') == u'spam'
     True

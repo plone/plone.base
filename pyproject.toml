@@ -44,3 +44,6 @@ target-version = ["py38"]
 
 [tool.codespell]
 ignore-words-list = "ist,discreet"
+
+[tool.dependencychecker]
+Zope = ['Products.Five', 'Products.PageTemplates', 'ZTUtils']

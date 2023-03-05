@@ -6,3 +6,8 @@ commit-id = "13d8d6c0"
 
 [codespell]
 additional-ignores = "ist,discreet"
+
+[dependencies]
+mappings = [
+    "Zope = ['Products.Five', 'Products.PageTemplates', 'ZTUtils']",
+    ]
