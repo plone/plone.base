@@ -341,7 +341,7 @@ def get_top_site_from_url(context, request):
         _path = "/".join(url_path[: _path_idx + 1]) or "/"
         site_path = "/".join(request.physicalPathFromURL(_path)) or "/"
         site = context.restrictedTraverse(site_path)
-    except (ValueError, AttributeError) as exc:
+    except (ValueError, AttributeError):
         # On error, just return getSite.
         # Refs: https://github.com/plone/plone.app.content/issues/103
         # Also, TestRequest doesn't have physicalPathFromURL
@@ -513,7 +513,7 @@ def _check_for_collision(contained_by, cid, **kwargs):
             contained_by.checkValidId(cid)
         except ConflictError:
             raise
-        except:  # noqa: E722
+        except Exception:
             return _("${name} is reserved.", mapping={"name": cid})
 
     # make sure we don't collide with any parent method aliases

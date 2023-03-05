@@ -1,6 +1,5 @@
 from .basetool import IPloneBaseTool
 from plone import schema
-from plone.autoform import directives
 from plone.base import PloneMessageFactory as _
 from Products.CMFCore.utils import getToolByName
 from zope.component.hooks import getSite
@@ -85,7 +84,7 @@ class IControlPanel(IPloneBaseTool):
         name,
         action,
         condition="",
-        permission="",  # NOQA
+        permission="",
         category="Plone",
         visible=1,
         appId=None,
@@ -95,19 +94,19 @@ class IControlPanel(IPloneBaseTool):
     ):
         """Registration of a Configlet"""
 
-    def unregisterConfiglet(id):  # NOQA
+    def unregisterConfiglet(id):
         """unregister Configlet"""
 
-    def unregisterApplication(appId):  # NOQA
+    def unregisterApplication(appId):
         """unregister Application with all configlets"""
 
-    def getGroupIds():  # NOQA
+    def getGroupIds():
         """list of the group ids"""
 
-    def getGroups():  # NOQA
+    def getGroups():
         """list of groups as dicts with id and title"""
 
-    def enumConfiglets(group=None):  # NOQA
+    def enumConfiglets(group=None):
         """lists the Configlets of a group, returns them as dicts by
         calling .getAction() on each of them"""
 
@@ -491,7 +490,7 @@ class ITinyMCELayoutSchema(Interface):
             "A format is for example the style that get applied when "
             "you press the bold button inside the editor. "
             "See https://www.tinymce.com/docs/configure/content-formatting/#formats"
-        ),  # NOQA: E501
+        ),
         constraint=validate_json,
         default=dump_json_to_text(
             {

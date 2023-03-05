@@ -1,6 +1,5 @@
 """ Unit tests for plone.base.i18nl10n module. """
 from contextlib import contextmanager
-from unittest.mock import MagicMock
 from unittest.mock import patch
 from zope.publisher.browser import TestRequest
 
@@ -73,7 +72,6 @@ def mock_translate(msgid, *args, **kwargs):
     # original translate function.  This depends on the keyword arguments having
     # a mapping and/or a default.
     if override:
-        orig_msgid = msgid
         msgid = override
     standard = translate(msgid, *args, **kwargs)
     if standard == default and override:

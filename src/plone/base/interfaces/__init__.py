@@ -1,4 +1,3 @@
-# flake8: noqa
 from .basetool import IPloneBaseTool
 from .basetool import IPloneCatalogTool
 from .basetool import IPloneTool

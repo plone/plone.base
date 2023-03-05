@@ -206,7 +206,7 @@ def ulocalized_time(
     if not IDateTime.providedBy(time):
         try:
             time = DateTime(time)
-        except:
+        except Exception:
             logger.debug(f"Failed to convert {time} to a DateTime object")
             return None
 
