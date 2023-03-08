@@ -1,6 +1,9 @@
-from plone.app.layout.navigation.interfaces import INavigationRoot
 from Products.CMFCore.interfaces import ISiteRoot
 from zope.interface import Interface
+
+
+class INavigationRoot(Interface):
+    """A marker interface for signaling the navigation root."""
 
 
 class IPloneSiteRoot(ISiteRoot, INavigationRoot):

@@ -54,6 +54,7 @@ from .properties import ISimpleItemWithProperties
 from .resources import IBundleRegistry
 from .resources import IResourceRegistry
 from .siteroot import IMigratingPloneSiteRoot
+from .siteroot import INavigationRoot
 from .siteroot import IPloneSiteRoot
 from .siteroot import ITestCasePloneSiteRoot
 from .structure import INonStructuralFolder
