@@ -1,6 +1,5 @@
 from .basetool import IPloneBaseTool
 from plone import schema
-from plone.autoform import directives
 from plone.base import PloneMessageFactory as _
 from Products.CMFCore.utils import getToolByName
 from zope.component.hooks import getSite
@@ -85,7 +84,7 @@ class IControlPanel(IPloneBaseTool):
         name,
         action,
         condition="",
-        permission="",  # NOQA
+        permission="",
         category="Plone",
         visible=1,
         appId=None,
@@ -95,25 +94,24 @@ class IControlPanel(IPloneBaseTool):
     ):
         """Registration of a Configlet"""
 
-    def unregisterConfiglet(id):  # NOQA
+    def unregisterConfiglet(id):
         """unregister Configlet"""
 
-    def unregisterApplication(appId):  # NOQA
+    def unregisterApplication(appId):
         """unregister Application with all configlets"""
 
-    def getGroupIds():  # NOQA
+    def getGroupIds():
         """list of the group ids"""
 
-    def getGroups():  # NOQA
+    def getGroups():
         """list of groups as dicts with id and title"""
 
-    def enumConfiglets(group=None):  # NOQA
+    def enumConfiglets(group=None):
         """lists the Configlets of a group, returns them as dicts by
         calling .getAction() on each of them"""
 
 
 class IEditingSchema(Interface):
-
     available_editors = schema.List(
         title=_("Available editors"),
         description=_("Available editors in the portal."),
@@ -327,7 +325,15 @@ class IFilterSchema(Interface):
     custom_attributes = schema.List(
         title=_("Custom attributes"),
         description=_("These attributes are additionally allowed."),
-        default=["style", "controls", "poster", "autoplay", "loading", "srcset", "sizes"],
+        default=[
+            "style",
+            "controls",
+            "poster",
+            "autoplay",
+            "loading",
+            "srcset",
+            "sizes",
+        ],
         value_type=schema.TextLine(),
         missing_value=[],
         required=False,
@@ -469,7 +475,12 @@ class ITinyMCELayoutSchema(Interface):
         description=_("Name|class"),
         value_type=schema.TextLine(),
         missing_value=[],
-        default=["Listing|listing", "Listing compact|listing-compact", "Subdued grid|plain", "Invisible Grid|invisible-grid"],
+        default=[
+            "Listing|listing",
+            "Listing compact|listing-compact",
+            "Subdued grid|plain",
+            "Invisible Grid|invisible-grid",
+        ],
     )
 
     formats = schema.Text(
@@ -479,7 +490,7 @@ class ITinyMCELayoutSchema(Interface):
             "A format is for example the style that get applied when "
             "you press the bold button inside the editor. "
             "See https://www.tinymce.com/docs/configure/content-formatting/#formats"
-        ),  # NOQA: E501
+        ),
         constraint=validate_json,
         default=dump_json_to_text(
             {
@@ -543,7 +554,7 @@ class ITinyMCEPluginSchema(Interface):
                     SimpleTerm("paste", "paste", "paste"),
                     SimpleTerm("preview", "preview", "preview"),
                     SimpleTerm("print", "print", "print"),
-                    # XXX disable save button since it is not implemeneted
+                    # XXX disable save button since it is not implemented
                     # SimpleTerm('save', 'save', u'save'),
                     SimpleTerm("searchreplace", "searchreplace", "searchreplace"),
                     SimpleTerm("tabfocus", "tabfocus", "tabfocus"),
@@ -838,7 +849,6 @@ class ITinyMCESchema(
 
 
 class IMaintenanceSchema(Interface):
-
     days = schema.Int(
         title=_("Days of object history to keep after packing"),
         description=_(
@@ -855,7 +865,6 @@ class IMaintenanceSchema(Interface):
 
 
 class INavigationSchema(Interface):
-
     navigation_depth = schema.Int(
         title=_("Navigation depth"),
         description=_("Number of folder levels to show in the navigation."),
@@ -983,7 +992,6 @@ class INavigationSchema(Interface):
 
 
 class ISearchSchema(Interface):
-
     enable_livesearch = schema.Bool(
         title=_("Enable LiveSearch"),
         description=_(
@@ -1050,7 +1058,6 @@ class ISearchSchema(Interface):
 
 
 class ISecuritySchema(Interface):
-
     enable_self_reg = schema.Bool(
         title=_("Enable self-registration"),
         description=_(
@@ -1135,7 +1142,6 @@ class ISecuritySchema(Interface):
 
 
 class ISiteSchema(Interface):
-
     site_title = schema.TextLine(
         title=_("Site title"),
         description=_(
@@ -1255,7 +1261,7 @@ class ISiteSchema(Interface):
         title=_("No thumbs in list views"),
         description=_(
             "Suppress thumbs in all list views; "
-            "this default can be overriden individually"
+            "this default can be overridden individually"
         ),
         default=False,
         required=False,
@@ -1265,7 +1271,7 @@ class ISiteSchema(Interface):
         title=_("No thumbs in summary views"),
         description=_(
             "Suppress thumbs in all summary views; "
-            "this default can be overriden individually"
+            "this default can be overridden individually"
         ),
         default=False,
         required=False,
@@ -1275,7 +1281,7 @@ class ISiteSchema(Interface):
         title=_("No thumbs in table views"),
         description=_(
             "Suppress thumbs in all tableviews and in folder contents view; "
-            "this default can be overriden individually"
+            "this default can be overridden individually"
         ),
         default=False,
         required=False,
@@ -1283,7 +1289,7 @@ class ISiteSchema(Interface):
 
     thumb_scale_portlet = schema.Choice(
         title=_("Thumb scale for portlets"),
-        description=_("This default can be overriden individually."),
+        description=_("This default can be overridden individually."),
         default="icon",
         vocabulary="plone.app.vocabularies.ImagesScales",
         required=True,
@@ -1292,7 +1298,7 @@ class ISiteSchema(Interface):
     thumb_scale_listing = schema.Choice(
         title=_("Thumb scale for listings"),
         description=_(
-            "E.g. standard view; This default can be overriden individually."
+            "E.g. standard view; This default can be overridden individually."
         ),
         default="thumb",
         vocabulary="plone.app.vocabularies.ImagesScales",
@@ -1303,7 +1309,7 @@ class ISiteSchema(Interface):
         title=_("Thumb scale for tables"),
         description=_(
             "E.g., tabular view, folder content listing;"
-            " This default can be overriden individually."
+            " This default can be overridden individually."
         ),
         default="tile",
         vocabulary="plone.app.vocabularies.ImagesScales",
@@ -1312,7 +1318,7 @@ class ISiteSchema(Interface):
 
     thumb_scale_summary = schema.Choice(
         title=_("Thumb scale for summary view"),
-        description=_("This default can be overriden individually."),
+        description=_("This default can be overridden individually."),
         default="mini",
         vocabulary="plone.app.vocabularies.ImagesScales",
         required=True,
@@ -1469,7 +1475,6 @@ class ITypesSchema(Interface):
 
 
 class IMailSchema(Interface):
-
     smtp_host = schema.TextLine(
         title=_("label_smtp_server", default="SMTP server"),
         description=_(
@@ -1546,7 +1551,6 @@ class IMailSchema(Interface):
 
 
 class IMarkupSchema(Interface):
-
     default_type = schema.Choice(
         title=_("Default format"),
         description=_(
@@ -1592,7 +1596,6 @@ class IMarkupSchema(Interface):
 
 
 class IUserGroupsSettingsSchema(Interface):
-
     many_groups = schema.Bool(
         title=_("Many groups?"),
         description=_(
@@ -1631,7 +1634,6 @@ def validate_twitter_username(value):
 
 
 class ISocialMediaSchema(Interface):
-
     share_social_data = schema.Bool(
         title=_("Share social data"),
         description=_(
@@ -1751,7 +1753,7 @@ class IImagingSchema(Interface):
         description=_("Enter a JSON-formatted picture variants configuration."),
         schema=json.dumps(
             {
-                "title": "Image srcset defintion",
+                "title": "Image srcset definition",
                 "type": "object",
                 "additionalProperties": {"$ref": "#/$defs/srcset"},
                 "$defs": {
@@ -1799,7 +1801,13 @@ class IImagingSchema(Interface):
                 "sourceset": [
                     {
                         "scale": "larger",
-                        "additionalScales": ["preview", "teaser", "large", "great", "huge"],
+                        "additionalScales": [
+                            "preview",
+                            "teaser",
+                            "large",
+                            "great",
+                            "huge",
+                        ],
                     },
                 ],
             },
@@ -1837,7 +1845,6 @@ class IImagingSchema(Interface):
 
 
 class ILoginSchema(Interface):
-
     auth_cookie_length = schema.Int(
         title=_("Auth cookie length"), default=0, required=False
     )
@@ -1867,7 +1874,6 @@ class ILoginSchema(Interface):
 
 
 class ILinkSchema(Interface):
-
     external_links_open_new_window = schema.Bool(
         title=_("Open external links in new a window"),
         description=_(""),
@@ -1899,7 +1905,6 @@ def _check_tales_expression(value):
 
 
 class IActionSchema(Interface):
-
     category = schema.Choice(
         title=_("Category"),
         vocabulary="plone.app.vocabularies.PortalActionCategories",
@@ -1963,7 +1968,6 @@ class IActionSchema(Interface):
 
 
 class INewActionSchema(Interface):
-
     category = schema.Choice(
         title=_("Category"),
         vocabulary="plone.app.vocabularies.PortalActionCategories",
@@ -2004,7 +2008,7 @@ class IPloneControlPanelForm(IPloneControlPanelView):
     """Forms using plone.app.controlpanel"""
 
     def _on_save():
-        """Callback mehod which can be implemented by control panels to
+        """Callback method which can be implemented by control panels to
         react when the form is successfully saved. This avoids the need
         to re-define actions only to do some additional notification or
         configuration which cannot be handled by the normal schema adapter.

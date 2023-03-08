@@ -27,10 +27,10 @@ logger = logging.getLogger("Plone")
 
 SIZE_CONST = {
     "KB": 1024,
-    "MB": 1024 ** 2,
-    "GB": 1024 ** 3,
-    "TB": 1024 ** 4,
-    "PB": 1024 ** 5,
+    "MB": 1024**2,
+    "GB": 1024**3,
+    "TB": 1024**4,
+    "PB": 1024**5,
 }
 SIZE_ORDER = ("PB", "TB", "GB", "MB", "KB")
 
@@ -98,7 +98,6 @@ def safeToInt(value, default=0):
 def safe_text(value, encoding="utf-8") -> str:
     """Converts a value to text, even it is already a text string.
 
-    >>> from Products.CMFPlone.utils import safe_text
     >>> test_bytes = u'\u01b5'.encode('utf-8')
     >>> safe_text('spam') == u'spam'
     True
@@ -122,7 +121,7 @@ def safe_text(value, encoding="utf-8") -> str:
     if isinstance(value, bytes):
         try:
             value = str(value, encoding)
-        except (UnicodeDecodeError):
+        except UnicodeDecodeError:
             value = value.decode("utf-8", "replace")
     return value
 
@@ -161,7 +160,7 @@ def safe_callable(obj):
 
 def get_empty_title(context, translated=True):
     """Returns string to be used for objects with no title or id"""
-    # The default is an extra fancy unicode elipsis
+    # The default is an extra fancy unicode ellipsis,
     empty = b"\x5b\xc2\xb7\xc2\xb7\xc2\xb7\x5d".decode("utf8")
     if translated:
         if context is not None:
@@ -341,7 +340,7 @@ def get_top_site_from_url(context, request):
         _path = "/".join(url_path[: _path_idx + 1]) or "/"
         site_path = "/".join(request.physicalPathFromURL(_path)) or "/"
         site = context.restrictedTraverse(site_path)
-    except (ValueError, AttributeError) as exc:
+    except (ValueError, AttributeError):
         # On error, just return getSite.
         # Refs: https://github.com/plone/plone.app.content/issues/103
         # Also, TestRequest doesn't have physicalPathFromURL
@@ -513,7 +512,7 @@ def _check_for_collision(contained_by, cid, **kwargs):
             contained_by.checkValidId(cid)
         except ConflictError:
             raise
-        except:  # noqa: E722
+        except Exception:
             return _("${name} is reserved.", mapping={"name": cid})
 
     # make sure we don't collide with any parent method aliases
@@ -584,9 +583,9 @@ def unrestricted_construct_instance(type_name, container, id, *args, **kw):
     to create the object without security checks.
     """
     id = str(id)
-    typesTool = getToolByName(container, 'portal_types')
+    typesTool = getToolByName(container, "portal_types")
     fti = typesTool.getTypeInfo(type_name)
     if not fti:
-        raise ValueError('Invalid type %s' % type_name)
+        raise ValueError("Invalid type %s" % type_name)
 
     return fti._constructInstance(container, id, *args, **kw)

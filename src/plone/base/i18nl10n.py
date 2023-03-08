@@ -176,12 +176,12 @@ def ulocalized_time(
     #       catalog date_format_long, date_format_short, and time_format
     #       These msgids are translated using interpolation.
     #       The variables used here are the same as used in the strftime
-    #       formating.
+    #       formatting.
     #       Supported are:
     #           %A, %a, %B, %b, %H, %I, %m, %d, %M, %p, %S, %Y, %y, %Z
     #       Each used as variable in the msgstr without the %.
     #       For example: "${A} ${d}. ${B} ${Y}, ${H}:${M} ${Z}"
-    #       Each language dependend part is translated itself as well.
+    #       Each language dependent part is translated itself as well.
 
     # From http://docs.python.org/lib/module-time.html
     #
@@ -206,7 +206,7 @@ def ulocalized_time(
     if not IDateTime.providedBy(time):
         try:
             time = DateTime(time)
-        except:
+        except Exception:
             logger.debug(f"Failed to convert {time} to a DateTime object")
             return None
 

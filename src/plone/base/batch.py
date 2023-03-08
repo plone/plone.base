@@ -5,7 +5,6 @@ from ZTUtils import make_query
 
 
 class Batch(QuantumBatch):
-
     b_start_str = "b_start"
 
     def __init__(

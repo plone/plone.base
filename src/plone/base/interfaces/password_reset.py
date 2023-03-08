@@ -23,7 +23,7 @@ class IPWResetTool(Interface):
     reset forgotten passwords.
 
     This interface is rather sparse, but sufficient to describe the
-    task. (In this manner we void being dependant on a specific
+    task. (In this manner we void being dependent on a specific
     process) The details of the process are in the implementation,
     where they belong."""
 

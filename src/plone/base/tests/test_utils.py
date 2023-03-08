@@ -67,7 +67,7 @@ class DefaultUtilsTests(unittest.TestCase):
                 if self.physical_path.split("/")[-1] in (
                     "PloneSite",
                     "SubSite",
-                ):  # noqa
+                ):
                     alsoProvides(self, ISite)
 
             @property
@@ -75,9 +75,7 @@ class DefaultUtilsTests(unittest.TestCase):
                 return self.physical_path.split("/")[-1]
 
             def absolute_url(self):
-                return (
-                    self.vh_url + self.physical_path[len(self.vh_root) :] or "/"
-                )  # noqa
+                return self.vh_url + self.physical_path[len(self.vh_root) :] or "/"
 
             def restrictedTraverse(self, path):
                 return MockContext(self.vh_root + path)
@@ -111,7 +109,7 @@ class DefaultUtilsTests(unittest.TestCase):
         ctx = MockContext("/approot/PloneSite/folder/SubSite/folder")
         self.assertEqual(get_top_site_from_url(ctx, req).id, "PloneSite")
 
-        # Case 4, using unicode paths accidentially:
+        # Case 4, using unicode paths accidentally:
         ctx = MockContext("/approot/PloneSite/folder/SubSite/folder")
         self.assertEqual(get_top_site_from_url(ctx, req).id, "PloneSite")
 

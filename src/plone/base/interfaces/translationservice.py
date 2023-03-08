@@ -6,7 +6,7 @@ class ITranslationServiceTool(Interface):
 
     def translate(*args, **kw):
         """Translate method to access the translation service
-        from resticted code like skins.
+        from restricted code like skins.
         """
 
     def encode(m, input_encoding=None, output_encoding=None, errors="strict"):
