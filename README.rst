@@ -31,6 +31,10 @@ In details this package contains:
     A subset of commonly used and low-dependency utilities.
     In Plone 5 and below those been at ``Products.CMFPlone.utils`` (but not all were moved).
 
+``navigationroot`` (module)
+    Plone specific handling of navigation roots.
+    Before those been at ``plone.app.layout.navigation.root``.
+
 ``__init__``
     ``PloneMessageFactory`` with ``plone`` i18n-domain and ``PloneLocalesMessageFactory`` with ``plonelocales`` domain.
     In Plone 5 and below this was at ``Products.CMFPlone.__init__``.
