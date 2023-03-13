@@ -8,6 +8,32 @@ Changelog
 
 .. towncrier release notes start
 
+1.1.0 (2023-03-13)
+------------------
+
+New features:
+
+
+- Move `plone.app.layout.navigation.root.getNavigationRoot` to `.navigationroot.get_navigation_root`.
+  Move `plone.app.layout.navigation.root.getNavigationRootObject` to `.navigationroot.get_navigation_root_object`.
+  Both are essential basic functions in Plone and not layout related at all.
+  [jensens] (navigationroot)
+
+
+Bug fixes:
+
+
+- Move interface plone.app.layout.navigation.interfaces.INavigationRoot to plone.base.interfaces.siteroot and add a deprecated import to plone.app.layout.
+  [jensens, gforcarda] (Plone-3731)
+
+
+Internal:
+
+
+- Update configuration files.
+  [plone devs] (13d8d6c0)
+
+
 1.0.3 (2023-02-08)
 ------------------
 
