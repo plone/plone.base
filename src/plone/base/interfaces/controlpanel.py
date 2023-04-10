@@ -695,10 +695,6 @@ class ITinyMCEPluginSchema(Interface):
 ITinyMCELibrariesSchema = ITinyMCEPluginSchema  # bw compat
 
 
-class ITinyMCESpellCheckerSchema(Interface):
-    """This interface defines the libraries properties."""
-
-
 class ITinyMCEResourceTypesSchema(Interface):
     """This interface defines the resource types properties."""
 
@@ -776,7 +772,6 @@ class ITinyMCEAdvancedSchema(Interface):
 class ITinyMCESchema(
     ITinyMCELayoutSchema,
     ITinyMCEPluginSchema,
-    ITinyMCESpellCheckerSchema,
     ITinyMCEResourceTypesSchema,
     ITinyMCEAdvancedSchema,
 ):
