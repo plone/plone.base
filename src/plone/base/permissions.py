@@ -1,4 +1,3 @@
-# flake8: noqa
 """ CMFPlone product permissions """
 from AccessControl import ModuleSecurityInfo
 
