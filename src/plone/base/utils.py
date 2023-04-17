@@ -506,6 +506,10 @@ def _check_for_collision(contained_by, cid, **kwargs):
                 mapping={"name": cid},
             )
 
+    # containers may have a field / attribute of the same name
+    if base_hasattr(contained_by, cid):
+        return _("${name} is reserved.", mapping={"name": cid})
+
     # containers may implement this hook to further restrict ids
     if getattr(aq_base(contained_by), "checkValidId", _marker) is not _marker:
         try:
