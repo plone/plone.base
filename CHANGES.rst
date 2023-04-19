@@ -8,6 +8,15 @@ Changelog
 
 .. towncrier release notes start
 
+1.1.2 (2023-04-19)
+------------------
+
+Bug fixes:
+
+
+- Check for container field / attribute when trying to create content with same id [laulaz] (#35)
+
+
 1.1.1 (2023-04-15)
 ------------------
 
