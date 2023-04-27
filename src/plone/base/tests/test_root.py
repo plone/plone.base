@@ -12,7 +12,6 @@ from Products.CMFCore.TypesTool import FactoryTypeInformation
 from Products.CMFCore.TypesTool import TypesTool
 from zope.component import getSiteManager
 from zope.component.interfaces import IFactory
-from Products.CMFCore.testing import TraversingEventZCMLLayer
 
 import unittest
 
