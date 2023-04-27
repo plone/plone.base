@@ -13,8 +13,6 @@ from Products.CMFCore.TypesTool import TypesTool
 from zope.component import getSiteManager
 from zope.component.interfaces import IFactory
 
-import unittest
-
 
 class PortalFolderFactoryTests(SecurityTest):
     layer = TraversingEventZCMLLayer
