@@ -8,6 +8,16 @@ Changelog
 
 .. towncrier release notes start
 
+1.1.3 (2023-05-08)
+------------------
+
+Bug fixes:
+
+
+- Move test for navigationroot from plone.app.layout und refactor.
+  [@jensens] (move-navroot-test)
+
+
 1.1.2 (2023-04-19)
 ------------------
 
