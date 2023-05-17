@@ -14,7 +14,7 @@ Changelog
 Bug fixes:
 
 
-- Move test for navigationroot from plone.app.layout und refactor.
+- Move test for navigationroot from plone.app.layout and refactor.
   [@jensens] (move-navroot-test)
 
 
