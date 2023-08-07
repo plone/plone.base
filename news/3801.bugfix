@@ -1,2 +1,3 @@
 Remove action property `modal` default value.
+Fixes: https://github.com/plone/Products.CMFPlone/issues/3801
 [petschki]
