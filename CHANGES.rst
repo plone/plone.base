@@ -8,6 +8,24 @@ Changelog
 
 .. towncrier release notes start
 
+1.1.4 (2023-08-31)
+------------------
+
+Bug fixes:
+
+
+- Remove action property `modal` default value.
+  Fixes: https://github.com/plone/Products.CMFPlone/issues/3801
+  [petschki] (#3801)
+
+
+Internal:
+
+
+- Update configuration files.
+  [plone devs] (1a7a3da3)
+
+
 1.1.3 (2023-05-08)
 ------------------
 
