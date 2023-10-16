@@ -3,7 +3,7 @@ from zope.interface import Interface
 
 
 class INameFromTitle(Interface):
-    """An object that supports gettings it name from its title."""
+    """An object that supports getting its name (id) from its title."""
 
     title = schema.TextLine(
         title="Title",
