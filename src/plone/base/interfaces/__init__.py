@@ -4,6 +4,7 @@ from .basetool import IPloneTool
 from .breadcrumbs import IHideFromBreadcrumbs
 from .constrains import IConstrainTypes
 from .constrains import ISelectableConstrainTypes
+from .content import INameFromTitle
 from .controlpanel import IActionSchema
 from .controlpanel import IControlPanel
 from .controlpanel import IDateAndTimeSchema
