@@ -8,6 +8,18 @@ Changelog
 
 .. towncrier release notes start
 
+1.2.0 (2023-10-25)
+------------------
+
+New features:
+
+
+- Move interface INameFromTitle from `plone.app.content` here.
+  This helps avoiding a circular dependency between `plone.app.dexterity`
+  and `plone.app.content`.
+  [gforcada] (#3858)
+
+
 1.1.4 (2023-08-31)
 ------------------
 
