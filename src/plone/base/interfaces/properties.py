@@ -3,7 +3,6 @@ from zope.interface import Interface
 
 
 class IPropertiesTool(Interface):
-
     """Manage properties of the site as a whole."""
 
     id = Attribute("id", 'Must be set to "portal_properties"')
