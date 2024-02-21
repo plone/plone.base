@@ -8,6 +8,23 @@ Changelog
 
 .. towncrier release notes start
 
+1.2.1 (2024-02-21)
+------------------
+
+Bug fixes:
+
+
+- Fix TinyMCE format icon names.
+  [petschki] (#3905)
+
+
+Internal:
+
+
+- Update configuration files.
+  [plone devs] (6e36bcc4)
+
+
 1.2.0 (2023-10-25)
 ------------------
 
