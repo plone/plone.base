@@ -1,1 +1,1 @@
-Make the TinyMCE help plugin available as an option [ewohnlich, rber474]
+Make the TinyMCE help plugin available as an option [rber474]
