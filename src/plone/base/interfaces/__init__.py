@@ -27,7 +27,6 @@ from .controlpanel import ITinyMCELayoutSchema
 from .controlpanel import ITinyMCEPluginSchema
 from .controlpanel import ITinyMCEResourceTypesSchema
 from .controlpanel import ITinyMCESchema
-from .controlpanel import ITinyMCESpellCheckerSchema
 from .controlpanel import ITypesSchema
 from .controlpanel import IUserGroupsSettingsSchema
 from .events import IConfigurationChangedEvent
