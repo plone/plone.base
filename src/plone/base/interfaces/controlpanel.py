@@ -543,7 +543,6 @@ class ITinyMCEPluginSchema(Interface):
                     SimpleTerm("emoticons", "emoticons", "emoticons"),
                     SimpleTerm("fullpage", "fullpage", "fullpage"),
                     SimpleTerm("fullscreen", "fullscreen", "fullscreen"),
-                    SimpleTerm("help", "help", "help"),
                     SimpleTerm("hr", "hr", "hr"),
                     SimpleTerm("insertdatetime", "insertdatetime", "insertdatetime"),
                     SimpleTerm("layer", "layer", "layer"),
