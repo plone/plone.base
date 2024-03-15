@@ -8,6 +8,15 @@ Changelog
 
 .. towncrier release notes start
 
+1.3.0 (2024-03-15)
+------------------
+
+New features:
+
+
+- Make the TinyMCE help plugin available as an option [rber474] (#41)
+
+
 1.2.1 (2024-02-21)
 ------------------
 
