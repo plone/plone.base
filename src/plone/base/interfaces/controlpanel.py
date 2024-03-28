@@ -1211,7 +1211,7 @@ class ISiteSchema(Interface):
     webstats_js = schema.SourceText(
         title=_("JavaScript integrations included after the footer"),
         description=_(
-            "For enabling third-party javascript integrations "
+            "For enabling third-party JavaScript integrations "
             "from external providers (e.g. Google "
             "Analytics). Paste the provided code snippet here. "
             "It will be rendered as "
