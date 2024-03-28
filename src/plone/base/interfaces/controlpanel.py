@@ -1199,7 +1199,7 @@ class ISiteSchema(Interface):
         title=_("JavaScript integrations included in head section"),
         description=_(
             "For enabling third-party JavaScript integrations "
-            "from external providers (e.g. Google "
+            "from external providers (e.g., Google "
             "Analytics), paste the provided code snippet here. "
             "It will be rendered as "
             "entered at the end of the head section of the page."
