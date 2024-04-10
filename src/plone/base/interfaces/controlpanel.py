@@ -301,6 +301,7 @@ class IFilterSchema(Interface):
             "span",
             "strong",
             "sub",
+            "summary",
             "sup",
             "table",
             "tbody",
@@ -333,6 +334,7 @@ class IFilterSchema(Interface):
             "loading",
             "srcset",
             "sizes",
+            "open",
         ],
         value_type=schema.TextLine(),
         missing_value=[],
@@ -531,6 +533,7 @@ class ITinyMCEPluginSchema(Interface):
         value_type=schema.Choice(
             vocabulary=SimpleVocabulary(
                 [
+                    SimpleTerm("accordion", "accordion", "accordion"),
                     SimpleTerm("advlist", "advlist", "advlist"),
                     SimpleTerm("anchor", "anchor", "anchor"),
                     SimpleTerm("autolink", "autolink", "autolink"),
