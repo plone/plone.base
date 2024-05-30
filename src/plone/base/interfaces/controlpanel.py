@@ -1015,11 +1015,7 @@ class ISearchSchema(Interface):
             "off here or by the relevant installer."
         ),
         required=False,
-        default=(
-            "Discussion Item",
-            "Plone Site",
-            "TempFolder",
-        ),
+        default=(),
         missing_value=(),
         value_type=schema.Choice(source="plone.app.vocabularies.PortalTypes"),
     )

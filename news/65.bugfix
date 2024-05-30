@@ -1,0 +1,4 @@
+Remove ISearchSchemas types_not_searched "Discussion Item" value from plone.app.discussion and other impossible values too.
+Default is empty now, since there will never the construction allowed of these three.
+See https://github.com/zopefoundation/Products.CMFCore/blob/8d765b8ce7ec4e053e58f5c8dc45d08db01ce3e0/src/Products/CMFCore/TypesTool.py#L768
+[@jensens]
