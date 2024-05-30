@@ -1015,8 +1015,10 @@ class ISearchSchema(Interface):
             "off here or by the relevant installer."
         ),
         required=False,
+        # XXX: Actually, the Plone Site and TempFolder are not part of the vocabulary
+        # and would be removed from the list of types not searched on first save in ControlPanel!
+        # Both are used in many tests and kept for now.
         default=(
-            "Discussion Item",
             "Plone Site",
             "TempFolder",
         ),
