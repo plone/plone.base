@@ -1015,7 +1015,13 @@ class ISearchSchema(Interface):
             "off here or by the relevant installer."
         ),
         required=False,
-        default=(),
+        # XXX: Actually, the Plone Site and TempFolder are not part of the vocabulary
+        # and would be removed from the list of types not searched on first save in ControlPanel!
+        # Both are used in many tests and kept for now.
+        default=(
+            "Plone Site",
+            "TempFolder",
+        ),
         missing_value=(),
         value_type=schema.Choice(source="plone.app.vocabularies.PortalTypes"),
     )
