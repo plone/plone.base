@@ -15,7 +15,7 @@ def get_navigation_root(context, relativeRoot=None):
     portal path and this relativeRoot.
 
     If no relativeRoot argument is provided, and there is a root value set in
-    portal_properties, navigation root path is computed from
+    the configuration registry, navigation root path is computed from
     portal path and this root value.
 
     IMPORTANT !!!
@@ -32,7 +32,7 @@ def get_navigation_root(context, relativeRoot=None):
         return "/".join(getSite().getPhysicalPath())
 
     if relativeRoot is None:
-        # fetch from portal_properties
+        # fetch from configuration registry
         registry = getUtility(IRegistry)
         relativeRoot = registry.get("plone.root", None)
 
