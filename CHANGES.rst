@@ -8,7 +8,7 @@ Changelog
 
 .. towncrier release notes start
 
-2.0.0 (2024-06-26)
+2.0.1 (2024-06-26)
 ------------------
 
 Breaking changes:
@@ -17,8 +17,17 @@ Breaking changes:
 - Mockup TinyMCE settings: Remove deprecated AtD plugin settings. (#33)
 - Mockup TinyMCE settings: Remove unused AtD related views and interfaces. (#33)
 
+Internal:
 
-Bug fixes:
+
+- Manually fix up changelog.  I tried to release 2.0.0 today,
+  but I already released it two weeks ago.  [maurits]
+
+
+2.0.0 (2024-06-13)
+------------------
+
+Breaking changes:
 
 
 - Remove ISearchSchemas types_not_searched "Discussion Item" value to make plone.app.discussion a core addon.
