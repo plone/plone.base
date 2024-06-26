@@ -8,6 +8,25 @@ Changelog
 
 .. towncrier release notes start
 
+2.0.0 (2024-06-26)
+------------------
+
+Breaking changes:
+
+
+- Mockup TinyMCE settings: Remove deprecated AtD plugin settings. (#33)
+- Mockup TinyMCE settings: Remove unused AtD related views and interfaces. (#33)
+
+
+Bug fixes:
+
+
+- Remove ISearchSchemas types_not_searched "Discussion Item" value to make plone.app.discussion a core addon.
+  It is actually not needed anyway, also not part of the underlying vocabulary and would be lost on first save in control-panel.
+  See https://github.com/zopefoundation/Products.CMFCore/blob/8d765b8ce7ec4e053e58f5c8dc45d08db01ce3e0/src/Products/CMFCore/TypesTool.py#L768
+  [@jensens] (#65)
+
+
 1.4.0 (2024-04-23)
 ------------------
 
