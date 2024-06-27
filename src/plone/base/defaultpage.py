@@ -30,7 +30,7 @@ def get_default_page(context):
            acquisition in place
         3.1 look for a content in the container with the id, no acquisition!
         3.2 look for a content at portal, with acquisition
-        4. Else, look up the property default_page in site_properties for
+        4. Else, look up the property plone.default_page in the registry for
            magic ids and test these
 
     The id of the first matching item is then used to lookup a translation
