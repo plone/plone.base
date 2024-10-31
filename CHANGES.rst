@@ -8,6 +8,17 @@ Changelog
 
 .. towncrier release notes start
 
+2.0.2 (2024-10-31)
+------------------
+
+Tests
+
+
+- Fixed tests when using Zope 5.11.
+  In one test we got a `mappingproxy` instead of a dictionary.
+  [maurits] (#956)
+
+
 2.0.1 (2024-06-26)
 ------------------
 
