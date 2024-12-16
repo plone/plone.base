@@ -1,3 +1,0 @@
-Fixed tests when using Zope 5.11.
-In one test we got a `mappingproxy` instead of a dictionary.
-[maurits]
