@@ -1,4 +1,4 @@
-""" Unit tests for utils module. """
+"""Unit tests for utils module."""
 
 from plone.subrequest.interfaces import ISubRequest
 from zope.interface import alsoProvides

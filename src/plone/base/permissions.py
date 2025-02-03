@@ -1,4 +1,4 @@
-""" CMFPlone product permissions """
+"""CMFPlone product permissions"""
 
 from AccessControl import ModuleSecurityInfo
 
