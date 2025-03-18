@@ -491,7 +491,7 @@ class ITinyMCELayoutSchema(Interface):
             "Enter a JSON-formatted style format configuration. "
             "A format is for example the style that get applied when "
             "you press the bold button inside the editor. "
-            "See https://www.tinymce.com/docs/configure/content-formatting/#formats"
+            "See https://www.tiny.cloud/docs/tinymce/latest/content-formatting/"
         ),
         constraint=validate_json,
         default=dump_json_to_text(
