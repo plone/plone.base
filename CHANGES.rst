@@ -8,6 +8,15 @@ Changelog
 
 .. towncrier release notes start
 
+2.0.3 (2025-03-21)
+------------------
+
+Documentation:
+
+
+- Fix TinyMCE link to format documentation. [sverbois] (#78)
+
+
 2.0.2 (2024-10-31)
 ------------------
 
