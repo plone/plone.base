@@ -96,6 +96,7 @@ class IRecycleBin(Interface):
             Boolean indicating whether recycle bin is enabled
         """
 
+
 class IRecycleBinForm(Interface):
     """Schema for the recycle bin form"""
 
@@ -105,6 +106,7 @@ class IRecycleBinForm(Interface):
         value_type=schema.TextLine(),
         required=False,
     )
+
 
 class IRecycleBinItemForm(Interface):
     """Schema for the recycle bin item form"""
