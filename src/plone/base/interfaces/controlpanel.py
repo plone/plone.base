@@ -601,9 +601,8 @@ class ITinyMCEPluginSchema(Interface):
             default=("Enter what items you would like in the menu bar."),
         ),
         required=True,
-        default="edit table format tools view insert"
+        default="edit table format tools view insert",
     )
-
 
     menu = schema.Text(
         title=_("label_tinymce_menu", "Menu"),
