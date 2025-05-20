@@ -594,6 +594,7 @@ class ITinyMCEPluginSchema(Interface):
         required=False,
     )
 
+    # menubar changed to TextLine, because the tinymce api are changed
     menubar = schema.TextLine(
         title=_("label_tinymce_menubar", default="Menubar"),
         description=_(
