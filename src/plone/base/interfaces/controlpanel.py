@@ -184,6 +184,23 @@ class IEditingSchema(Interface):
         required=False,
     )
 
+    form_layout = schema.Choice(
+        title=_("Form appearance"),
+        description=_(
+            "Select the format of how forms should appear."
+            "Changing the form appearance affect all of website forms globally."
+        ),
+        default="stacking",
+        vocabulary=SimpleVocabulary(
+            [
+                SimpleTerm("stacking", "stacking", "stacking"),
+                SimpleTerm("tabbing", "tabbing", "tabbing"),
+                SimpleTerm("extended", "extended", "extended"),
+            ]
+        ),
+        required=False,
+    )
+
 
 class ITagAttrPair(Interface):
     tags = schema.TextLine(title="tags")
