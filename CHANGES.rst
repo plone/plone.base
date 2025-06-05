@@ -8,6 +8,16 @@ Changelog
 
 .. towncrier release notes start
 
+3.0.0 (2025-06-05)
+------------------
+
+Breaking changes:
+
+
+- Refactoring Interface ITinyMCEPluginSchema, field `menubar` is not longer a `List`, it's now a `TextLine` Field
+  [1letter] (#82)
+
+
 2.0.3 (2025-03-21)
 ------------------
 

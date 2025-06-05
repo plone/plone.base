@@ -1,2 +1,0 @@
-Refactoring Interface ITinyMCEPluginSchema, field `menubar` is not longer a `List`, it's now a `TextLine` Field
-[1letter]
