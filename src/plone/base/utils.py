@@ -593,3 +593,8 @@ def unrestricted_construct_instance(type_name, container, id, *args, **kw):
         raise ValueError("Invalid type %s" % type_name)
 
     return fti._constructInstance(container, id, *args, **kw)
+
+
+def yesno(value) -> bool:
+    """Return boolean `true`, if "yes" was meant, `false` otherwise."""
+    return value and str(value).lower() in ("1", "y", "yes", "t", "true", "on")

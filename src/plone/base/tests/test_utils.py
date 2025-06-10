@@ -185,3 +185,30 @@ class DefaultUtilsTests(unittest.TestCase):
         self.assertEqual(human_readable_size(None), "0 KB")
         self.assertEqual(human_readable_size(""), "0 KB")
         self.assertEqual(human_readable_size("barney"), "barney")
+
+    def test_yesno(self):
+        """Test the `yesno` utility function with different inputs."""
+        from plone.base.utils import yesno
+
+        self.assertTrue(yesno(True))
+        self.assertTrue(yesno(1))
+        self.assertTrue(yesno("1"))
+        self.assertTrue(yesno("TRUE"))
+        self.assertTrue(yesno("tRUE"))
+        self.assertTrue(yesno("true"))
+        self.assertTrue(yesno("y"))
+        self.assertTrue(yesno("Y"))
+        self.assertTrue(yesno("yEs"))
+        self.assertTrue(yesno("yes"))
+        self.assertTrue(yesno("on"))
+
+        self.assertFalse(yesno(None))
+        self.assertFalse(yesno(False))
+        self.assertFalse(yesno(0))
+        self.assertFalse(yesno("0"))
+        self.assertFalse(yesno("FALSE"))
+        self.assertFalse(yesno("fALSE"))
+        self.assertFalse(yesno("false"))
+        self.assertFalse(yesno("n"))
+        self.assertFalse(yesno("NO"))
+        self.assertFalse(yesno("no"))
