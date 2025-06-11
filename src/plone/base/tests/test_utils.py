@@ -185,3 +185,35 @@ class DefaultUtilsTests(unittest.TestCase):
         self.assertEqual(human_readable_size(None), "0 KB")
         self.assertEqual(human_readable_size(""), "0 KB")
         self.assertEqual(human_readable_size("barney"), "barney")
+
+    def test_is_truthy(self):
+        """Test the `is_truthy` utility function with different inputs."""
+        from plone.base.utils import is_truthy
+
+        self.assertTrue(is_truthy(True))
+        self.assertTrue(is_truthy(1))
+        self.assertTrue(is_truthy("1"))
+        self.assertTrue(is_truthy("TRUE"))
+        self.assertTrue(is_truthy("tRUE"))
+        self.assertTrue(is_truthy("true"))
+        self.assertTrue(is_truthy("y"))
+        self.assertTrue(is_truthy("Y"))
+        self.assertTrue(is_truthy("yEs"))
+        self.assertTrue(is_truthy("yes"))
+        self.assertTrue(is_truthy("active"))
+        self.assertTrue(is_truthy("Active"))
+        self.assertTrue(is_truthy("enAbled"))
+        self.assertTrue(is_truthy("on"))
+
+        self.assertFalse(is_truthy(None))
+        self.assertFalse(is_truthy(False))
+        self.assertFalse(is_truthy(0))
+        self.assertFalse(is_truthy(2))
+        self.assertFalse(is_truthy("0"))
+        self.assertFalse(is_truthy("FALSE"))
+        self.assertFalse(is_truthy("fALSE"))
+        self.assertFalse(is_truthy("false"))
+        self.assertFalse(is_truthy("n"))
+        self.assertFalse(is_truthy("NO"))
+        self.assertFalse(is_truthy("no"))
+        self.assertFalse(is_truthy("foo"))
