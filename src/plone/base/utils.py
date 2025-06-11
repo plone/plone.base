@@ -595,6 +595,15 @@ def unrestricted_construct_instance(type_name, container, id, *args, **kw):
     return fti._constructInstance(container, id, *args, **kw)
 
 
-def yesno(value) -> bool:
-    """Return boolean `true`, if "yes" was meant, `false` otherwise."""
-    return value and str(value).lower() in ("1", "y", "yes", "t", "true", "on")
+def is_truthy(value) -> bool:
+    """Return `True`, if "yes" was meant, `False` otherwise."""
+    return bool(value) and str(value).lower() in {
+        "1",
+        "y",
+        "yes",
+        "t",
+        "true",
+        "active",
+        "enabled",
+        "on",
+    }

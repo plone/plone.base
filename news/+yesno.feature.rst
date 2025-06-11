@@ -1,8 +1,9 @@
-Add a "yesno" utility function to test for true-ish and false-ish string values.
+Add a "is_truthy" utility to test for true-ish and false-ish string values.
 
-The following values are interpreted as if a positive answer was meant and will
-return a boolean True:
+The following values are interpreted as an affirmative value and will return a
+boolean True:
 
-True, 1 and these strings in any casing: "y", "yes", "t", "true", "on".
+True, 1 and these strings in any casing: "y", "yes", "t", "true", "active",
+"enabled", "on".
 
-Everything else is considered False.
+Everything else will be interpreted as False.
