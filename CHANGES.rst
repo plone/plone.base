@@ -8,6 +8,33 @@ Changelog
 
 .. towncrier release notes start
 
+3.1.0 (2025-06-18)
+------------------
+
+New features:
+
+
+- Add a "is_truthy" utility to test for true-ish and false-ish string values.
+
+  The following values are interpreted as an affirmative value and will return a
+  boolean True:
+
+  True, 1 and these strings in any casing: "y", "yes", "t", "true", "active",
+  "enabled", "on".
+
+  Everything else will be interpreted as False.
+
+
+3.0.0 (2025-06-05)
+------------------
+
+Breaking changes:
+
+
+- Refactoring Interface ITinyMCEPluginSchema, field `menubar` is not longer a `List`, it's now a `TextLine` Field
+  [1letter] (#82)
+
+
 2.0.3 (2025-03-21)
 ------------------
 

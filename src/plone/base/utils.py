@@ -593,3 +593,17 @@ def unrestricted_construct_instance(type_name, container, id, *args, **kw):
         raise ValueError("Invalid type %s" % type_name)
 
     return fti._constructInstance(container, id, *args, **kw)
+
+
+def is_truthy(value) -> bool:
+    """Return `True`, if "yes" was meant, `False` otherwise."""
+    return bool(value) and str(value).lower() in {
+        "1",
+        "y",
+        "yes",
+        "t",
+        "true",
+        "active",
+        "enabled",
+        "on",
+    }
