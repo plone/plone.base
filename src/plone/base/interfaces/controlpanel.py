@@ -594,16 +594,15 @@ class ITinyMCEPluginSchema(Interface):
         required=False,
     )
 
-    menubar = schema.List(
+    # menubar changed to TextLine, because the tinymce api are changed
+    menubar = schema.TextLine(
         title=_("label_tinymce_menubar", default="Menubar"),
         description=_(
             "help_tinymce_menubar",
             default=("Enter what items you would like in the menu bar."),
         ),
         required=True,
-        value_type=schema.TextLine(),
-        missing_value=[],
-        default=["edit", "table", "format", "tools", "view", "insert"],
+        default="edit table format tools view insert",
     )
 
     menu = schema.Text(
