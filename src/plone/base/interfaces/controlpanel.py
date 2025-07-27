@@ -1336,9 +1336,9 @@ class ISiteSchema(Interface):
         title=_("Use AJAX template on XHR"),
         description=_(
             "help_use_ajax",
-            default="When enabled, Plone use the AJAX main template, if we "
-            "are in an XHR request. Some themes might not support this, but "
-            "others can benefit for faster rendering.",
+            default="When enabled and if we are in an XHR request Plone uses "
+            "the AJAX main template. Some themes might not support this, but "
+            "others can benefit from faster rendering.",
         ),
         default=False,
         required=False,
