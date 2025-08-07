@@ -627,7 +627,7 @@ class ITinyMCEPluginSchema(Interface):
                 "format": {
                     "title": "Format",
                     "items": "bold italic underline strikethrough "
-                    "superscript subscript | formats | removeformat",
+                    "superscript subscript | styles | removeformat",
                 },
                 "table": {
                     "title": "Table",
@@ -662,7 +662,7 @@ class ITinyMCEPluginSchema(Interface):
             default=("Enter how you would like the toolbar items to list."),
         ),
         required=True,
-        default="ltr rtl | undo redo | styleselect | bold italic | "
+        default="ltr rtl | undo redo | styles | bold italic | "
         "alignleft aligncenter alignright alignjustify | "
         "bullist numlist outdent indent | "
         "inserttable | unlink plonelink ploneimage",
