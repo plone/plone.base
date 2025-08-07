@@ -540,31 +540,18 @@ class ITinyMCEPluginSchema(Interface):
                     SimpleTerm("autosave", "autosave", "autosave"),
                     SimpleTerm("charmap", "charmap", "charmap"),
                     SimpleTerm("code", "code", "code"),
-                    SimpleTerm("colorpicker", "colorpicker", "colorpicker"),
-                    SimpleTerm("contextmenu", "contextmenu", "contextmenu"),
                     SimpleTerm("directionality", "directionality", "directionality"),
                     SimpleTerm("emoticons", "emoticons", "emoticons"),
-                    SimpleTerm("fullpage", "fullpage", "fullpage"),
                     SimpleTerm("fullscreen", "fullscreen", "fullscreen"),
                     SimpleTerm("help", "help", "help"),
-                    SimpleTerm("hr", "hr", "hr"),
                     SimpleTerm("insertdatetime", "insertdatetime", "insertdatetime"),
-                    SimpleTerm("layer", "layer", "layer"),
                     SimpleTerm("lists", "lists", "lists"),
                     SimpleTerm("media", "media", "media"),
                     SimpleTerm("nonbreaking", "nonbreaking", "nonbreaking"),
-                    SimpleTerm("noneditable", "noneditable", "noneditable"),
                     SimpleTerm("pagebreak", "pagebreak", "pagebreak"),
-                    SimpleTerm("paste", "paste", "paste"),
                     SimpleTerm("preview", "preview", "preview"),
-                    SimpleTerm("print", "print", "print"),
-                    # XXX disable save button since it is not implemented
-                    # SimpleTerm('save', 'save', u'save'),
                     SimpleTerm("searchreplace", "searchreplace", "searchreplace"),
-                    SimpleTerm("tabfocus", "tabfocus", "tabfocus"),
                     SimpleTerm("table", "table", "table"),
-                    SimpleTerm("textcolor", "textcolor", "textcolor"),
-                    SimpleTerm("textpattern", "textpattern", "textpattern"),
                     SimpleTerm("template", "template", "template"),
                     SimpleTerm("visualblocks", "visualblocks", "visualblocks"),
                     SimpleTerm("visualchars", "visualchars", "visualchars"),
@@ -574,17 +561,12 @@ class ITinyMCEPluginSchema(Interface):
         ),
         default=[
             "fullscreen",
-            "hr",
             "lists",
             "media",
             "nonbreaking",
-            "noneditable",
             "pagebreak",
-            "paste",
             "preview",
-            "print",
             "searchreplace",
-            "tabfocus",
             "table",
             "visualchars",
             "wordcount",
@@ -627,7 +609,7 @@ class ITinyMCEPluginSchema(Interface):
                 "format": {
                     "title": "Format",
                     "items": "bold italic underline strikethrough "
-                    "superscript subscript | formats | removeformat",
+                    "superscript subscript | styles | removeformat",
                 },
                 "table": {
                     "title": "Table",
@@ -662,7 +644,7 @@ class ITinyMCEPluginSchema(Interface):
             default=("Enter how you would like the toolbar items to list."),
         ),
         required=True,
-        default="ltr rtl | undo redo | styleselect | bold italic | "
+        default="ltr rtl | undo redo | styles | bold italic | "
         "alignleft aligncenter alignright alignjustify | "
         "bullist numlist outdent indent | "
         "inserttable | unlink plonelink ploneimage",
