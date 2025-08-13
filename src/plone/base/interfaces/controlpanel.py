@@ -1332,6 +1332,18 @@ class ISiteSchema(Interface):
         value_type=schema.Choice(vocabulary="plone.app.vocabularies.Roles"),
     )
 
+    use_ajax = schema.Bool(
+        title=_("Use AJAX template on XHR"),
+        description=_(
+            "help_use_ajax",
+            default="When enabled and if we are in an XHR request Plone uses "
+            "the AJAX main template. Some themes might not support this, but "
+            "others can benefit from faster rendering.",
+        ),
+        default=False,
+        required=False,
+    )
+
 
 class IDateAndTimeSchema(Interface):
     """Controlpanel settings for date and time related settings."""
