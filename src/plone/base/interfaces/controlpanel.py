@@ -564,7 +564,7 @@ class ITinyMCEPluginSchema(Interface):
                     # SimpleTerm('save', 'save', u'save'),
                     SimpleTerm("searchreplace", "searchreplace", "searchreplace"),
                     SimpleTerm("table", "table", "table"),
-                    # NOTE: template plugin is a payed premium plugin since TinyMCE 7+.
+                    # NOTE: template plugin is a paid premium plugin since TinyMCE 7+.
                     # We've backported the GPL version to mockup
                     SimpleTerm("template", "template", "template"),
                     SimpleTerm("visualblocks", "visualblocks", "visualblocks"),
