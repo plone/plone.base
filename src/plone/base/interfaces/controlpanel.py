@@ -532,39 +532,40 @@ class ITinyMCEPluginSchema(Interface):
         ),
         value_type=schema.Choice(
             vocabulary=SimpleVocabulary(
+                # TinyMCE plugins
+                # see /mockup/node_module/tinymce/tinymce/plugins/
+                # and comments why some are disabled
                 [
                     SimpleTerm("accordion", "accordion", "accordion"),
                     SimpleTerm("advlist", "advlist", "advlist"),
                     SimpleTerm("anchor", "anchor", "anchor"),
                     SimpleTerm("autolink", "autolink", "autolink"),
-                    SimpleTerm("autosave", "autosave", "autosave"),
+                    # XXX disable autosave since it is not implemented
+                    # SimpleTerm("autosave", "autosave", "autosave"),
                     SimpleTerm("charmap", "charmap", "charmap"),
                     SimpleTerm("code", "code", "code"),
-                    SimpleTerm("colorpicker", "colorpicker", "colorpicker"),
-                    SimpleTerm("contextmenu", "contextmenu", "contextmenu"),
                     SimpleTerm("directionality", "directionality", "directionality"),
                     SimpleTerm("emoticons", "emoticons", "emoticons"),
-                    SimpleTerm("fullpage", "fullpage", "fullpage"),
                     SimpleTerm("fullscreen", "fullscreen", "fullscreen"),
                     SimpleTerm("help", "help", "help"),
-                    SimpleTerm("hr", "hr", "hr"),
+                    # XXX disable image plugin in favor of our ploneimage plugin
+                    # SimpleTerm("image", "image", "image"),
+                    SimpleTerm("importcss", "importcss", "importcss"),
                     SimpleTerm("insertdatetime", "insertdatetime", "insertdatetime"),
-                    SimpleTerm("layer", "layer", "layer"),
+                    # XXX disable link plugin in favor of our plonelink plugin
+                    # SimpleTerm("link", "link", "link"),
                     SimpleTerm("lists", "lists", "lists"),
                     SimpleTerm("media", "media", "media"),
                     SimpleTerm("nonbreaking", "nonbreaking", "nonbreaking"),
-                    SimpleTerm("noneditable", "noneditable", "noneditable"),
                     SimpleTerm("pagebreak", "pagebreak", "pagebreak"),
-                    SimpleTerm("paste", "paste", "paste"),
                     SimpleTerm("preview", "preview", "preview"),
-                    SimpleTerm("print", "print", "print"),
+                    SimpleTerm("quickbars", "quickbars", "quickbars"),
                     # XXX disable save button since it is not implemented
                     # SimpleTerm('save', 'save', u'save'),
                     SimpleTerm("searchreplace", "searchreplace", "searchreplace"),
-                    SimpleTerm("tabfocus", "tabfocus", "tabfocus"),
                     SimpleTerm("table", "table", "table"),
-                    SimpleTerm("textcolor", "textcolor", "textcolor"),
-                    SimpleTerm("textpattern", "textpattern", "textpattern"),
+                    # NOTE: template plugin is a paid premium plugin since TinyMCE 7+.
+                    # We've backported the GPL version to mockup
                     SimpleTerm("template", "template", "template"),
                     SimpleTerm("visualblocks", "visualblocks", "visualblocks"),
                     SimpleTerm("visualchars", "visualchars", "visualchars"),
@@ -573,22 +574,17 @@ class ITinyMCEPluginSchema(Interface):
             )
         ),
         default=[
+            "code",
             "fullscreen",
-            "hr",
             "lists",
             "media",
             "nonbreaking",
-            "noneditable",
             "pagebreak",
-            "paste",
             "preview",
-            "print",
             "searchreplace",
-            "tabfocus",
             "table",
             "visualchars",
             "wordcount",
-            "code",
         ],
         missing_value=[],
         required=False,
