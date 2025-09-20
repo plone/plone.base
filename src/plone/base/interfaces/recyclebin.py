@@ -12,7 +12,6 @@ class IRecycleBinControlPanelSettings(Interface):
         description="Enable or disable the recycle bin feature.",
         default=False,
         required=False,
-
     )
 
     retention_period = schema.Int(
