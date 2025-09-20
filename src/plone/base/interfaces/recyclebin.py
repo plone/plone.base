@@ -11,6 +11,8 @@ class IRecycleBinControlPanelSettings(Interface):
         title="Enable the recycle bin",
         description="Enable or disable the recycle bin feature.",
         default=False,
+        required=False,
+
     )
 
     retention_period = schema.Int(
@@ -25,6 +27,13 @@ class IRecycleBinControlPanelSettings(Interface):
         description="Maximum size of the recycle bin in MB. When the total size of items in the recycle bin exceeds its maximum size, the oldest items in the recycle bin will be permanently purged.",
         default=100,
         min=10,
+    )
+
+    restore_to_initial_state = schema.Bool(
+        title="Restore to initial workflow state",
+        description="When enabled, restored content will be set to its initial workflow state (usually 'draft') instead of the workflow state it was in when deleted.",
+        default=False,
+        required=False,
     )
 
 
