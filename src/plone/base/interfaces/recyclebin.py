@@ -17,21 +17,27 @@ class IRecycleBinControlPanelSettings(Interface):
 
     retention_period = schema.Int(
         title=_("Retention period"),
-        description=_("Number of days to keep deleted items in the recycle bin. Set to '0' to disable automatic purging."),
+        description=_(
+            "Number of days to keep deleted items in the recycle bin. Set to '0' to disable automatic purging."
+        ),
         default=30,
         min=0,
     )
 
     maximum_size = schema.Int(
         title=_("Maximum size"),
-        description=_("Maximum size of the recycle bin in MB. When the total size of items in the recycle bin exceeds its maximum size, the oldest items in the recycle bin will be permanently purged."),
+        description=_(
+            "Maximum size of the recycle bin in MB. When the total size of items in the recycle bin exceeds its maximum size, the oldest items in the recycle bin will be permanently purged."
+        ),
         default=100,
         min=10,
     )
 
     restore_to_initial_state = schema.Bool(
         title=_("Restore to initial workflow state"),
-        description=_("When enabled, restored content will be set to its initial workflow state (usually 'draft') instead of the workflow state it was in when deleted."),
+        description=_(
+            "When enabled, restored content will be set to its initial workflow state (usually 'draft') instead of the workflow state it was in when deleted."
+        ),
         default=False,
         required=False,
     )
@@ -104,24 +110,3 @@ class IRecycleBin(Interface):
         Returns:
             Boolean indicating whether recycle bin is enabled
         """
-
-
-class IRecycleBinForm(Interface):
-    """Schema for the recycle bin form"""
-
-    selected_items = schema.List(
-        title=_("Selected Items"),
-        description=_("Selected items for operations"),
-        value_type=schema.TextLine(),
-        required=False,
-    )
-
-
-class IRecycleBinItemForm(Interface):
-    """Schema for the recycle bin item form"""
-
-    target_container = schema.TextLine(
-        title=_("Target container"),
-        description=_("Enter the path to the container where the item should be restored (e.g., /folder1/subfolder)"),
-        required=False,
-    )
