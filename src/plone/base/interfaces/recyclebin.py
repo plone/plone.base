@@ -119,9 +119,8 @@ class IRecycleBinForm(Interface):
 class IRecycleBinItemForm(Interface):
     """Schema for the recycle bin item form"""
 
-    target_container = schema.Choice(
+    target_container = schema.TextLine(
         title="Target container",
-        description="Choose the container where the item should be restored when original location no longer exists",
-        vocabulary="plone.recyclebin.RestoreContainers",
+        description="Enter the path to the container where the item should be restored (e.g., /folder1/subfolder)",
         required=False,
     )
