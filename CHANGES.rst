@@ -8,6 +8,15 @@ Changelog
 
 .. towncrier release notes start
 
+3.1.1 (2025-09-11)
+------------------
+
+Bug fixes:
+
+
+- Cleanup ``TinyMCESchema.plugins`` to the actual existing plugins. @petschki
+
+
 3.1.0 (2025-06-18)
 ------------------
 
