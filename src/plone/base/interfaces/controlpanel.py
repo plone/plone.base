@@ -1939,6 +1939,21 @@ class INewActionSchema(Interface):
             )
 
 
+class IClassicUISchema(Interface):
+    use_ajax_main_template = schema.Bool(
+        title=_("label_use_ajax_main_template", default="Use AJAX template on XHR"),
+        description=_(
+            "help_use_ajax_main_template",
+            default="When enabled and if we are in an XHR request Plone uses "
+            "the AJAX main template. Note: This setting does not affect the "
+            "ajax_load query string parameter, which if set and evaluates "
+            "to true, will always trigger the AJAX main template.",
+        ),
+        default=False,
+        required=False,
+    )
+
+
 class IPloneControlPanelView(Interface):
     """A marker interface for views showing a controlpanel."""
 
