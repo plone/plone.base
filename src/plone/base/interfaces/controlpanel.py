@@ -532,26 +532,40 @@ class ITinyMCEPluginSchema(Interface):
         ),
         value_type=schema.Choice(
             vocabulary=SimpleVocabulary(
+                # TinyMCE plugins
+                # see /mockup/node_module/tinymce/tinymce/plugins/
+                # and comments why some are disabled
                 [
                     SimpleTerm("accordion", "accordion", "accordion"),
                     SimpleTerm("advlist", "advlist", "advlist"),
                     SimpleTerm("anchor", "anchor", "anchor"),
                     SimpleTerm("autolink", "autolink", "autolink"),
-                    SimpleTerm("autosave", "autosave", "autosave"),
+                    # XXX disable autosave since it is not implemented
+                    # SimpleTerm("autosave", "autosave", "autosave"),
                     SimpleTerm("charmap", "charmap", "charmap"),
                     SimpleTerm("code", "code", "code"),
                     SimpleTerm("directionality", "directionality", "directionality"),
                     SimpleTerm("emoticons", "emoticons", "emoticons"),
                     SimpleTerm("fullscreen", "fullscreen", "fullscreen"),
                     SimpleTerm("help", "help", "help"),
+                    # XXX disable image plugin in favor of our ploneimage plugin
+                    # SimpleTerm("image", "image", "image"),
+                    SimpleTerm("importcss", "importcss", "importcss"),
                     SimpleTerm("insertdatetime", "insertdatetime", "insertdatetime"),
+                    # XXX disable link plugin in favor of our plonelink plugin
+                    # SimpleTerm("link", "link", "link"),
                     SimpleTerm("lists", "lists", "lists"),
                     SimpleTerm("media", "media", "media"),
                     SimpleTerm("nonbreaking", "nonbreaking", "nonbreaking"),
                     SimpleTerm("pagebreak", "pagebreak", "pagebreak"),
                     SimpleTerm("preview", "preview", "preview"),
+                    SimpleTerm("quickbars", "quickbars", "quickbars"),
+                    # XXX disable save button since it is not implemented
+                    # SimpleTerm('save', 'save', u'save'),
                     SimpleTerm("searchreplace", "searchreplace", "searchreplace"),
                     SimpleTerm("table", "table", "table"),
+                    # NOTE: template plugin is a paid premium plugin since TinyMCE 7+.
+                    # We've backported the GPL version to mockup
                     SimpleTerm("template", "template", "template"),
                     SimpleTerm("visualblocks", "visualblocks", "visualblocks"),
                     SimpleTerm("visualchars", "visualchars", "visualchars"),
@@ -560,6 +574,7 @@ class ITinyMCEPluginSchema(Interface):
             )
         ),
         default=[
+            "code",
             "fullscreen",
             "lists",
             "media",
@@ -570,7 +585,6 @@ class ITinyMCEPluginSchema(Interface):
             "table",
             "visualchars",
             "wordcount",
-            "code",
         ],
         missing_value=[],
         required=False,
@@ -1923,6 +1937,21 @@ class INewActionSchema(Interface):
                     mapping={"actionid": actionid},
                 )
             )
+
+
+class IClassicUISchema(Interface):
+    use_ajax_main_template = schema.Bool(
+        title=_("label_use_ajax_main_template", default="Use AJAX template on XHR"),
+        description=_(
+            "help_use_ajax_main_template",
+            default="When enabled and if we are in an XHR request Plone uses "
+            "the AJAX main template. Note: This setting does not affect the "
+            "ajax_load query string parameter, which if set and evaluates "
+            "to true, will always trigger the AJAX main template.",
+        ),
+        default=False,
+        required=False,
+    )
 
 
 class IPloneControlPanelView(Interface):
