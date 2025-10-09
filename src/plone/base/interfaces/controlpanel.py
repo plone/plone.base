@@ -1651,7 +1651,6 @@ class IImagingSchema(Interface):
 
     highpixeldensity_scales = schema.Choice(
         title=_("High pixel density mode"),
-        description=_(""),
         default="disabled",
         vocabulary=SimpleVocabulary(
             [
