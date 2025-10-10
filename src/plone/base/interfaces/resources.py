@@ -141,7 +141,7 @@ class IBundleRegistry(zope.interface.Interface):
         ),
         vocabulary=SimpleVocabulary(
             [
-                SimpleTerm("", "", _("")),
+                SimpleTerm("", "", ""),
                 SimpleTerm("default", "default", "default"),
                 SimpleTerm("logged-in", "logged-in", "logged-in"),
             ]

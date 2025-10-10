@@ -1815,7 +1815,6 @@ class ILoginSchema(Interface):
 class ILinkSchema(Interface):
     external_links_open_new_window = schema.Bool(
         title=_("Open external links in new a window"),
-        description=_(""),
         default=False,
         required=False,
     )
