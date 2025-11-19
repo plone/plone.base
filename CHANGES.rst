@@ -8,6 +8,17 @@ Changelog
 
 .. towncrier release notes start
 
+4.0.0a2 (2025-11-19)
+--------------------
+
+Bug fixes:
+
+
+- Fix outdated TinyMCE toolbar button and menu settings to match TinyMCE version 6. @petschki (#86)
+- Do not create empty translation msgids @erral
+- Remove more empty msgids @erral
+
+
 4.0.0a1 (2025-09-24)
 --------------------
 
