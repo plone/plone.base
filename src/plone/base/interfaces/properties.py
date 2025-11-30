@@ -1,3 +1,4 @@
+# mypy: disable-error-code=misc
 from zope.interface import Attribute
 from zope.interface import Interface
 

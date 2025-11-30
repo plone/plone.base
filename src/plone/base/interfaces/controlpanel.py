@@ -2,6 +2,7 @@ from .basetool import IPloneBaseTool
 from plone import schema
 from plone.base import PloneMessageFactory as _
 from Products.CMFCore.utils import getToolByName
+from typing import Dict
 from zope.component.hooks import getSite
 from zope.interface import Attribute
 from zope.interface import implementer
@@ -15,7 +16,7 @@ from zope.schema.vocabulary import SimpleVocabulary
 import json
 
 
-def dump_json_to_text(obj):
+def dump_json_to_text(obj: Dict[str, Dict[str, str]]) -> str:
     """Encode an obj into a text"""
     text = json.dumps(obj, indent=4)
     if not isinstance(text, str):
@@ -59,7 +60,7 @@ Disallow: /*view$
 """
 
 
-def validate_json(value):
+def validate_json(value: str):
     try:
         json.loads(value)
     except ValueError as exc:
@@ -100,10 +101,10 @@ class IControlPanel(IPloneBaseTool):
     def unregisterApplication(appId):
         """unregister Application with all configlets"""
 
-    def getGroupIds():
+    def getGroupIds():  # type: ignore[misc]
         """list of the group ids"""
 
-    def getGroups():
+    def getGroups():  # type: ignore[misc]
         """list of groups as dicts with id and title"""
 
     def enumConfiglets(group=None):
@@ -1567,7 +1568,7 @@ class IUserGroupsSettingsSchema(Interface):
     )
 
 
-def validate_twitter_username(value):
+def validate_twitter_username(value: str):
     if value and value.startswith("@"):
         raise Invalid('Twitter username should not include the "@" prefix character.')
     return True
@@ -1959,7 +1960,7 @@ class IPloneControlPanelView(Interface):
 class IPloneControlPanelForm(IPloneControlPanelView):
     """Forms using plone.app.controlpanel"""
 
-    def _on_save():
+    def _on_save():  # type: ignore[misc]
         """Callback method which can be implemented by control panels to
         react when the form is successfully saved. This avoids the need
         to re-define actions only to do some additional notification or

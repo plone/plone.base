@@ -17,3 +17,14 @@ per-file-ignores =
 
 [pyproject]
 codespell_ignores = "ist,"
+
+[pre-commit]
+extra_lines = """
+-   repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.18.2
+    hooks:
+    -   id: mypy
+        additional_dependencies:
+            - types-decorator
+        exclude: docs
+"""

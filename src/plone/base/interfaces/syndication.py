@@ -1,3 +1,4 @@
+# mypy: disable-error-code=misc
 from .. import PloneMessageFactory as _
 from zope import schema
 from zope.interface import Interface
