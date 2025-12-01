@@ -1,14 +1,17 @@
 from Acquisition import aq_base
 from Acquisition import aq_inner
 from Acquisition import aq_parent
+from Acquisition import ImplicitAcquisitionWrapper
 from plone.base.interfaces import INavigationRoot
 from plone.registry.interfaces import IRegistry
 from Products.CMFCore.utils import getToolByName
+from typing import cast
+from typing import Optional
 from zope.component import getUtility
 from zope.component.hooks import getSite
 
 
-def get_navigation_root(context, relativeRoot=None):
+def get_navigation_root(context: ImplicitAcquisitionWrapper, relativeRoot=None) -> str:
     """Get the path to the root of the navigation tree.
 
     If a relativeRoot argument is provided, navigation root is computed from
@@ -51,10 +54,12 @@ def get_navigation_root(context, relativeRoot=None):
     # compute the root
     portal = portal_url.getPortalObject()
     root = get_navigation_root_object(context, portal)
-    return "/".join(root.getPhysicalPath())
+    return "/".join(cast(ImplicitAcquisitionWrapper, root).getPhysicalPath())
 
 
-def get_navigation_root_object(context, portal):
+def get_navigation_root_object(
+    context: None, portal: ImplicitAcquisitionWrapper
+) -> Optional[ImplicitAcquisitionWrapper]:
     obj = context
     while not INavigationRoot.providedBy(obj) and aq_base(obj) is not aq_base(portal):
         parent = aq_parent(aq_inner(obj))

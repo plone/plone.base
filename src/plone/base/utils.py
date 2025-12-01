@@ -8,6 +8,9 @@ from DateTime import DateTime
 from plone.registry.interfaces import IRegistry
 from Products.CMFCore.interfaces import ITypesTool
 from Products.CMFCore.utils import getToolByName
+from typing import Any
+from typing import Optional
+from typing import Union
 from urllib.parse import urlparse
 from zExceptions import NotFound
 from ZODB.POSException import ConflictError
@@ -34,10 +37,10 @@ SIZE_CONST = {
 }
 SIZE_ORDER = ("PB", "TB", "GB", "MB", "KB")
 
-_marker = dict()
+_marker = object()
 
 
-def human_readable_size(size):
+def human_readable_size(size: Any) -> Any:
     """Get a human readable size string."""
     smaller = SIZE_ORDER[-1]
 
@@ -126,14 +129,14 @@ def safe_text(value, encoding="utf-8") -> str:
     return value
 
 
-def safe_bytes(value, encoding="utf-8") -> bytes:
+def safe_bytes(value: Any, encoding: str = "utf-8") -> Any:
     """Convert text to bytes of the specified encoding."""
     if isinstance(value, str):
         value = value.encode(encoding)
     return value
 
 
-def safe_hasattr(obj, name, _marker=object()):
+def safe_hasattr(obj, name, _marker: Any = _marker):
     """Make sure we don't mask exceptions like hasattr().
 
     We don't want exceptions other than AttributeError to be masked,
@@ -595,7 +598,7 @@ def unrestricted_construct_instance(type_name, container, id, *args, **kw):
     return fti._constructInstance(container, id, *args, **kw)
 
 
-def is_truthy(value) -> bool:
+def is_truthy(value: Optional[Union[bool, str, int]]) -> bool:
     """Return `True`, if "yes" was meant, `False` otherwise."""
     return bool(value) and str(value).lower() in {
         "1",
