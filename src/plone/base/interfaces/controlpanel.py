@@ -756,7 +756,7 @@ class ITinyMCEAdvancedSchema(Interface):
         title=_("label_tinymce_license_key", "Licence key"),
         description=_(
             "hint_tinymce_license_key",
-            "Enter your TinyMCE commerical licence key. NOTE: if you are using the "
+            "Enter your TinyMCE commercial licence key. NOTE: if you are using the "
             "GPL version, leave this empty. If you have a commercial licence, "
             "make sure you configure your licensekeymanager plugin in the 'Custom plugins'.",
         ),
