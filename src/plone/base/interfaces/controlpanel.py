@@ -752,6 +752,17 @@ class ITinyMCEResourceTypesSchema(Interface):
 class ITinyMCEAdvancedSchema(Interface):
     """This interface defines the resource types properties."""
 
+    license_key = schema.TextLine(
+        title=_("label_tinymce_license_key", "Licence key"),
+        description=_(
+            "hint_tinymce_license_key",
+            "Enter your TinyMCE commerical licence key. NOTE: if you are using the "
+            "GPL version, leave this empty. If you have a commercial licence, "
+            "make sure you configure your licensekeymanager plugin in the 'Custom plugins'.",
+        ),
+        required=False,
+    )
+
     other_settings = schema.Text(
         title=_("label_tinymce_other_settings", "Other settings"),
         description=_(
