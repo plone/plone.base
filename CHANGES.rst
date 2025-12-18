@@ -8,6 +8,15 @@ Changelog
 
 .. towncrier release notes start
 
+4.0.0a4 (2025-12-18)
+--------------------
+
+New features:
+
+
+- Add "license key" field to TinyMCE schema.  @petschki
+
+
 4.0.0a3 (2025-11-26)
 --------------------
 
