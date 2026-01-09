@@ -3,12 +3,18 @@ Collection of i18n and l10n utility methods.
 """
 
 from Acquisition import aq_acquire
+from datetime import datetime
 from DateTime import DateTime
 from DateTime.interfaces import IDateTime
+from plone.base.tests.test_i18nl10n import DummyContext
 from plone.registry.interfaces import IRegistry
+from typing import cast
+from typing import Optional
+from typing import Union
 from zope.component import getUtility
 from zope.i18n import translate
 from zope.i18n.locales import locales
+from zope.publisher.browser import TestRequest
 from zope.publisher.interfaces.browser import IBrowserRequest
 
 import logging
@@ -128,8 +134,13 @@ def setDefaultTimeFormat(localeid, value):
 
 
 def utranslate(
-    domain, msgid, mapping=None, context=None, target_language=None, default=None
-):
+    domain: str,
+    msgid: str,
+    mapping: None = None,
+    context: Optional[TestRequest] = None,
+    target_language: Optional[str] = None,
+    default: Optional[str] = None,
+) -> str:
     # We used to pass an object as context.
     if not IBrowserRequest.providedBy(context):
         context = aq_acquire(context, "REQUEST")
@@ -156,14 +167,14 @@ def get_formatstring_from_registry(msgid):
 
 
 def ulocalized_time(
-    time,
-    long_format=None,
-    time_only=False,
-    context=None,
-    domain="plonelocales",
-    request=None,
-    target_language=None,
-):
+    time: Optional[Union[datetime, str, int]],
+    long_format: Optional[Union[str, bool]] = None,
+    time_only: Optional[bool] = False,
+    context: Optional[DummyContext] = None,
+    domain: Optional[str] = "plonelocales",
+    request: None = None,
+    target_language: Optional[str] = None,
+) -> Optional[str]:
     """unicode aware localized time method (l10n)"""
 
     if time_only:
@@ -208,12 +219,12 @@ def ulocalized_time(
         try:
             time = DateTime(time)
         except Exception:
-            logger.debug(f"Failed to convert {time} to a DateTime object")
+            logger.debug("Failed to convert %s to a DateTime object", time)
             return None
 
     if context is None:
         # when without context, we cannot do very much.
-        return time.ISO8601()
+        return cast(DateTime, time).ISO8601()
 
     if request is None:
         request = aq_acquire(context, "REQUEST")
@@ -233,7 +244,7 @@ def ulocalized_time(
             # e.g. %Y instead of ${Y} for the year.  This means we cannot do further
             # i18n/l10n for translating week days or month names.  Python will do
             # translation using the current locale.
-            return time.strftime(formatstring)
+            return cast(DateTime, time).strftime(formatstring)
     else:
         # 2. the normal case: translation machinery,
         # that is the ".../LC_MESSAGES/plonelocales.po" files
@@ -251,7 +262,7 @@ def ulocalized_time(
             formatstring = "%H:%M"  # 03:14
         else:
             formatstring = "[INTERNAL ERROR]"
-        return time.strftime(formatstring)
+        return cast(DateTime, time).strftime(formatstring)
 
     # get the format elements used in the formatstring
     formatelements = {el[2:-1] for el in _interp_regex.findall(formatstring)}
@@ -259,18 +270,18 @@ def ulocalized_time(
     # add used elements to mapping
     elements = formatelements & datetime_formatvariables
     for key in elements:
-        mapping[key] = time.strftime("%" + key)
+        mapping[key] = cast(DateTime, time).strftime("%" + key)
 
     # add weekday name, abbr. weekday name, month name, abbr month name
     name_elements = formatelements & name_formatvariables
     if {"a", "A"} & name_elements:
-        weekday = int(time.strftime("%w"))  # weekday, sunday = 0
+        weekday = int(cast(DateTime, time).strftime("%w"))  # weekday, sunday = 0
         if "a" in name_elements:
             mapping["a"] = weekdayname_msgid_abbr(weekday)
         if "A" in name_elements:
             mapping["A"] = weekdayname_msgid(weekday)
     if {"b", "B"} & name_elements:
-        monthday = int(time.strftime("%m"))  # month, january = 1
+        monthday = int(cast(DateTime, time).strftime("%m"))  # month, january = 1
         if "b" in name_elements:
             mapping["b"] = monthname_msgid_abbr(monthday)
         if "B" in name_elements:
@@ -292,7 +303,9 @@ def ulocalized_time(
     )
 
 
-def _numbertoenglishname(number, format=None, attr="_days"):
+def _numbertoenglishname(
+    number: int, format: Optional[str] = None, attr: str = "_days"
+) -> str:
     # returns the english name of day or month number
     # starting with Sunday == 0
     # and January = 1
@@ -307,38 +320,38 @@ def _numbertoenglishname(number, format=None, attr="_days"):
     return ENGLISH_NAMES[attr][number]
 
 
-def monthname_english(number, format=None):
+def monthname_english(number: int, format: Optional[str] = None) -> str:
     # returns the english name of month with number
     return _numbertoenglishname(number, format=format, attr="_months")
 
 
-def weekdayname_english(number, format=None):
+def weekdayname_english(number: int, format: Optional[str] = None) -> str:
     # returns the english name of week with number
     return _numbertoenglishname(number, format=format, attr="_days")
 
 
-def monthname_msgid(number):
+def monthname_msgid(number: int) -> str:
     # returns the msgid for monthname
     # use to translate to full monthname (January, February, ...)
     # e.g. month_jan, month_feb, ...
     return "month_%s" % monthname_english(number, format="a").lower()
 
 
-def monthname_msgid_abbr(number):
+def monthname_msgid_abbr(number: int) -> str:
     # returns the msgid for the abbreviated monthname
     # use to translate to abbreviated format (Jan, Feb, ...)
     # e.g. month_jan_abbr, month_feb_abbr, ...
     return "month_%s_abbr" % monthname_english(number, format="a").lower()
 
 
-def weekdayname_msgid(number):
+def weekdayname_msgid(number: int) -> str:
     # returns the msgid for the weekdayname
     # use to translate to full weekdayname (Monday, Tuesday, ...)
     # e.g. weekday_mon, weekday_tue, ...
     return "weekday_%s" % weekdayname_english(number, format="a").lower()
 
 
-def weekdayname_msgid_abbr(number):
+def weekdayname_msgid_abbr(number: int) -> str:
     # returns the msgid for abbreviated weekdayname
     # use to translate to abbreviated format (Mon, Tue, ...)
     # e.g. weekday_mon_abbr, weekday_tue_abbr, ...

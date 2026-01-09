@@ -1,6 +1,9 @@
 """Unit tests for plone.base.i18nl10n module."""
 
 from contextlib import contextmanager
+from typing import Iterator
+from typing import Optional
+from typing import Union
 from unittest.mock import patch
 from zope.publisher.browser import TestRequest
 
@@ -24,7 +27,7 @@ class DummyContext:
 
 
 @contextmanager
-def patch_formatstring(value=None):
+def patch_formatstring(value: Optional[str] = None) -> Iterator[None]:
     import plone.base.i18nl10n
 
     with patch.object(
@@ -58,12 +61,12 @@ TRANSLATIONS = {
 }
 
 
-def mock_translate(msgid, *args, **kwargs):
+def mock_translate(msgid: str, *args, **kwargs) -> str:
     from zope.i18n import translate
 
     target_language = kwargs.get("target_language")
     default = kwargs.get("default")
-    override = False
+    override = ""
     # Note: we have translations for target_language=None .
     try:
         override = TRANSLATIONS[target_language][msgid]
@@ -84,7 +87,7 @@ def mock_translate(msgid, *args, **kwargs):
 
 
 @contextmanager
-def patch_translate():
+def patch_translate() -> Iterator[None]:
     import plone.base.i18nl10n
 
     with patch.object(plone.base.i18nl10n, "translate", wraps=mock_translate):
@@ -92,13 +95,14 @@ def patch_translate():
 
 
 @contextmanager
-def use_locale(value=None):
+def use_locale(value: Optional[str] = None) -> Iterator[Union[str, bool]]:
     orig = locale.getlocale(locale.LC_TIME)[0] or "C"
     try:
         worked = locale.setlocale(locale.LC_TIME, value)
     except locale.Error:
-        worked = False
-    yield worked
+        yield False
+    else:
+        yield worked
     locale.setlocale(locale.LC_TIME, orig)
 
 
