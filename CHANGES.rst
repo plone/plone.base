@@ -8,6 +8,16 @@ Changelog
 
 .. towncrier release notes start
 
+3.1.2 (2026-01-12)
+------------------
+
+Bug fixes:
+
+
+- Do not create empty translatinos msgids @erral
+- Remove more empty msgids @erral
+
+
 3.1.1 (2025-09-11)
 ------------------
 
