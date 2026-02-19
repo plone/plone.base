@@ -1,0 +1,8 @@
+Allow to create content with `index_html` id on the site root.
+
+The portal root has a `index_html` method which prevented content with the id
+`index_html` to be created and used as a default page.
+
+Fixes: https://github.com/plone/Products.CMFPlone/issues/4278
+
+@thet
