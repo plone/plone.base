@@ -506,6 +506,10 @@ def _check_for_collision(contained_by, cid, **kwargs):
                 mapping={"name": cid},
             )
 
+    if cid == "index_html":
+        # always allow index_html
+        return
+
     # containers may have a field / attribute of the same name
     if base_hasattr(contained_by, cid):
         return _("${name} is reserved.", mapping={"name": cid})
@@ -533,9 +537,6 @@ def _check_for_collision(contained_by, cid, **kwargs):
     # However, we do want to allow overriding of *content* in the object's
     # parent path, including the portal root.
 
-    if cid == "index_html":
-        # always allow index_html
-        return
     portal = getSite()
     if portal and cid in portal.contentIds():
         # Fine to use the same id as a *content* item from the root.
