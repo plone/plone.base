@@ -8,6 +8,32 @@ Changelog
 
 .. towncrier release notes start
 
+4.0.0a5 (2026-02-23)
+--------------------
+
+Bug fixes:
+
+
+- Allow to create content with `index_html` id on the site root.
+
+  The portal root has a `index_html` method which prevented content with the id
+  `index_html` to be created and used as a default page.
+
+  Fixes: https://github.com/plone/Products.CMFPlone/issues/4278
+
+  @thet (#4278)
+
+
+Internal:
+
+
+- Fix issues with dependencychecker and current setuptools by reconfiguring with plone.meta.
+
+  Ref: https://github.com/reinout/z3c.dependencychecker/issues/119
+
+  @thet
+
+
 4.0.0a4 (2025-12-18)
 --------------------
 
