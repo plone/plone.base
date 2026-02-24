@@ -1,5 +1,6 @@
 from . import PloneMessageFactory as _
 from .interfaces import ISearchSchema
+from AccessControl import getSecurityManager
 from AccessControl import Unauthorized
 from Acquisition import aq_base
 from Acquisition import aq_get
@@ -7,6 +8,7 @@ from Acquisition import aq_parent
 from DateTime import DateTime
 from plone.registry.interfaces import IRegistry
 from Products.CMFCore.interfaces import ITypesTool
+from Products.CMFCore.permissions import AddPortalContent
 from Products.CMFCore.utils import getToolByName
 from urllib.parse import urlparse
 from zExceptions import NotFound
@@ -514,6 +516,16 @@ def _check_for_collision(contained_by, cid, **kwargs):
     if base_hasattr(contained_by, cid):
         return _("${name} is reserved.", mapping={"name": cid})
 
+    if base_hasattr(contained_by, "checkIdAvailable"):
+        # ‌`checkIdAvailable` is implemented by
+        # ‌`Products.CMFCore.PortalFolder.PortalFolderBase`
+        # Historically this used to be called from the check_id skin script,
+        # which would check the permission automatically,
+        # and the code would catch the Unauthorized exception.
+        if getSecurityManager().checkPermission(AddPortalContent, contained_by):
+            if not contained_by.checkIdAvailable(cid):
+                return _("${name} is reserved.", mapping={"name": cid})
+
     # containers may implement this hook to further restrict ids
     if getattr(aq_base(contained_by), "checkValidId", _marker) is not _marker:
         try:
@@ -524,11 +536,12 @@ def _check_for_collision(contained_by, cid, **kwargs):
             return _("${name} is reserved.", mapping={"name": cid})
 
     # make sure we don't collide with any parent method aliases
-    types_tool = getToolByName(contained_by, "types_tool", None)
-    if types_tool is not None:
-        parentFti = types_tool.getTypeInfo(contained_by)
+    plone_utils = getToolByName(contained_by, "plone_utils", None)
+    portal_types = getToolByName(contained_by, "portal_types", None)
+    if plone_utils is not None and portal_types is not None:
+        parentFti = portal_types.getTypeInfo(contained_by)
         if parentFti is not None:
-            aliases = parentFti.getMethodAliases()
+            aliases = plone_utils.getMethodAliases(parentFti)
             if aliases is not None and cid in aliases.keys():
                 return _("${name} is reserved.", mapping={"name": cid})
 

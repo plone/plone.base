@@ -219,6 +219,11 @@ class DefaultUtilsTests(unittest.TestCase):
         self.assertFalse(is_truthy("foo"))
 
     def test_check_for_collision(self):
+        """Test the collision for ids in containers.
+
+        There are more complete tests which require a fully set-up Plone site
+        in: `Products.CMFPlone.tests.testCheckId`
+        """
         from plone.base.utils import _check_for_collision
 
         class Container(dict):
