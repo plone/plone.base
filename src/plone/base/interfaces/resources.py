@@ -10,6 +10,7 @@ import zope.interface
 OVERRIDE_RESOURCE_DIRECTORY_NAME = "resource_overrides"
 
 
+# TODO: Remove in Plone 7
 class IResourceRegistry(zope.interface.Interface):
     # DEPRECATED
 
@@ -88,6 +89,8 @@ class IBundleRegistry(zope.interface.Interface):
     )
 
     # DEPRECATED IN Plone 6, for now keep for BBB
+    # TODO: Remove in Plone 7
+
     compile = schema.Bool(
         title=_("(DEPRECATED) Does your bundle contains any RequireJS or LESS file?"),
         description=_(
