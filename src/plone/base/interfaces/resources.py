@@ -6,7 +6,6 @@ from zope.schema.vocabulary import SimpleVocabulary
 import zope.component
 import zope.interface
 
-
 OVERRIDE_RESOURCE_DIRECTORY_NAME = "resource_overrides"
 
 
