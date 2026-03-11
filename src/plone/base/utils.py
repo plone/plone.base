@@ -24,7 +24,6 @@ from zope.publisher.interfaces.browser import IBrowserRequest
 import logging
 import transaction
 
-
 logger = logging.getLogger("Plone")
 
 SIZE_CONST = {
