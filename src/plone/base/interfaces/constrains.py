@@ -1,3 +1,4 @@
+# mypy: disable-error-code=misc
 from zope.interface import Interface
 
 ACQUIRE = -1  # acquire locallyAllowedTypes from parent (default)
