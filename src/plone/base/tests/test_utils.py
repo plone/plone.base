@@ -1,10 +1,9 @@
-""" Unit tests for utils module. """
+"""Unit tests for utils module."""
 
 from plone.subrequest.interfaces import ISubRequest
 from zope.interface import alsoProvides
 
 import unittest
-
 
 SITE_LOGO_BASE64 = (
     b"filenameb64:cGl4ZWwucG5n;datab64:iVBORw0KGgoAAAANSUhEUgA"
@@ -185,3 +184,95 @@ class DefaultUtilsTests(unittest.TestCase):
         self.assertEqual(human_readable_size(None), "0 KB")
         self.assertEqual(human_readable_size(""), "0 KB")
         self.assertEqual(human_readable_size("barney"), "barney")
+
+    def test_is_truthy(self):
+        """Test the `is_truthy` utility function with different inputs."""
+        from plone.base.utils import is_truthy
+
+        self.assertTrue(is_truthy(True))
+        self.assertTrue(is_truthy(1))
+        self.assertTrue(is_truthy("1"))
+        self.assertTrue(is_truthy("TRUE"))
+        self.assertTrue(is_truthy("tRUE"))
+        self.assertTrue(is_truthy("true"))
+        self.assertTrue(is_truthy("y"))
+        self.assertTrue(is_truthy("Y"))
+        self.assertTrue(is_truthy("yEs"))
+        self.assertTrue(is_truthy("yes"))
+        self.assertTrue(is_truthy("active"))
+        self.assertTrue(is_truthy("Active"))
+        self.assertTrue(is_truthy("enAbled"))
+        self.assertTrue(is_truthy("on"))
+
+        self.assertFalse(is_truthy(None))
+        self.assertFalse(is_truthy(False))
+        self.assertFalse(is_truthy(0))
+        self.assertFalse(is_truthy(2))
+        self.assertFalse(is_truthy("0"))
+        self.assertFalse(is_truthy("FALSE"))
+        self.assertFalse(is_truthy("fALSE"))
+        self.assertFalse(is_truthy("false"))
+        self.assertFalse(is_truthy("n"))
+        self.assertFalse(is_truthy("NO"))
+        self.assertFalse(is_truthy("no"))
+        self.assertFalse(is_truthy("foo"))
+
+    def test_check_for_collision(self):
+        """Test the collision for ids in containers.
+
+        There are more complete tests which require a fully set-up Plone site
+        in: `Products.CMFPlone.tests.testCheckId`
+        """
+        from plone.base.utils import _check_for_collision
+
+        class Container(dict):
+            def __getattribute__(self, name):
+                if name in self:
+                    return self[name]
+                return object.__getattribute__(self, name)
+
+            def portal_type(self):
+                """Necessary to fulfill protocol."""
+
+            def index_html(self):
+                """Common attribute - content with id index_html should be
+                addable."""
+
+            def some_attr(self):
+                """Random attribute - content with id some_attr should not be
+                addable."""
+
+        container = Container()
+        container["test"] = Container()
+
+        # "test" is already taken
+        self.assertIn(
+            "There is already an item named",
+            _check_for_collision(container, "test"),
+        )
+
+        # "tiptop" is not yet taken
+        self.assertEqual(
+            _check_for_collision(container, "tiptop"),
+            None,
+        )
+
+        # "index_html" is not yet taken
+        self.assertEqual(
+            _check_for_collision(container, "index_html"),
+            None,
+        )
+
+        container["index_html"] = Container()
+
+        # `False` as "index_html" is now taken
+        self.assertIn(
+            "There is already an item named",
+            _check_for_collision(container, "index_html"),
+        )
+
+        # Content ids are not addable, if the id is an container attribute.
+        self.assertIn(
+            "is reserved",
+            _check_for_collision(container, "some_attr"),
+        )

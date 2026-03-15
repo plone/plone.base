@@ -36,7 +36,7 @@ And at last there is the possibility of variable substitution:
   >>> msg.default
   'Hello ${name}'
 
-  >>> msg.mapping
+  >>> dict(msg.mapping)
   {'name': 'Plone'}
 
 Messages with translation service set up

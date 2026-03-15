@@ -491,7 +491,7 @@ class ITinyMCELayoutSchema(Interface):
             "Enter a JSON-formatted style format configuration. "
             "A format is for example the style that get applied when "
             "you press the bold button inside the editor. "
-            "See https://www.tinymce.com/docs/configure/content-formatting/#formats"
+            "See https://www.tiny.cloud/docs/tinymce/latest/content-formatting/"
         ),
         constraint=validate_json,
         default=dump_json_to_text(
@@ -532,39 +532,40 @@ class ITinyMCEPluginSchema(Interface):
         ),
         value_type=schema.Choice(
             vocabulary=SimpleVocabulary(
+                # TinyMCE plugins
+                # see /mockup/node_module/tinymce/tinymce/plugins/
+                # and comments why some are disabled
                 [
                     SimpleTerm("accordion", "accordion", "accordion"),
                     SimpleTerm("advlist", "advlist", "advlist"),
                     SimpleTerm("anchor", "anchor", "anchor"),
                     SimpleTerm("autolink", "autolink", "autolink"),
-                    SimpleTerm("autosave", "autosave", "autosave"),
+                    # XXX disable autosave since it is not implemented
+                    # SimpleTerm("autosave", "autosave", "autosave"),
                     SimpleTerm("charmap", "charmap", "charmap"),
                     SimpleTerm("code", "code", "code"),
-                    SimpleTerm("colorpicker", "colorpicker", "colorpicker"),
-                    SimpleTerm("contextmenu", "contextmenu", "contextmenu"),
                     SimpleTerm("directionality", "directionality", "directionality"),
                     SimpleTerm("emoticons", "emoticons", "emoticons"),
-                    SimpleTerm("fullpage", "fullpage", "fullpage"),
                     SimpleTerm("fullscreen", "fullscreen", "fullscreen"),
                     SimpleTerm("help", "help", "help"),
-                    SimpleTerm("hr", "hr", "hr"),
+                    # XXX disable image plugin in favor of our ploneimage plugin
+                    # SimpleTerm("image", "image", "image"),
+                    SimpleTerm("importcss", "importcss", "importcss"),
                     SimpleTerm("insertdatetime", "insertdatetime", "insertdatetime"),
-                    SimpleTerm("layer", "layer", "layer"),
+                    # XXX disable link plugin in favor of our plonelink plugin
+                    # SimpleTerm("link", "link", "link"),
                     SimpleTerm("lists", "lists", "lists"),
                     SimpleTerm("media", "media", "media"),
                     SimpleTerm("nonbreaking", "nonbreaking", "nonbreaking"),
-                    SimpleTerm("noneditable", "noneditable", "noneditable"),
                     SimpleTerm("pagebreak", "pagebreak", "pagebreak"),
-                    SimpleTerm("paste", "paste", "paste"),
                     SimpleTerm("preview", "preview", "preview"),
-                    SimpleTerm("print", "print", "print"),
+                    SimpleTerm("quickbars", "quickbars", "quickbars"),
                     # XXX disable save button since it is not implemented
                     # SimpleTerm('save', 'save', u'save'),
                     SimpleTerm("searchreplace", "searchreplace", "searchreplace"),
-                    SimpleTerm("tabfocus", "tabfocus", "tabfocus"),
                     SimpleTerm("table", "table", "table"),
-                    SimpleTerm("textcolor", "textcolor", "textcolor"),
-                    SimpleTerm("textpattern", "textpattern", "textpattern"),
+                    # NOTE: template plugin is a paid premium plugin since TinyMCE 7+.
+                    # We've backported the GPL version to mockup
                     SimpleTerm("template", "template", "template"),
                     SimpleTerm("visualblocks", "visualblocks", "visualblocks"),
                     SimpleTerm("visualchars", "visualchars", "visualchars"),
@@ -573,37 +574,31 @@ class ITinyMCEPluginSchema(Interface):
             )
         ),
         default=[
+            "code",
             "fullscreen",
-            "hr",
             "lists",
             "media",
             "nonbreaking",
-            "noneditable",
             "pagebreak",
-            "paste",
             "preview",
-            "print",
             "searchreplace",
-            "tabfocus",
             "table",
             "visualchars",
             "wordcount",
-            "code",
         ],
         missing_value=[],
         required=False,
     )
 
-    menubar = schema.List(
+    # menubar changed to TextLine, because the tinymce api are changed
+    menubar = schema.TextLine(
         title=_("label_tinymce_menubar", default="Menubar"),
         description=_(
             "help_tinymce_menubar",
             default=("Enter what items you would like in the menu bar."),
         ),
         required=True,
-        value_type=schema.TextLine(),
-        missing_value=[],
-        default=["edit", "table", "format", "tools", "view", "insert"],
+        default="edit table format tools view insert",
     )
 
     menu = schema.Text(
@@ -628,7 +623,7 @@ class ITinyMCEPluginSchema(Interface):
                 "format": {
                     "title": "Format",
                     "items": "bold italic underline strikethrough "
-                    "superscript subscript | formats | removeformat",
+                    "superscript subscript | styles | removeformat",
                 },
                 "table": {
                     "title": "Table",
@@ -663,7 +658,7 @@ class ITinyMCEPluginSchema(Interface):
             default=("Enter how you would like the toolbar items to list."),
         ),
         required=True,
-        default="ltr rtl | undo redo | styleselect | bold italic | "
+        default="ltr rtl | undo redo | styles | bold italic | "
         "alignleft aligncenter alignright alignjustify | "
         "bullist numlist outdent indent | "
         "inserttable | unlink plonelink ploneimage",
@@ -756,6 +751,17 @@ class ITinyMCEResourceTypesSchema(Interface):
 
 class ITinyMCEAdvancedSchema(Interface):
     """This interface defines the resource types properties."""
+
+    license_key = schema.TextLine(
+        title=_("label_tinymce_license_key", "Licence key"),
+        description=_(
+            "hint_tinymce_license_key",
+            "Enter your TinyMCE commercial licence key. NOTE: if you are using the "
+            "GPL version, leave this empty. If you have a commercial licence, "
+            "make sure you configure your licensekeymanager plugin in the 'Custom plugins'.",
+        ),
+        required=False,
+    )
 
     other_settings = schema.Text(
         title=_("label_tinymce_other_settings", "Other settings"),
@@ -1656,7 +1662,6 @@ class IImagingSchema(Interface):
 
     highpixeldensity_scales = schema.Choice(
         title=_("High pixel density mode"),
-        description=_(""),
         default="disabled",
         vocabulary=SimpleVocabulary(
             [
@@ -1821,7 +1826,6 @@ class ILoginSchema(Interface):
 class ILinkSchema(Interface):
     external_links_open_new_window = schema.Bool(
         title=_("Open external links in new a window"),
-        description=_(""),
         default=False,
         required=False,
     )
@@ -1942,6 +1946,21 @@ class INewActionSchema(Interface):
                     mapping={"actionid": actionid},
                 )
             )
+
+
+class IClassicUISchema(Interface):
+    use_ajax_main_template = schema.Bool(
+        title=_("label_use_ajax_main_template", default="Use AJAX template on XHR"),
+        description=_(
+            "help_use_ajax_main_template",
+            default="When enabled and if we are in an XHR request Plone uses "
+            "the AJAX main template. Note: This setting does not affect the "
+            "ajax_load query string parameter, which if set and evaluates "
+            "to true, will always trigger the AJAX main template.",
+        ),
+        default=False,
+        required=False,
+    )
 
 
 class IPloneControlPanelView(Interface):

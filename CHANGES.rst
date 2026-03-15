@@ -8,6 +8,149 @@ Changelog
 
 .. towncrier release notes start
 
+4.0.0a6 (2026-02-26)
+--------------------
+
+Bug fixes:
+
+
+- Update id collision checks with missing checks from CMFPlone.
+
+  Some of the checks in `utils._check_for_collision` or erroneous. These checks
+  were updated with the original checks from CMFPlone. The tests depend on a
+  fully set-up site and remain in CMFPlone.
+
+  [thet]
+
+
+4.0.0a5 (2026-02-23)
+--------------------
+
+Bug fixes:
+
+
+- Allow to create content with `index_html` id on the site root.
+
+  The portal root has a `index_html` method which prevented content with the id
+  `index_html` to be created and used as a default page.
+
+  Fixes: https://github.com/plone/Products.CMFPlone/issues/4278
+
+  @thet (#4278)
+
+
+Internal:
+
+
+- Fix issues with dependencychecker and current setuptools by reconfiguring with plone.meta.
+
+  Ref: https://github.com/reinout/z3c.dependencychecker/issues/119
+
+  @thet
+
+
+4.0.0a4 (2025-12-18)
+--------------------
+
+New features:
+
+
+- Add "license key" field to TinyMCE schema.  @petschki
+
+
+4.0.0a3 (2025-11-26)
+--------------------
+
+Breaking changes:
+
+
+- Replace ``pkg_resources`` namespace with PEP 420 native namespace.
+  Support only Plone 6.2 and Python 3.10+. (#3928)
+
+
+4.0.0a2 (2025-11-19)
+--------------------
+
+Bug fixes:
+
+
+- Fix outdated TinyMCE toolbar button and menu settings to match TinyMCE version 6. @petschki (#86)
+- Do not create empty translation msgids @erral
+- Remove more empty msgids @erral
+
+
+4.0.0a1 (2025-09-24)
+--------------------
+
+New features:
+
+
+- IClassicUISchema: Add new control panel.
+
+  Add new ``IClassicUISchema`` control panel schema with its ``plone.use_ajax_main_template`` setting.
+
+  When ``plone.use_ajax_main_template`` is enabled, and if we are in an XHR
+  request, Plone uses the AJAX main template. Note: This setting does not affect
+  the ``ajax_load`` query string parameter, which if set and evaluates to
+  ``true``, will always trigger the AJAX main template.
+
+
+3.1.1 (2025-09-11)
+------------------
+
+Bug fixes:
+
+
+- Cleanup ``TinyMCESchema.plugins`` to the actual existing plugins. @petschki
+
+
+3.1.0 (2025-06-18)
+------------------
+
+New features:
+
+
+- Add a "is_truthy" utility to test for true-ish and false-ish string values.
+
+  The following values are interpreted as an affirmative value and will return a
+  boolean True:
+
+  True, 1 and these strings in any casing: "y", "yes", "t", "true", "active",
+  "enabled", "on".
+
+  Everything else will be interpreted as False.
+
+
+3.0.0 (2025-06-05)
+------------------
+
+Breaking changes:
+
+
+- Refactoring Interface ITinyMCEPluginSchema, field `menubar` is not longer a `List`, it's now a `TextLine` Field
+  [1letter] (#82)
+
+
+2.0.3 (2025-03-21)
+------------------
+
+Documentation:
+
+
+- Fix TinyMCE link to format documentation. [sverbois] (#78)
+
+
+2.0.2 (2024-10-31)
+------------------
+
+Tests
+
+
+- Fixed tests when using Zope 5.11.
+  In one test we got a `mappingproxy` instead of a dictionary.
+  [maurits] (#956)
+
+
 2.0.1 (2024-06-26)
 ------------------
 
