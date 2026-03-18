@@ -87,6 +87,19 @@ class IRecycleBin(Interface):
             The restored object or None if restore failed
         """
 
+    def restore_child_item(item_id, child_path, target_container):
+        """Restore a specific child from a recycled folder item.
+
+        Args:
+            item_id: The recycle bin ID of the parent item.
+            child_path: The original path of the child (unique at any depth).
+            target_container: The container object where the child will be restored.
+
+        Returns:
+            The restored object on success, or a dict with ``success: False``
+            and an ``error`` key on failure.
+        """
+
     def purge_item(item_id):
         """Permanently delete an item
 
