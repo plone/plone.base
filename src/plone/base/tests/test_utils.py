@@ -203,6 +203,8 @@ class DefaultUtilsTests(unittest.TestCase):
         self.assertTrue(is_truthy("Active"))
         self.assertTrue(is_truthy("enAbled"))
         self.assertTrue(is_truthy("on"))
+        self.assertTrue(is_truthy("t"))
+        self.assertTrue(is_truthy("T"))
 
         self.assertFalse(is_truthy(None))
         self.assertFalse(is_truthy(False))
@@ -216,6 +218,66 @@ class DefaultUtilsTests(unittest.TestCase):
         self.assertFalse(is_truthy("NO"))
         self.assertFalse(is_truthy("no"))
         self.assertFalse(is_truthy("foo"))
+
+    def test_is_falsy(self):
+        """Test the `is_falsy` utility function with different inputs."""
+        from plone.base.utils import is_falsy
+
+        self.assertTrue(is_falsy(False))
+        self.assertTrue(is_falsy(0))
+        self.assertTrue(is_falsy("0"))
+        self.assertTrue(is_falsy("f"))
+        self.assertTrue(is_falsy("F"))
+        self.assertTrue(is_falsy("false"))
+        self.assertTrue(is_falsy("FALSE"))
+        self.assertTrue(is_falsy("fAlSe"))
+        self.assertTrue(is_falsy("n"))
+        self.assertTrue(is_falsy("N"))
+        self.assertTrue(is_falsy("no"))
+        self.assertTrue(is_falsy("NO"))
+        self.assertTrue(is_falsy("nO"))
+        self.assertTrue(is_falsy("inactive"))
+        self.assertTrue(is_falsy("Inactive"))
+        self.assertTrue(is_falsy("disabled"))
+        self.assertTrue(is_falsy("Disabled"))
+        self.assertTrue(is_falsy("off"))
+        self.assertTrue(is_falsy("Off"))
+
+        self.assertFalse(is_falsy(True))
+        self.assertFalse(is_falsy(1))
+        self.assertFalse(is_falsy(2))
+        self.assertFalse(is_falsy(None))
+        self.assertFalse(is_falsy("foo"))
+        self.assertFalse(is_falsy("bar"))
+
+    def test_boolean_value(self):
+        """Test the `boolean_value` utility function with different inputs."""
+        from plone.base.utils import boolean_value
+
+        self.assertIs(boolean_value(True), True)
+        self.assertIs(boolean_value(1), True)
+        self.assertIs(boolean_value("yes"), True)
+        self.assertIs(boolean_value("true"), True)
+        self.assertIs(boolean_value("on"), True)
+        self.assertIs(boolean_value("enabled"), True)
+
+        self.assertIs(boolean_value(False), False)
+        self.assertIs(boolean_value(0), False)
+        self.assertIs(boolean_value("no"), False)
+        self.assertIs(boolean_value("false"), False)
+        self.assertIs(boolean_value("off"), False)
+        self.assertIs(boolean_value("disabled"), False)
+
+        # Unrecognised value with a default returns the default
+        self.assertIs(boolean_value("foo", default=True), True)
+        self.assertIs(boolean_value("foo", default=False), False)
+        self.assertIs(boolean_value(None, default=True), True)
+
+        # Unrecognised value without a default raises ValueError
+        with self.assertRaises(ValueError):
+            boolean_value("foo")
+        with self.assertRaises(ValueError):
+            boolean_value(None)
 
     def test_check_for_collision(self):
         """Test the collision for ids in containers.
