@@ -658,7 +658,6 @@ def boolean_value(value, default=None):
         return True
     if is_falsy(value):
         return False
-    if default is not None:
-        if isinstance(default, bool):
-            return default
+    if isinstance(default, bool):
+        return default
     raise ValueError(f"Could not parse value {value!r} as boolean")
