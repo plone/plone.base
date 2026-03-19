@@ -24,15 +24,6 @@ class IRecycleBinControlPanelSettings(Interface):
         min=0,
     )
 
-    maximum_size = schema.Int(
-        title=_("Maximum size"),
-        description=_(
-            "Maximum size of the recycle bin in MB. When the total size of items in the recycle bin exceeds its maximum size, the oldest items in the recycle bin will be permanently purged."
-        ),
-        default=100,
-        min=10,
-    )
-
     restore_to_initial_state = schema.Bool(
         title=_("Restore to initial workflow state"),
         description=_(
