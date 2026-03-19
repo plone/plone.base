@@ -273,6 +273,10 @@ class DefaultUtilsTests(unittest.TestCase):
         self.assertIs(boolean_value("foo", default=False), False)
         self.assertIs(boolean_value(None, default=True), True)
 
+        # Unrecognised value with a non-boolean default raises ValueError
+        with self.assertRaises(ValueError):
+            boolean_value("foo", default="yes")
+
         # Unrecognised value without a default raises ValueError
         with self.assertRaises(ValueError):
             boolean_value("foo")

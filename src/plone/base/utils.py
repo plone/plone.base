@@ -659,10 +659,6 @@ def boolean_value(value, default=None):
     if is_falsy(value):
         return False
     if default is not None:
-        logger.warning(
-            "Could not parse value %r as boolean, returning default %r",
-            value,
-            default,
-        )
-        return default
+        if isinstance(default, bool):
+            return default
     raise ValueError(f"Could not parse value {value!r} as boolean")
