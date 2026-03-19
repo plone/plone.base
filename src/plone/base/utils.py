@@ -654,7 +654,7 @@ def is_falsy(value) -> bool:
 
 def boolean_value(value, default: bool | None = None) -> bool:
     """Return a boolean value for the given input.
-    
+
     Raises ValueError if the input was not recognized as a boolean.
     """
     if is_truthy(value):
