@@ -5,7 +5,6 @@ from zope.interface import alsoProvides
 
 import unittest
 
-
 SITE_LOGO_BASE64 = (
     b"filenameb64:cGl4ZWwucG5n;datab64:iVBORw0KGgoAAAANSUhEUgA"
     b"AAAEAAAABCAIAAACQd1PeAAAADElEQVQI12P4z8AAAAMBAQAY3Y2wAAA"
@@ -217,3 +216,63 @@ class DefaultUtilsTests(unittest.TestCase):
         self.assertFalse(is_truthy("NO"))
         self.assertFalse(is_truthy("no"))
         self.assertFalse(is_truthy("foo"))
+
+    def test_check_for_collision(self):
+        """Test the collision for ids in containers.
+
+        There are more complete tests which require a fully set-up Plone site
+        in: `Products.CMFPlone.tests.testCheckId`
+        """
+        from plone.base.utils import _check_for_collision
+
+        class Container(dict):
+            def __getattribute__(self, name):
+                if name in self:
+                    return self[name]
+                return object.__getattribute__(self, name)
+
+            def portal_type(self):
+                """Necessary to fulfill protocol."""
+
+            def index_html(self):
+                """Common attribute - content with id index_html should be
+                addable."""
+
+            def some_attr(self):
+                """Random attribute - content with id some_attr should not be
+                addable."""
+
+        container = Container()
+        container["test"] = Container()
+
+        # "test" is already taken
+        self.assertIn(
+            "There is already an item named",
+            _check_for_collision(container, "test"),
+        )
+
+        # "tiptop" is not yet taken
+        self.assertEqual(
+            _check_for_collision(container, "tiptop"),
+            None,
+        )
+
+        # "index_html" is not yet taken
+        self.assertEqual(
+            _check_for_collision(container, "index_html"),
+            None,
+        )
+
+        container["index_html"] = Container()
+
+        # `False` as "index_html" is now taken
+        self.assertIn(
+            "There is already an item named",
+            _check_for_collision(container, "index_html"),
+        )
+
+        # Content ids are not addable, if the id is an container attribute.
+        self.assertIn(
+            "is reserved",
+            _check_for_collision(container, "some_attr"),
+        )

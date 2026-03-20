@@ -623,7 +623,7 @@ class ITinyMCEPluginSchema(Interface):
                 "format": {
                     "title": "Format",
                     "items": "bold italic underline strikethrough "
-                    "superscript subscript | formats | removeformat",
+                    "superscript subscript | styles | removeformat",
                 },
                 "table": {
                     "title": "Table",
@@ -658,7 +658,7 @@ class ITinyMCEPluginSchema(Interface):
             default=("Enter how you would like the toolbar items to list."),
         ),
         required=True,
-        default="ltr rtl | undo redo | styleselect | bold italic | "
+        default="ltr rtl | undo redo | styles | bold italic | "
         "alignleft aligncenter alignright alignjustify | "
         "bullist numlist outdent indent | "
         "inserttable | unlink plonelink ploneimage",
@@ -751,6 +751,17 @@ class ITinyMCEResourceTypesSchema(Interface):
 
 class ITinyMCEAdvancedSchema(Interface):
     """This interface defines the resource types properties."""
+
+    license_key = schema.TextLine(
+        title=_("label_tinymce_license_key", "Licence key"),
+        description=_(
+            "hint_tinymce_license_key",
+            "Enter your TinyMCE commercial licence key. NOTE: if you are using the "
+            "GPL version, leave this empty. If you have a commercial licence, "
+            "make sure you configure your licensekeymanager plugin in the 'Custom plugins'.",
+        ),
+        required=False,
+    )
 
     other_settings = schema.Text(
         title=_("label_tinymce_other_settings", "Other settings"),
@@ -1651,7 +1662,6 @@ class IImagingSchema(Interface):
 
     highpixeldensity_scales = schema.Choice(
         title=_("High pixel density mode"),
-        description=_(""),
         default="disabled",
         vocabulary=SimpleVocabulary(
             [
@@ -1816,7 +1826,6 @@ class ILoginSchema(Interface):
 class ILinkSchema(Interface):
     external_links_open_new_window = schema.Bool(
         title=_("Open external links in new a window"),
-        description=_(""),
         default=False,
         required=False,
     )

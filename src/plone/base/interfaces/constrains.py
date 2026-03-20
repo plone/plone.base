@@ -1,6 +1,5 @@
 from zope.interface import Interface
 
-
 ACQUIRE = -1  # acquire locallyAllowedTypes from parent (default)
 DISABLED = 0  # use default behavior of PortalFolder,
 # which uses the FTI information

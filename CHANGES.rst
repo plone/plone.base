@@ -8,6 +8,77 @@ Changelog
 
 .. towncrier release notes start
 
+4.0.0a6 (2026-02-26)
+--------------------
+
+Bug fixes:
+
+
+- Update id collision checks with missing checks from CMFPlone.
+
+  Some of the checks in `utils._check_for_collision` or erroneous. These checks
+  were updated with the original checks from CMFPlone. The tests depend on a
+  fully set-up site and remain in CMFPlone.
+
+  [thet]
+
+
+4.0.0a5 (2026-02-23)
+--------------------
+
+Bug fixes:
+
+
+- Allow to create content with `index_html` id on the site root.
+
+  The portal root has a `index_html` method which prevented content with the id
+  `index_html` to be created and used as a default page.
+
+  Fixes: https://github.com/plone/Products.CMFPlone/issues/4278
+
+  @thet (#4278)
+
+
+Internal:
+
+
+- Fix issues with dependencychecker and current setuptools by reconfiguring with plone.meta.
+
+  Ref: https://github.com/reinout/z3c.dependencychecker/issues/119
+
+  @thet
+
+
+4.0.0a4 (2025-12-18)
+--------------------
+
+New features:
+
+
+- Add "license key" field to TinyMCE schema.  @petschki
+
+
+4.0.0a3 (2025-11-26)
+--------------------
+
+Breaking changes:
+
+
+- Replace ``pkg_resources`` namespace with PEP 420 native namespace.
+  Support only Plone 6.2 and Python 3.10+. (#3928)
+
+
+4.0.0a2 (2025-11-19)
+--------------------
+
+Bug fixes:
+
+
+- Fix outdated TinyMCE toolbar button and menu settings to match TinyMCE version 6. @petschki (#86)
+- Do not create empty translation msgids @erral
+- Remove more empty msgids @erral
+
+
 4.0.0a1 (2025-09-24)
 --------------------
 
