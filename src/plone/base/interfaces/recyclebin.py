@@ -95,6 +95,41 @@ class IRecycleBin(Interface):
             Number of items purged
         """
 
+    def search(
+        title=None,
+        path=None,
+        portal_type=None,
+        date_from=None,
+        date_to=None,
+        deleted_by=None,
+        has_subitems=None,
+        language=None,
+        review_state=None,
+        sort_on="deletion_date",
+        sort_order="descending",
+    ):
+        """Return filtered and sorted items from the recycle bin.
+
+        All parameters are optional; omitting them returns all items.
+
+        Args:
+            title: Case-insensitive substring to match against item title (str)
+            path: Case-insensitive substring to match against item path (str)
+            portal_type: Exact portal_type to filter by (str)
+            date_from: Earliest deletion date, inclusive (datetime.date)
+            date_to: Latest deletion date, inclusive (datetime.date)
+            deleted_by: User ID who deleted the item (str)
+            has_subitems: True → only items with children; False → only without (bool or None)
+            language: Language code to filter by (str)
+            review_state: Workflow state to filter by (str)
+            sort_on: Field to sort by — one of title, portal_type, path, size,
+                     deletion_date (default), review_state (str)
+            sort_order: "ascending" or "descending" (default) (str)
+
+        Returns:
+            Filtered and sorted list of item dicts (same shape as get_items())
+        """
+
     def is_enabled():
         """Check if recycle bin is enabled in the registry settings
 
