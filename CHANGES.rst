@@ -8,6 +8,22 @@ Changelog
 
 .. towncrier release notes start
 
+4.0.0a7 (2026-03-23)
+--------------------
+
+New features:
+
+
+- Add boolean utils: is_truthy (improved), is_falsy and boolean_value. @cekk (#112)
+
+
+Internal:
+
+
+- Update configuration files.
+  [plone devs]
+
+
 4.0.0a6 (2026-02-26)
 --------------------
 
