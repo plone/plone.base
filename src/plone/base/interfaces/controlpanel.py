@@ -821,14 +821,14 @@ class INavigationSchema(Interface):
     )
 
     nonfolderish_tabs = schema.Bool(
-        title=_("Generate tabs for items other than folders."),
+        title=_("Generate tabs for items other than containers."),
         description=_(
-            "By default, any content item in the root of the portal will "
-            "appear as a tab. If you turn this option off, only folders "
-            "will be shown. This only has an effect if 'automatically "
-            "generate tabs' is enabled."
+            "By default, only containers in the root of the portal will "
+            "appear as tabs. If you turn this option on, other content "
+            "items will be shown as well. This only has an effect if "
+            "'automatically generate tabs' is enabled."
         ),
-        default=True,
+        default=False,
         required=False,
     )
 
