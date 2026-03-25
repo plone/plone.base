@@ -1,2 +1,0 @@
-Change default of ``nonfolderish_tabs`` to ``False`` so File/Image in the portal root no longer appear as portal tabs.
-@jensens
