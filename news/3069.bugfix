@@ -1,2 +1,0 @@
-Add ``s`` to default ``valid_tags`` so TinyMCE strikethrough is not stripped on save.
-@jensens
