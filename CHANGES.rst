@@ -8,6 +8,38 @@ Changelog
 
 .. towncrier release notes start
 
+4.0.0a8 (2026-03-25)
+--------------------
+
+New features:
+
+
+- Add ``plone.base.interfaces.IAddonList``.  [maurits] (#4155)
+
+
+Bug fixes:
+
+
+- Add ``s`` to default ``valid_tags`` so TinyMCE strikethrough is not stripped on save.
+  @jensens (#3069)
+
+
+4.0.0a7 (2026-03-23)
+--------------------
+
+New features:
+
+
+- Add boolean utils: is_truthy (improved), is_falsy and boolean_value. @cekk (#112)
+
+
+Internal:
+
+
+- Update configuration files.
+  [plone devs]
+
+
 4.0.0a6 (2026-02-26)
 --------------------
 

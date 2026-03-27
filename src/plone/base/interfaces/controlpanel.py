@@ -294,6 +294,7 @@ class IFilterSchema(Interface):
             "rp",
             "rt",
             "ruby",
+            "s",
             "samp",
             "section",
             "small",
