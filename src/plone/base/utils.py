@@ -22,6 +22,7 @@ from zope.i18n import translate
 from zope.publisher.interfaces.browser import IBrowserRequest
 
 import logging
+import re
 import transaction
 
 logger = logging.getLogger("Plone")
@@ -664,3 +665,64 @@ def boolean_value(value, default: bool | None = None) -> bool:
     if isinstance(default, bool):
         return default
     raise ValueError(f"Could not parse value {value!r} as boolean")
+
+
+# Search term munging utilities
+# We should accept both a simple space, unicode u'\u0020 but also a
+# multi-space, so called 'waji-kankaku', unicode u'\u3000'
+MULTISPACE = "\u3000"
+BAD_CHARS = ("?", "-", "+", "*", MULTISPACE)
+
+
+def _search_quote_chars(s):
+    """Quote parentheses for ZCTextIndex search queries."""
+    if "(" in s:
+        s = s.replace("(", '"("')
+    if ")" in s:
+        s = s.replace(")", '")"')
+    if MULTISPACE in s:
+        s = s.replace(MULTISPACE, " ")
+    return s
+
+
+def _search_quote(term):
+    """Quote boolean operators (and, or, not) for ZCTextIndex search queries."""
+    if term.lower() in ("and", "or", "not"):
+        term = '"%s"' % term
+    return _search_quote_chars(term)
+
+
+def munge_search_term(query):
+    """Munge a search query for ZCTextIndex.
+
+    Splits the query into individual terms, adds wildcard ``*`` suffix
+    to each unquoted term for prefix matching, and joins with ``AND``.
+    Quoted phrases are left intact. Boolean operators (and/or/not) are
+    quoted to prevent ZCTextIndex from interpreting them as logical atoms.
+    """
+    for char in BAD_CHARS:
+        query = query.replace(char, " ")
+
+    # extract quoted phrases first
+    quoted_phrases = re.findall(r'"([^"]*)"', query)
+    r = []
+    for qp in quoted_phrases:
+        # remove from query
+        query = query.replace(f'"{qp}"', "")
+        # clean leading/trailing whitespaces and skip empty phrases
+        clean_qp = qp.strip()
+        if not clean_qp:
+            continue
+        r.append(f'"{clean_qp}"')
+
+    for term in query.strip().split():
+        quoted = _search_quote(term)
+        # Add wildcard for prefix matching, but not for terms that
+        # were quoted (boolean operators like "and"/"or"/"not", or
+        # terms with parentheses) — wildcard on quoted terms is
+        # invalid ZCTextIndex syntax.
+        if quoted.startswith('"'):
+            r.append(quoted)
+        else:
+            r.append(quoted + "*")
+    return " AND ".join(r)
