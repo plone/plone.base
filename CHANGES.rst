@@ -8,6 +8,17 @@ Changelog
 
 .. towncrier release notes start
 
+4.0.0a9 (2026-03-30)
+--------------------
+
+Bug fixes:
+
+
+- Add ``munge_search_term``, ``BAD_CHARS``, and ``MULTISPACE`` as canonical location in ``plone.base.utils``.
+  Fix multi-word search so all word parts get wildcard prefix matching, not just the last one.
+  @jensens (#4205)
+
+
 4.0.0a8 (2026-03-25)
 --------------------
 

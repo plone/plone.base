@@ -1,3 +1,0 @@
-Add ``munge_search_term``, ``BAD_CHARS``, and ``MULTISPACE`` as canonical location in ``plone.base.utils``.
-Fix multi-word search so all word parts get wildcard prefix matching, not just the last one.
-@jensens
