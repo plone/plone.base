@@ -8,6 +8,15 @@ Changelog
 
 .. towncrier release notes start
 
+4.0.0 (2026-04-21)
+------------------
+
+Bug fixes:
+
+
+- Add missing `codesample` TinyMCE plugin.  @petschki
+
+
 4.0.0a9 (2026-03-30)
 --------------------
 
