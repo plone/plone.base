@@ -1056,7 +1056,7 @@ class ISecuritySchema(Interface):
             "saving this form will fail. You can use the "
             "@@migrate-to-emaillogin page to show the duplicates."
         ),
-        default=False,
+        default=True,
         required=False,
     )
 
@@ -1068,7 +1068,7 @@ class ISecuritySchema(Interface):
             "login name, or when using the email address as login name we "
             "generate a user id based on the fullname."
         ),
-        default=False,
+        default=True,
         required=False,
     )
 
