@@ -294,6 +294,7 @@ class IFilterSchema(Interface):
             "rp",
             "rt",
             "ruby",
+            "s",
             "samp",
             "section",
             "small",
@@ -540,10 +541,13 @@ class ITinyMCEPluginSchema(Interface):
                     SimpleTerm("advlist", "advlist", "advlist"),
                     SimpleTerm("anchor", "anchor", "anchor"),
                     SimpleTerm("autolink", "autolink", "autolink"),
+                    # NOTE: "autoresize" is enabled with the autoresize setting below
                     # XXX disable autosave since it is not implemented
                     # SimpleTerm("autosave", "autosave", "autosave"),
                     SimpleTerm("charmap", "charmap", "charmap"),
                     SimpleTerm("code", "code", "code"),
+                    # NOTE: codesample plugin needs prismjs manually installed. see https://www.tiny.cloud/docs/tinymce/latest/codesample/
+                    SimpleTerm("codesample", "codesample", "codesample"),
                     SimpleTerm("directionality", "directionality", "directionality"),
                     SimpleTerm("emoticons", "emoticons", "emoticons"),
                     SimpleTerm("fullscreen", "fullscreen", "fullscreen"),

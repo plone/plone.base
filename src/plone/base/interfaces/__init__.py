@@ -46,6 +46,7 @@ from .login import ILoginFormSchema
 from .login import ILoginHelpForm
 from .login import ILoginHelpFormSchema
 from .login import IRedirectAfterLogin
+from .migration import IAddonList
 from .migration import IMigrationTool
 from .password_reset import IPasswordResetToolView
 from .password_reset import IPWResetTool
