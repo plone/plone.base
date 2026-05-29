@@ -8,6 +8,154 @@ Changelog
 
 .. towncrier release notes start
 
+4.0.0 (2026-04-21)
+------------------
+
+Bug fixes:
+
+
+- Add missing `codesample` TinyMCE plugin.  @petschki
+
+
+4.0.0a9 (2026-03-30)
+--------------------
+
+Bug fixes:
+
+
+- Add ``munge_search_term``, ``BAD_CHARS``, and ``MULTISPACE`` as canonical location in ``plone.base.utils``.
+  Fix multi-word search so all word parts get wildcard prefix matching, not just the last one.
+  @jensens (#4205)
+
+
+4.0.0a8 (2026-03-25)
+--------------------
+
+New features:
+
+
+- Add ``plone.base.interfaces.IAddonList``.  [maurits] (#4155)
+
+
+Bug fixes:
+
+
+- Add ``s`` to default ``valid_tags`` so TinyMCE strikethrough is not stripped on save.
+  @jensens (#3069)
+
+
+4.0.0a7 (2026-03-23)
+--------------------
+
+New features:
+
+
+- Add boolean utils: is_truthy (improved), is_falsy and boolean_value. @cekk (#112)
+
+
+Internal:
+
+
+- Update configuration files.
+  [plone devs]
+
+
+4.0.0a6 (2026-02-26)
+--------------------
+
+Bug fixes:
+
+
+- Update id collision checks with missing checks from CMFPlone.
+
+  Some of the checks in `utils._check_for_collision` or erroneous. These checks
+  were updated with the original checks from CMFPlone. The tests depend on a
+  fully set-up site and remain in CMFPlone.
+
+  [thet]
+
+
+4.0.0a5 (2026-02-23)
+--------------------
+
+Bug fixes:
+
+
+- Allow to create content with `index_html` id on the site root.
+
+  The portal root has a `index_html` method which prevented content with the id
+  `index_html` to be created and used as a default page.
+
+  Fixes: https://github.com/plone/Products.CMFPlone/issues/4278
+
+  @thet (#4278)
+
+
+Internal:
+
+
+- Fix issues with dependencychecker and current setuptools by reconfiguring with plone.meta.
+
+  Ref: https://github.com/reinout/z3c.dependencychecker/issues/119
+
+  @thet
+
+
+4.0.0a4 (2025-12-18)
+--------------------
+
+New features:
+
+
+- Add "license key" field to TinyMCE schema.  @petschki
+
+
+4.0.0a3 (2025-11-26)
+--------------------
+
+Breaking changes:
+
+
+- Replace ``pkg_resources`` namespace with PEP 420 native namespace.
+  Support only Plone 6.2 and Python 3.10+. (#3928)
+
+
+4.0.0a2 (2025-11-19)
+--------------------
+
+Bug fixes:
+
+
+- Fix outdated TinyMCE toolbar button and menu settings to match TinyMCE version 6. @petschki (#86)
+- Do not create empty translation msgids @erral
+- Remove more empty msgids @erral
+
+
+4.0.0a1 (2025-09-24)
+--------------------
+
+New features:
+
+
+- IClassicUISchema: Add new control panel.
+
+  Add new ``IClassicUISchema`` control panel schema with its ``plone.use_ajax_main_template`` setting.
+
+  When ``plone.use_ajax_main_template`` is enabled, and if we are in an XHR
+  request, Plone uses the AJAX main template. Note: This setting does not affect
+  the ``ajax_load`` query string parameter, which if set and evaluates to
+  ``true``, will always trigger the AJAX main template.
+
+
+3.1.1 (2025-09-11)
+------------------
+
+Bug fixes:
+
+
+- Cleanup ``TinyMCESchema.plugins`` to the actual existing plugins. @petschki
+
+
 3.1.0 (2025-06-18)
 ------------------
 

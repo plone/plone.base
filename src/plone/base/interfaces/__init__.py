@@ -6,6 +6,7 @@ from .constrains import IConstrainTypes
 from .constrains import ISelectableConstrainTypes
 from .content import INameFromTitle
 from .controlpanel import IActionSchema
+from .controlpanel import IClassicUISchema
 from .controlpanel import IControlPanel
 from .controlpanel import IDateAndTimeSchema
 from .controlpanel import IEditingSchema
@@ -45,6 +46,7 @@ from .login import ILoginFormSchema
 from .login import ILoginHelpForm
 from .login import ILoginHelpFormSchema
 from .login import IRedirectAfterLogin
+from .migration import IAddonList
 from .migration import IMigrationTool
 from .password_reset import IPasswordResetToolView
 from .password_reset import IPWResetTool

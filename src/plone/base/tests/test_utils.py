@@ -5,7 +5,6 @@ from zope.interface import alsoProvides
 
 import unittest
 
-
 SITE_LOGO_BASE64 = (
     b"filenameb64:cGl4ZWwucG5n;datab64:iVBORw0KGgoAAAANSUhEUgA"
     b"AAAEAAAABCAIAAACQd1PeAAAADElEQVQI12P4z8AAAAMBAQAY3Y2wAAA"
@@ -204,6 +203,8 @@ class DefaultUtilsTests(unittest.TestCase):
         self.assertTrue(is_truthy("Active"))
         self.assertTrue(is_truthy("enAbled"))
         self.assertTrue(is_truthy("on"))
+        self.assertTrue(is_truthy("t"))
+        self.assertTrue(is_truthy("T"))
 
         self.assertFalse(is_truthy(None))
         self.assertFalse(is_truthy(False))
@@ -217,3 +218,206 @@ class DefaultUtilsTests(unittest.TestCase):
         self.assertFalse(is_truthy("NO"))
         self.assertFalse(is_truthy("no"))
         self.assertFalse(is_truthy("foo"))
+
+    def test_is_falsy(self):
+        """Test the `is_falsy` utility function with different inputs."""
+        from plone.base.utils import is_falsy
+
+        self.assertTrue(is_falsy(False))
+        self.assertTrue(is_falsy(0))
+        self.assertTrue(is_falsy("0"))
+        self.assertTrue(is_falsy("f"))
+        self.assertTrue(is_falsy("F"))
+        self.assertTrue(is_falsy("false"))
+        self.assertTrue(is_falsy("FALSE"))
+        self.assertTrue(is_falsy("fAlSe"))
+        self.assertTrue(is_falsy("n"))
+        self.assertTrue(is_falsy("N"))
+        self.assertTrue(is_falsy("no"))
+        self.assertTrue(is_falsy("NO"))
+        self.assertTrue(is_falsy("nO"))
+        self.assertTrue(is_falsy("inactive"))
+        self.assertTrue(is_falsy("Inactive"))
+        self.assertTrue(is_falsy("disabled"))
+        self.assertTrue(is_falsy("Disabled"))
+        self.assertTrue(is_falsy("off"))
+        self.assertTrue(is_falsy("Off"))
+
+        self.assertFalse(is_falsy(True))
+        self.assertFalse(is_falsy(1))
+        self.assertFalse(is_falsy(2))
+        self.assertFalse(is_falsy(None))
+        self.assertFalse(is_falsy("foo"))
+        self.assertFalse(is_falsy("bar"))
+
+    def test_boolean_value(self):
+        """Test the `boolean_value` utility function with different inputs."""
+        from plone.base.utils import boolean_value
+
+        self.assertIs(boolean_value(True), True)
+        self.assertIs(boolean_value(1), True)
+        self.assertIs(boolean_value("yes"), True)
+        self.assertIs(boolean_value("true"), True)
+        self.assertIs(boolean_value("on"), True)
+        self.assertIs(boolean_value("enabled"), True)
+
+        self.assertIs(boolean_value(False), False)
+        self.assertIs(boolean_value(0), False)
+        self.assertIs(boolean_value("no"), False)
+        self.assertIs(boolean_value("false"), False)
+        self.assertIs(boolean_value("off"), False)
+        self.assertIs(boolean_value("disabled"), False)
+
+        # Unrecognised value with a default returns the default
+        self.assertIs(boolean_value("foo", default=True), True)
+        self.assertIs(boolean_value("foo", default=False), False)
+        self.assertIs(boolean_value(None, default=True), True)
+
+        # Unrecognised value with a non-boolean default raises ValueError
+        with self.assertRaises(ValueError):
+            boolean_value("foo", default="yes")
+
+        # Unrecognised value without a default raises ValueError
+        with self.assertRaises(ValueError):
+            boolean_value("foo")
+        with self.assertRaises(ValueError):
+            boolean_value(None)
+
+    def test_check_for_collision(self):
+        """Test the collision for ids in containers.
+
+        There are more complete tests which require a fully set-up Plone site
+        in: `Products.CMFPlone.tests.testCheckId`
+        """
+        from plone.base.utils import _check_for_collision
+
+        class Container(dict):
+            def __getattribute__(self, name):
+                if name in self:
+                    return self[name]
+                return object.__getattribute__(self, name)
+
+            def portal_type(self):
+                """Necessary to fulfill protocol."""
+
+            def index_html(self):
+                """Common attribute - content with id index_html should be
+                addable."""
+
+            def some_attr(self):
+                """Random attribute - content with id some_attr should not be
+                addable."""
+
+        container = Container()
+        container["test"] = Container()
+
+        # "test" is already taken
+        self.assertIn(
+            "There is already an item named",
+            _check_for_collision(container, "test"),
+        )
+
+        # "tiptop" is not yet taken
+        self.assertEqual(
+            _check_for_collision(container, "tiptop"),
+            None,
+        )
+
+        # "index_html" is not yet taken
+        self.assertEqual(
+            _check_for_collision(container, "index_html"),
+            None,
+        )
+
+        container["index_html"] = Container()
+
+        # `False` as "index_html" is now taken
+        self.assertIn(
+            "There is already an item named",
+            _check_for_collision(container, "index_html"),
+        )
+
+        # Content ids are not addable, if the id is an container attribute.
+        self.assertIn(
+            "is reserved",
+            _check_for_collision(container, "some_attr"),
+        )
+
+    def test_munge_search_term(self):
+        from plone.base.utils import BAD_CHARS
+        from plone.base.utils import munge_search_term
+
+        search_term_tests = [
+            (
+                # search term
+                "spam ham",
+                "spam* AND ham*",
+            ),
+            (
+                # multi-word partial search (issue #4205)
+                "super expi",
+                "super* AND expi*",
+            ),
+            (
+                # quoted term
+                '"spam ham"',
+                '"spam ham"',
+            ),
+            (
+                # cleanup quoted terms
+                '" spam ham   "',
+                '"spam ham"',
+            ),
+            (
+                # quoted term with inner parenthesis
+                '"spam (ham)"',
+                '"spam (ham)"',
+            ),
+            (
+                # quoted term with inner parenthesis
+                '"spam" (ham)',
+                '"spam" AND "("ham")"',
+            ),
+            (
+                # quoted term with inner parenthesis
+                '"(spam ham)"',
+                '"(spam ham)"',
+            ),
+            (
+                # mixed cases
+                "Spam hAm",
+                "Spam* AND hAm*",
+            ),
+            (
+                # mix quoting and unquoted
+                'let\'s eat some "ham and eggs " without spam ',
+                '"ham and eggs" AND let\'s* AND eat* AND some* AND without* AND spam*',
+            ),
+            (
+                'test "Welcome" to "Plone" retest',
+                '"Welcome" AND "Plone" AND test* AND to* AND retest*',
+            ),
+            (
+                # parentheses
+                "spam (ham)",
+                'spam* AND "("ham")"',
+            ),
+            (
+                # special keywords
+                "spam or not ham and eggs",
+                'spam* AND "or" AND "not" AND ham* AND "and" AND eggs*',
+            ),
+            (
+                # bad characters
+                " ".join(BAD_CHARS),
+                "",
+            ),
+            (
+                # weird input
+                'test ""Welcome" to "Plone"" retest',
+                '"to" AND test* AND WelcomePlone* AND retest*',
+            ),
+        ]
+
+        for _in, _out in search_term_tests:
+            self.assertEqual(munge_search_term(_in), _out)

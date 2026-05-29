@@ -1,5 +1,6 @@
 from . import PloneMessageFactory as _
 from .interfaces import ISearchSchema
+from AccessControl import getSecurityManager
 from AccessControl import Unauthorized
 from Acquisition import aq_base
 from Acquisition import aq_get
@@ -7,6 +8,7 @@ from Acquisition import aq_parent
 from DateTime import DateTime
 from plone.registry.interfaces import IRegistry
 from Products.CMFCore.interfaces import ITypesTool
+from Products.CMFCore.permissions import AddPortalContent
 from Products.CMFCore.utils import getToolByName
 from urllib.parse import urlparse
 from zExceptions import NotFound
@@ -20,8 +22,8 @@ from zope.i18n import translate
 from zope.publisher.interfaces.browser import IBrowserRequest
 
 import logging
+import re
 import transaction
-
 
 logger = logging.getLogger("Plone")
 
@@ -352,7 +354,7 @@ def transaction_note(note):
     """Write human legible note"""
     T = transaction.get()
     if (len(T.description) + len(note)) >= 65533:
-        logger.warn("Transaction note too large omitting %s" % str(note))
+        logger.warning("Transaction note too large omitting %s" % str(note))
     else:
         T.note(safe_text(note))
 
@@ -506,9 +508,23 @@ def _check_for_collision(contained_by, cid, **kwargs):
                 mapping={"name": cid},
             )
 
+    if cid == "index_html":
+        # always allow index_html
+        return
+
     # containers may have a field / attribute of the same name
     if base_hasattr(contained_by, cid):
         return _("${name} is reserved.", mapping={"name": cid})
+
+    if base_hasattr(contained_by, "checkIdAvailable"):
+        # ‌`checkIdAvailable` is implemented by
+        # ‌`Products.CMFCore.PortalFolder.PortalFolderBase`
+        # Historically this used to be called from the check_id skin script,
+        # which would check the permission automatically,
+        # and the code would catch the Unauthorized exception.
+        if getSecurityManager().checkPermission(AddPortalContent, contained_by):
+            if not contained_by.checkIdAvailable(cid):
+                return _("${name} is reserved.", mapping={"name": cid})
 
     # containers may implement this hook to further restrict ids
     if getattr(aq_base(contained_by), "checkValidId", _marker) is not _marker:
@@ -520,11 +536,12 @@ def _check_for_collision(contained_by, cid, **kwargs):
             return _("${name} is reserved.", mapping={"name": cid})
 
     # make sure we don't collide with any parent method aliases
-    types_tool = getToolByName(contained_by, "types_tool", None)
-    if types_tool is not None:
-        parentFti = types_tool.getTypeInfo(contained_by)
+    plone_utils = getToolByName(contained_by, "plone_utils", None)
+    portal_types = getToolByName(contained_by, "portal_types", None)
+    if plone_utils is not None and portal_types is not None:
+        parentFti = portal_types.getTypeInfo(contained_by)
         if parentFti is not None:
-            aliases = parentFti.getMethodAliases()
+            aliases = plone_utils.getMethodAliases(parentFti)
             if aliases is not None and cid in aliases.keys():
                 return _("${name} is reserved.", mapping={"name": cid})
 
@@ -533,9 +550,6 @@ def _check_for_collision(contained_by, cid, **kwargs):
     # However, we do want to allow overriding of *content* in the object's
     # parent path, including the portal root.
 
-    if cid == "index_html":
-        # always allow index_html
-        return
     portal = getSite()
     if portal and cid in portal.contentIds():
         # Fine to use the same id as a *content* item from the root.
@@ -596,8 +610,16 @@ def unrestricted_construct_instance(type_name, container, id, *args, **kw):
 
 
 def is_truthy(value) -> bool:
-    """Return `True`, if "yes" was meant, `False` otherwise."""
-    return bool(value) and str(value).lower() in {
+    """
+    Return `True`, if value is a boolean `True` or an integer `1` or
+    a string that looks like "yes", `False` otherwise.
+    """
+    if isinstance(value, bool):
+        return value
+    if isinstance(value, int):
+        return value == 1
+    str_value = str(value).lower().strip()
+    return str_value in {
         "1",
         "y",
         "yes",
@@ -607,3 +629,100 @@ def is_truthy(value) -> bool:
         "enabled",
         "on",
     }
+
+
+def is_falsy(value) -> bool:
+    """
+    Return `True`, if value is a boolean `False` or an integer `0` or
+    a string that looks like "no", `False` otherwise.
+    """
+    if isinstance(value, bool):
+        return not value
+    if isinstance(value, int):
+        return value == 0
+    str_value = str(value).lower().strip()
+    return str_value in {
+        "0",
+        "n",
+        "no",
+        "f",
+        "false",
+        "inactive",
+        "disabled",
+        "off",
+    }
+
+
+def boolean_value(value, default: bool | None = None) -> bool:
+    """Return a boolean value for the given input.
+
+    Raises ValueError if the input was not recognized as a boolean.
+    """
+    if is_truthy(value):
+        return True
+    if is_falsy(value):
+        return False
+    if isinstance(default, bool):
+        return default
+    raise ValueError(f"Could not parse value {value!r} as boolean")
+
+
+# Search term munging utilities
+# We should accept both a simple space, unicode u'\u0020 but also a
+# multi-space, so called 'waji-kankaku', unicode u'\u3000'
+MULTISPACE = "\u3000"
+BAD_CHARS = ("?", "-", "+", "*", MULTISPACE)
+
+
+def _search_quote_chars(s):
+    """Quote parentheses for ZCTextIndex search queries."""
+    if "(" in s:
+        s = s.replace("(", '"("')
+    if ")" in s:
+        s = s.replace(")", '")"')
+    if MULTISPACE in s:
+        s = s.replace(MULTISPACE, " ")
+    return s
+
+
+def _search_quote(term):
+    """Quote boolean operators (and, or, not) for ZCTextIndex search queries."""
+    if term.lower() in ("and", "or", "not"):
+        term = '"%s"' % term
+    return _search_quote_chars(term)
+
+
+def munge_search_term(query):
+    """Munge a search query for ZCTextIndex.
+
+    Splits the query into individual terms, adds wildcard ``*`` suffix
+    to each unquoted term for prefix matching, and joins with ``AND``.
+    Quoted phrases are left intact. Boolean operators (and/or/not) are
+    quoted to prevent ZCTextIndex from interpreting them as logical atoms.
+    """
+    for char in BAD_CHARS:
+        query = query.replace(char, " ")
+
+    # extract quoted phrases first
+    quoted_phrases = re.findall(r'"([^"]*)"', query)
+    r = []
+    for qp in quoted_phrases:
+        # remove from query
+        query = query.replace(f'"{qp}"', "")
+        # clean leading/trailing whitespaces and skip empty phrases
+        clean_qp = qp.strip()
+        if not clean_qp:
+            continue
+        r.append(f'"{clean_qp}"')
+
+    for term in query.strip().split():
+        quoted = _search_quote(term)
+        # Add wildcard for prefix matching, but not for terms that
+        # were quoted (boolean operators like "and"/"or"/"not", or
+        # terms with parentheses) — wildcard on quoted terms is
+        # invalid ZCTextIndex syntax.
+        if quoted.startswith('"'):
+            r.append(quoted)
+        else:
+            r.append(quoted + "*")
+    return " AND ".join(r)

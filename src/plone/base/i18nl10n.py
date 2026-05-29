@@ -14,7 +14,6 @@ from zope.publisher.interfaces.browser import IBrowserRequest
 import logging
 import re
 
-
 logger = logging.getLogger(__name__)
 
 datetime_formatvariables = {"H", "I", "m", "d", "M", "p", "S", "Y", "y", "Z"}
