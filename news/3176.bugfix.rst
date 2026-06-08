@@ -1,0 +1,3 @@
+Remove deprecation warning for `Batch.__len__` again.
+Calling this method is simply unavoidable.
+[maurits]

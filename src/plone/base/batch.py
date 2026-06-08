@@ -1,6 +1,5 @@
 from plone.batching.batch import QuantumBatch
 from plone.batching.utils import calculate_pagerange
-from zope.deprecation import deprecate
 from ZTUtils import make_query
 
 
@@ -24,7 +23,6 @@ class Batch(QuantumBatch):
         )
         self.b_start_str = b_start_str
 
-    @deprecate("Use length attribute instead of __len__")
     def __len__(self):
         # Note: Using len() was deprecated for several years.
         # It was recommended to explicitly either use the `length` attribute
@@ -36,6 +34,14 @@ class Batch(QuantumBatch):
         # on batches, making the deprecation warning unavoidable
         # and thus unnecessary.
         # See https://github.com/plone/Products.CMFPlone/issues/3176
+        # That same Products.PageTemplate code also calls `list` on batches,
+        # and apparently this automatically invokes `__len__`, making it even
+        # more unavoidable.
+        # The deprecation was inadvertently added again during the move to
+        # plone.base in Plone 6.0.  Compare:
+        # https://github.com/plone/Products.CMFPlone/commit/2cc25159443759573360af51216bcb9253cc87c1#diff-fa1e7e5e81879e8c4f4485cf8d8204eba6f2677cb9f4e29de4776b0c1f0d4d93L21
+        # with
+        # https://github.com/plone/plone.base/commit/6e26a377f7153ea6631a6ad58b7a9008fd3d6e53#diff-316da888fe8d39c68d5e0aee055b3bbfa95d522b4b09fe56b7edb1289bd72f9fR28
         return self.length
 
     def __bool__(self):
