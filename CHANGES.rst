@@ -8,6 +8,26 @@ Changelog
 
 .. towncrier release notes start
 
+4.0.1 (2026-06-15)
+------------------
+
+Bug fixes:
+
+
+- Add sizes attribute to allowed picture variants
+  [MrTango] (#180)
+- Remove deprecation warning for `Batch.__len__` again.
+  Calling this method is simply unavoidable.
+  [maurits] (#3176)
+
+
+Internal:
+
+
+- Update configuration files.
+  [plone devs]
+
+
 4.0.0 (2026-04-21)
 ------------------
 
