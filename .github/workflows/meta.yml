@@ -1,5 +1,5 @@
 # Generated from:
-# https://github.com/plone/meta/tree/2.x/src/plone/meta/default
+# https://github.com/plone/meta/tree/dependabot/github_actions/actions/checkout-7/src/plone/meta/default
 # See the inline comments on how to expand/tweak this configuration file
 name: Meta
 
@@ -19,15 +19,15 @@ on:
 
 jobs:
   qa:
-    uses: plone/meta/.github/workflows/qa.yml@2.x
+    uses: plone/meta/.github/workflows/qa.yml@dependabot/github_actions/actions/checkout-7
   coverage:
-    uses: plone/meta/.github/workflows/coverage.yml@2.x
+    uses: plone/meta/.github/workflows/coverage.yml@dependabot/github_actions/actions/checkout-7
   dependencies:
-    uses: plone/meta/.github/workflows/dependencies.yml@2.x
+    uses: plone/meta/.github/workflows/dependencies.yml@dependabot/github_actions/actions/checkout-7
   release_ready:
-    uses: plone/meta/.github/workflows/release_ready.yml@2.x
+    uses: plone/meta/.github/workflows/release_ready.yml@dependabot/github_actions/actions/checkout-7
   circular:
-    uses: plone/meta/.github/workflows/circular.yml@2.x
+    uses: plone/meta/.github/workflows/circular.yml@dependabot/github_actions/actions/checkout-7
 
 ##
 # To modify the list of default jobs being created add in .meta.toml:
