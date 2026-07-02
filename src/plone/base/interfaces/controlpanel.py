@@ -233,6 +233,7 @@ class IFilterSchema(Interface):
             "abbr",
             "acronym",
             "address",
+            "area",
             "article",
             "aside",
             "audio",
