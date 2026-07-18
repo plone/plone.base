@@ -1,0 +1,3 @@
+Change security defaults to use UUID based login IDs and email-based login-names.
+See https://github.com/plone/Products.CMFPlone/issues/3937 for details.
+[jensens]
