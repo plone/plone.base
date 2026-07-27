@@ -1,1 +1,0 @@
-Add ``area`` to default ``valid_tags`` so HTML image maps work out of the box. @wesleybl

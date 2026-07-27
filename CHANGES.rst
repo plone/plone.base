@@ -8,6 +8,15 @@ Changelog
 
 .. towncrier release notes start
 
+4.0.2 (2026-07-27)
+------------------
+
+Bug fixes:
+
+
+- Add ``area`` to default ``valid_tags`` so HTML image maps work out of the box. @wesleybl
+
+
 4.0.1 (2026-06-15)
 ------------------
 
