@@ -1,5 +1,5 @@
 # Generated from:
-# https://github.com/plone/meta/tree/2.x/src/plone/meta/default
+# https://github.com/plone/meta/tree/dependabot/github_actions/actions/checkout-7/src/plone/meta/default
 # See the inline comments on how to expand/tweak this configuration file
 name: Tests
 
@@ -29,7 +29,7 @@ jobs:
     if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.event.pull_request.base.repo.full_name
     name: ${{ matrix.config[1] }}
     steps:
-    - uses: actions/checkout@v6
+    - uses: actions/checkout@v7
       with:
         persist-credentials: false
     - name: Install uv + caching
