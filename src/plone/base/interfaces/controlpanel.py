@@ -1703,6 +1703,59 @@ class IImagingSchema(Interface):
         default=51,
     )
 
+    avif_mode = schema.Choice(
+        title=_("AVIF image scales"),
+        description=_(
+            "AVIF images are about half the size of JPEG images of the same "
+            "visual quality, but need a browser that supports the format. "
+            "'Disabled' converts nothing: scales keep the format of the "
+            "uploaded image, so an uploaded JPEG gets JPEG scales and an "
+            "uploaded AVIF gets AVIF scales. 'AVIF with fallback' keeps the "
+            "JPEG and PNG scales, encodes the scales of an uploaded AVIF as "
+            "JPEG, and lets picture tags offer an AVIF version of each scale "
+            "in front of them. 'AVIF only' encodes every scale as AVIF, "
+            "without a fallback for browsers that cannot show AVIF. Without "
+            "AVIF support in Pillow the mode is 'Disabled'."
+        ),
+        default="avif_with_fallback",
+        vocabulary=SimpleVocabulary(
+            [
+                SimpleTerm("disabled", "disabled", "Disabled (no conversion)"),
+                SimpleTerm(
+                    "avif_with_fallback",
+                    "avif_with_fallback",
+                    "AVIF with fallback",
+                ),
+                SimpleTerm("avif_only", "avif_only", "AVIF only"),
+            ]
+        ),
+    )
+
+    avif_quality = schema.Int(
+        title=_("AVIF image quality"),
+        description=_(
+            "A value for the quality of AVIF image scales, from 1 (lowest) "
+            "to 100 (highest). The AVIF scale differs from the JPEG one: 65 "
+            "looks like JPEG 85 to 90 at about half the size."
+        ),
+        min=1,
+        max=100,
+        default=65,
+    )
+
+    avif_speed = schema.Int(
+        title=_("AVIF encoding speed"),
+        description=_(
+            "The trade-off between encoding time and file size of AVIF "
+            "image scales, from 0 (slowest, smallest files) to 10 "
+            "(fastest). Pillow's default is 6; 8 encodes two to three "
+            "times faster for slightly larger files."
+        ),
+        min=0,
+        max=10,
+        default=8,
+    )
+
     picture_variants = schema.JSONField(
         title=_("Picture variants"),
         description=_("Enter a JSON-formatted picture variants configuration."),
