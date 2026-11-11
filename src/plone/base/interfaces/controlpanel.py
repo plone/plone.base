@@ -1636,6 +1636,8 @@ class IImagingSchema(Interface):
         ),
         value_type=schema.TextLine(),
         default=[
+            "qhd 2560:65536",
+            "fullhd 1920:65536",
             "huge 1600:65536",
             "great 1200:65536",
             "larger 1000:65536",
@@ -1663,6 +1665,27 @@ class IImagingSchema(Interface):
         min=0,
         max=95,
         default=88,
+    )
+
+    scale_format = schema.Choice(
+        title=_("Format of scaled images"),
+        description=_(
+            "Convert scaled images to this format. WebP and AVIF images are "
+            "much smaller than JPEG and PNG images of the same quality, and all "
+            "current browsers show them; AVIF images take longer to create. "
+            "Logos, diagrams and other PNG and GIF images with few colors "
+            "stay PNG. The original images are not changed. The scaled image "
+            "quality applies as for JPEG."
+        ),
+        default="original",
+        vocabulary=SimpleVocabulary(
+            [
+                SimpleTerm("original", "original", _("Same as the original image")),
+                SimpleTerm("jpeg", "jpeg", _("JPEG, or PNG to keep transparency")),
+                SimpleTerm("webp", "webp", "WebP"),
+                SimpleTerm("avif", "avif", "AVIF"),
+            ]
+        ),
     )
 
     highpixeldensity_scales = schema.Choice(
