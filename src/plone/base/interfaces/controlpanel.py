@@ -1636,6 +1636,8 @@ class IImagingSchema(Interface):
         ),
         value_type=schema.TextLine(),
         default=[
+            "qhd 2560:65536",
+            "fullhd 1920:65536",
             "huge 1600:65536",
             "great 1200:65536",
             "larger 1000:65536",
