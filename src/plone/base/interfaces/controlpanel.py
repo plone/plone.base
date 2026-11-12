@@ -1767,6 +1767,8 @@ class IImagingSchema(Interface):
                             "large",
                             "great",
                             "huge",
+                            "fullhd",
+                            "qhd",
                         ],
                     },
                 ],
