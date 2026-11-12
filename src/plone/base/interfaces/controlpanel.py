@@ -1455,6 +1455,35 @@ class IMailSchema(Interface):
         required=True,
     )
 
+    smtp_implicit_tls = schema.Bool(
+        title=_("label_smtp_implicit_tls", default="Use SSL/TLS (SMTPS)"),
+        description=_(
+            "help_smtp_implicit_tls",
+            default="Encrypt the connection to the SMTP server from the "
+            "start, usually on port 465. Leave this off for ports 25 and "
+            "587: there the connection is encrypted with STARTTLS when the "
+            "server supports it.",
+        ),
+        default=False,
+        required=False,
+    )
+
+    @invariant
+    def implicit_tls_port(data):
+        # Ports 25 and 587 start without encryption and use STARTTLS.
+        # SSL/TLS from the start cannot connect to them.
+        port = getattr(data, "smtp_port", None)
+        if getattr(data, "smtp_implicit_tls", False) and port in (25, 587):
+            raise Invalid(
+                _(
+                    "error_smtp_implicit_tls_port",
+                    default="SSL/TLS (SMTPS) usually runs on port 465. Port "
+                    "${port} uses STARTTLS, which Plone uses automatically: "
+                    "turn off SSL/TLS or change the port.",
+                    mapping={"port": port},
+                )
+            )
+
     smtp_userid = schema.TextLine(
         title=_("label_smtp_userid", default="ESMTP username"),
         description=_(
