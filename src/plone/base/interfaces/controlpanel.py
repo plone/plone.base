@@ -1784,7 +1784,7 @@ class IImagingSchema(Interface):
                     {
                         "scale": "preview",
                         "additionalScales": ["large", "larger"],
-                        "sizes": "(min-width: 576px) 400px, (min-width: 768px) 600px, 98vw",
+                        "sizes": "(min-width: 768px) 600px, (min-width: 576px) 400px, 98vw",
                     },
                 ],
             },
