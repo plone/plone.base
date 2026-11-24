@@ -1,0 +1,2 @@
+Fix `munge_search_term`: drop English stop-words and wildcard only the last term,
+so short wildcards like `in*` no longer swamp BM25 ranking @rohnsha0
