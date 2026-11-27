@@ -351,12 +351,12 @@ class DefaultUtilsTests(unittest.TestCase):
             (
                 # search term
                 "spam ham",
-                "spam* AND ham*",
+                "spam AND ham*",
             ),
             (
                 # multi-word partial search (issue #4205)
                 "super expi",
-                "super* AND expi*",
+                "super AND expi*",
             ),
             (
                 # quoted term
@@ -386,16 +386,16 @@ class DefaultUtilsTests(unittest.TestCase):
             (
                 # mixed cases
                 "Spam hAm",
-                "Spam* AND hAm*",
+                "Spam AND hAm*",
             ),
             (
                 # mix quoting and unquoted
                 'let\'s eat some "ham and eggs " without spam ',
-                '"ham and eggs" AND let\'s* AND eat* AND some* AND without* AND spam*',
+                '"ham and eggs" AND let\'s AND eat AND some AND without AND spam*',
             ),
             (
                 'test "Welcome" to "Plone" retest',
-                '"Welcome" AND "Plone" AND test* AND to* AND retest*',
+                '"Welcome" AND "Plone" AND test AND retest*',
             ),
             (
                 # parentheses
@@ -405,7 +405,7 @@ class DefaultUtilsTests(unittest.TestCase):
             (
                 # special keywords
                 "spam or not ham and eggs",
-                'spam* AND "or" AND "not" AND ham* AND "and" AND eggs*',
+                'spam AND "or" AND "not" AND ham AND "and" AND eggs*',
             ),
             (
                 # bad characters
@@ -415,7 +415,47 @@ class DefaultUtilsTests(unittest.TestCase):
             (
                 # weird input
                 'test ""Welcome" to "Plone"" retest',
-                '"to" AND test* AND WelcomePlone* AND retest*',
+                '"to" AND test AND WelcomePlone AND retest*',
+            ),
+            (
+                # single term gets wildcard
+                "egg",
+                "egg*",
+            ),
+            (
+                # only last meaningful term gets wildcard
+                "egg spa",
+                "egg AND spa*",
+            ),
+            (
+                # stop-words dropped from unquoted terms
+                "financial interests in public entities",
+                "financial AND interests AND public AND entities*",
+            ),
+            (
+                # all-stop query falls back to exact terms, never empty
+                "in the",
+                "in AND the",
+            ),
+            (
+                # single stop-word falls back to exact term
+                "the",
+                "the",
+            ),
+            (
+                # empty query stays empty
+                "",
+                "",
+            ),
+            (
+                # quoted stop-words left untouched
+                '"in the"',
+                '"in the"',
+            ),
+            (
+                # boolean operators quoted, never wildcarded
+                "and",
+                '"and"',
             ),
         ]
 

@@ -692,13 +692,38 @@ def _search_quote(term):
     return _search_quote_chars(term)
 
 
+# Common English stop-words dropped from unquoted terms only.
+# Boolean operators (and/or/not) are never in this set.
+SEARCH_STOP_WORDS = frozenset(
+    {
+        "a",
+        "an",
+        "the",
+        "in",
+        "on",
+        "at",
+        "to",
+        "for",
+        "of",
+        "by",
+        "with",
+        "is",
+        "are",
+        "as",
+        "it",
+    }
+)
+
+
 def munge_search_term(query):
     """Munge a search query for ZCTextIndex.
 
-    Splits the query into individual terms, adds wildcard ``*`` suffix
-    to each unquoted term for prefix matching, and joins with ``AND``.
+    Splits the query into individual terms, drops English stop-words
+    from unquoted terms, adds a wildcard ``*`` suffix to the last
+    meaningful term only for prefix matching, and joins with ``AND``.
     Quoted phrases are left intact. Boolean operators (and/or/not) are
     quoted to prevent ZCTextIndex from interpreting them as logical atoms.
+    A query with only stop-words falls back to the exact terms.
     """
     for char in BAD_CHARS:
         query = query.replace(char, " ")
@@ -715,14 +740,26 @@ def munge_search_term(query):
             continue
         r.append(f'"{clean_qp}"')
 
-    for term in query.strip().split():
+    terms = query.strip().split()
+    out = []
+    last_plain = -1
+    for term in terms:
         quoted = _search_quote(term)
-        # Add wildcard for prefix matching, but not for terms that
-        # were quoted (boolean operators like "and"/"or"/"not", or
-        # terms with parentheses) — wildcard on quoted terms is
-        # invalid ZCTextIndex syntax.
+        # Quoted terms (boolean operators like "and"/"or"/"not", or
+        # terms with parentheses) stay untouched: never dropped,
+        # never get a wildcard (invalid ZCTextIndex syntax).
         if quoted.startswith('"'):
-            r.append(quoted)
+            out.append(quoted)
+        elif quoted.lower() in SEARCH_STOP_WORDS:
+            continue
         else:
-            r.append(quoted + "*")
-    return " AND ".join(r)
+            out.append(quoted)
+            last_plain = len(out) - 1
+    if last_plain >= 0:
+        # Only the last meaningful term gets ``*`` for prefix matching.
+        out[last_plain] += "*"
+    final = r + out
+    if not final:
+        # All-stop query: keep exact terms so the query is never empty.
+        final = [q for q in (_search_quote(t) for t in terms) if q]
+    return " AND ".join(final)
